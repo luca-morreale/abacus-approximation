@@ -1,0 +1,81 @@
+# all same type
+# lengthinput given
+# input given
+
+filterLength + 63 0
+
+// process all of the samples
+_do
+# size equals lengthinput samples
+
+
+// convert to doubles
+_for
+i + 0 0
+i < lengthinput
+i + i 1
+
+t - filterLength 1
+index + t i
+floatInput_index <<c double input_i
+_for
+
+
+
+// perform the filtering
+
+_for 
+n + 0 0
+n < lengthinput
+n + n 1
+// calculate output n
+
+t1 - filterLength 1
+cindex + t1 n
+inputp + n 0
+
+acc + 0 0
+
+_for
+k + 0 0
+k < filterLength
+k + k 1
+
+# *input++ = *(input++)
+
+cindex + cindex 1
+inputp - inputp 1
+t4 * coeffs_cindex floatInput_inputp
+acc + acc t4
+_for
+
+floatOutput_n + acc 0
+_for
+floatInput <<a lengthinput 63
+
+
+
+// convert to ints
+int i;
+_for
+i + 0 0
+i < lengthinput
+i + i 1
+
+// add rounding constant
+floatOutput_i + floatOutput_i 0.5
+// bound the values to 16 bits
+_if
+floatOutput_i > 32767.0 
+floatOutput_i + 32767.0 0
+_elseif
+floatOutput_i < -32768.0
+floatOutput_i + -32768.0 0
+// convert
+output_i <<c int16_t floatOutput_i
+_for
+
+_while
+size != 0
+
+# result = output

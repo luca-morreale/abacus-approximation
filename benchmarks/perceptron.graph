@@ -1,0 +1,51 @@
+# given x1(x) x2(y) y(output)
+# given patternCount
+
+# weights[3], localError, globalError;
+# i, p, iteration, output;
+
+
+weights_0 + randomFloat() 0
+weights_1 + randomFloat() 0
+weights_2 + randomFloat() 0
+
+iteration + 0 0
+
+_do
+
+iteration + iteration 1
+globalError + 0 0
+    
+_for
+p + 0 0
+p < patternCount
+p + p 1
+
+
+dotx * x weights_0
+doty * y weights_1
+sum + dotx doty weights_2
+_if
+sum >= 0
+output + 1 0
+_else
+output + -1 0
+
+
+localError - outputs_p output
+t1 * LEARNING_RATE localError
+wx * t1 x_p
+wy * t1 y_p
+weights_0 + weights_0 wx
+weights_1 + weights_1 wy
+weights_2 + weights_2 t1
+
+localsq * localError localError 
+globalError + globalError localsq
+_for
+
+/* Root Mean Squared Error */
+
+_while
+and globalError != 0 iteration <= MAX_ITERATION
+
