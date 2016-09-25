@@ -4,10 +4,9 @@
 # weights[3], localError, globalError;
 # i, p, iteration, output;
 
-
-weights_0 + randomFloat() 0
-weights_1 + randomFloat() 0
-weights_2 + randomFloat() 0
+weights_0 + randomFloat 0
+weights_1 + randomFloat 0
+weights_2 + randomFloat 0
 
 iteration + 0 0
 
@@ -15,21 +14,19 @@ _do
 
 iteration + iteration 1
 globalError + 0 0
-    
-_for
+
 p + 0 0
-p < patternCount
-p + p 1
+_for < p patternCount
 
 
 dotx * x weights_0
 doty * y weights_1
-sum + dotx doty weights_2
-_if
-sum >= 0
+sumdot + dotx doty 
+sum + sumdot weights_2
+_if >= sum 0
 output + 1 0
 _else
-output + -1 0
+output - 0 1
 
 
 localError - outputs_p output
@@ -40,12 +37,14 @@ weights_0 + weights_0 wx
 weights_1 + weights_1 wy
 weights_2 + weights_2 t1
 
-localsq * localError localError 
+localsq * localError localError
 globalError + globalError localsq
+
+p + p 1
 _for
 
-/* Root Mean Squared Error */
 
-_while
-and globalError != 0 iteration <= MAX_ITERATION
 
+exp1 != globalError 0
+exp2 <= iteration MAX_ITERATION
+_while && exp1 exp2
