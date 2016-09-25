@@ -1,7 +1,7 @@
 
 #include "include/parser.h"
 
-char *regexString = "\\w+";
+const char *regexString = "\\w+";
 regex_t regexCompiled;
 
 
