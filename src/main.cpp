@@ -1,64 +1,61 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <regex.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 
 #include "include/parser.h"
 
 #define PARAMETERS 4
 #define FLAG_FILE "-f"
-#define FLAG_TYPE "-d"
+#define FLAG_TYPE "-t"
+
+using namespace std;
 
 
-void extractFlags(int argc, char *argv[], char *benchmark, char *type);
-void extractGraph(FILE *in);
+void extractFlags(int argc, char *argv[], string &benchmark, string &type)
+{
+    for(int i = 1; i < argc; i++) {
+        if(strcmp(FLAG_TYPE, argv[i]) == 0) {
+            type.assign(argv[i], strlen(argv[++i]));
+        } else if(strcmp(FLAG_FILE, argv[i]) == 0) {
+            benchmark.assign(argv[i], strlen(argv[++i]));
+        }
+    }
+}
+
+void extractGraph(ifstream &cin)
+{
+    string buf;
+    while(getline(cin, buf)) {
+        parser::deriveOperation(buf);
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
-	if(argc < PARAMETERS + 1) {
-		printf("Usage: -f benchmark_filename -t data_type");
-		return 0;
-	}
+    if(argc < PARAMETERS + 1) {
+        cout << "Usage: -f benchmark_filename -t data_type" << endl;
+        return 0;
+    }
 
-	char benchmark[90];
-	char type[10];
+    string benchmark;
+    string type;
     extractFlags(argc, argv, benchmark, type);
-	
 
-	FILE *inFid = fopen(benchmark, "r");
-    if (inFid == 0) {
-        printf("Couldn't open %s, path or file invalid", benchmark);
+    ifstream cin(benchmark);
+    if(!cin.is_open()) {
+        cout << "Couldn't open " << benchmark << ", path or file invalid";
         return 1;
     }
 
     initParser();
 
-   	extractGraph(inFid);
+    extractGraph(cin);
 
-  	clearParser();
-    fclose(inFid);
+    clearParser();
+    cin.close();
 
 
-	return 0;
-}
-
-void extractFlags(int argc, char *argv[], char *benchmark, char *type)
-{
-    int i;
-    for(i = 1; i < argc; i++) {
-        if(strcmp(FLAG_TYPE, argv[i]) == 0) {
-            strcpy(type, argv[++i]);
-        } else if(strcmp(FLAG_FILE, argv[i]) == 0) {
-            strcpy(benchmark, argv[++i]);
-        }
-    }
-}
-
-void extractGraph(FILE *inFid)
-{
-    char buf[256];
-    while(fgets(buf, sizeof(buf), inFid) != NULL) {
-        deriveOperation(buf);
-    }
+    return 0;
 }
