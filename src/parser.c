@@ -26,6 +26,7 @@ bool hasGroup(regmatch_t *match)
     return match->rm_so != (size_t)-1;
 }
 
+Operation *createOperation(char *list[], unsigned int size);
 
 void deriveOperation(char *str)
 {
@@ -36,7 +37,7 @@ void deriveOperation(char *str)
     }
 
     int g;
-    vector<char*> list;
+    char *list[MAXGROUPS];
     for (g = 1; g < MAXGROUPS; g += 2) {
         if (!hasGroup(&matches[g])) {
             break;  // No more groups
@@ -47,14 +48,15 @@ void deriveOperation(char *str)
 
         strncpy(strMatch, str + matches[g].rm_so, strln);
         strMatch[strln-1] = '\0';
-        list.push_back(strMatch);
+        list[g / 2] = strMatch;
     }
+    createOperation(list, g / 2);
 }
 
 
-Operation *createOperation(vector<char*> list)
+Operation *createOperation(char *list[], unsigned int size)
 {
-    return newOperation(list[1], &list[2], list.size() - 2, list[0]);
+    return newOperation(list[1], &list[2], size - 2, list[0]);
     //char *op, char *inList[], size_t length, char *out)
 }
 
