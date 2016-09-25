@@ -5,18 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <regex.h>
-#include <map>
-
-typedef struct {
-	//map<char*, char*>
+#include <vector>
 
 
-} Graph;
+#define MAXMATCHES 1
+#define MAXGROUPS 10
 
-#define MAXMATCHES 5
-#define MAXGROUPS 3
-
-extern char *regexString;
+extern const char *regexString;
 extern regex_t regexCompiled;
 
 

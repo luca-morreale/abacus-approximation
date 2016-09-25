@@ -1,7 +1,8 @@
 
 #include "include/parser.h"
+#include "include/operations.h"
 
-const char *regexString = "\\w+";
+const char *regexString = "(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c)( )+(\\w+)( )+(\\w+))? *\n*";
 regex_t regexCompiled;
 
 
@@ -13,41 +14,50 @@ void initParser()
     }
 }
 
-bool hasMatch(char *str, regmatch_t *match)
+
+bool hasMatch(char *str, regmatch_t *matches)
 {
-    return regexec(&regexCompiled, str, 1, match, 0) == 0;
+    return regexec(&regexCompiled, str, MAXGROUPS, matches, 0) == 0;
 }
+
+
+bool hasGroup(regmatch_t *match)
+{
+    return match->rm_so != (size_t)-1;
+}
+
 
 void deriveOperation(char *str)
 {
-    printf("line: %s", str);
-    
-    regmatch_t match;
-    char *cursor = str;
+    regmatch_t matches[MAXGROUPS];
 
-    for(unsigned m = 0; m < MAXMATCHES; m++) {
-
-        if(!hasMatch(cursor, &match)) 
-            return;
-
-        if (match.rm_so == (size_t)-1){
-            continue;
-        }
-
-        unsigned int offset = match.rm_eo;
-        size_t strln = match.rm_eo - match.rm_so + 1;
-
-        
-        char strMatch[strln];
-        strncpy(strMatch, cursor + match.rm_so, strln);
-
-        strMatch[strln-1] = '\0';
-        printf("Match %u: %s\n", m, strMatch);
-
-        cursor += offset;   
+    if (!hasMatch(str, matches)) {
+        return;
     }
 
+    int g;
+    vector<char*> list;
+    for (g = 1; g < MAXGROUPS; g += 2) {
+        if (!hasGroup(&matches[g])) {
+            break;  // No more groups
+        }
+
+        size_t strln = matches[g].rm_eo - matches[g].rm_so + 1;
+        char strMatch[strln];
+
+        strncpy(strMatch, str + matches[g].rm_so, strln);
+        strMatch[strln-1] = '\0';
+        list.push_back(strMatch);
+    }
 }
+
+
+Operation *createOperation(vector<char*> list)
+{
+    return newOperation(list[1], &list[2], list.size() - 2, list[0]);
+    //char *op, char *inList[], size_t length, char *out)
+}
+
 
 void clearParser()
 {
