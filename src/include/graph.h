@@ -10,10 +10,9 @@
 
 namespace graph {
 
-
     template <typename T> 
     struct Graph {
-        std::vector<Node*> nodes;
+        Nodes nodes;
         Edges edges;
         unsigned int cursor;
 
@@ -26,7 +25,7 @@ namespace graph {
 
     template <> 
     struct Graph <int> {
-        std::vector<Node*> nodes;
+        Nodes nodes;
         Edges edges;
         unsigned int cursor;
 
@@ -38,7 +37,7 @@ namespace graph {
 
     template <> 
     struct Graph <double> {
-        std::vector<Node*> nodes;
+        Nodes nodes;
         Edges edges;
         unsigned int cursor;
 
@@ -50,7 +49,7 @@ namespace graph {
 
     template <> 
     struct Graph <float> {
-        std::vector<Node*> nodes;
+        Nodes nodes;
         Edges edges;
         unsigned int cursor;
 
@@ -59,6 +58,10 @@ namespace graph {
         float get(std::string key);
         void set(std::string key, float value);
     };
+
+    template <typename T> using GraphPtr = Graph<T> *;
+
+    template <typename T> GraphPtr<T> newGraph();
 
 }
 

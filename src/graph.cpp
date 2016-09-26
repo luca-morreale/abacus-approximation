@@ -3,6 +3,14 @@
 
 using namespace graph;
 
+template <typename T>
+GraphPtr<T> newGraph()
+{
+	GraphPtr<T> graph = (GraphPtr<T>) malloc(sizeof(Graph<T>));
+	graph->cursor = 0;
+	return graph;
+}
+
 
 template <typename T>
 Node *Graph<T>::next()
