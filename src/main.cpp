@@ -27,7 +27,7 @@ void extractGraph(ifstream &cin)
 {
     string buf;
     while(getline(cin, buf)) {
-        parser::deriveOperation(buf);
+        parser::parse(buf);
     }
 }
 
@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    initParser();
+    //initParser();
 
     extractGraph(cin);
 
-    clearParser();
+    //clearParser();
     cin.close();
 
 

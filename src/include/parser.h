@@ -1,24 +1,21 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <regex.h>
+#include <iostream>
+#include <string>
+#include <regex>
 #include <vector>
 
+#include "operations.h"
 
-#define MAXMATCHES 1
-#define MAXGROUPS 10
+namespace parser {
 
-extern const char *regexString;
-extern regex_t regexCompiled;
+	const std::regex regex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c)( )+(\\w+)( )+(\\w+))? *\n*");
 
 
-void initParser();
-bool hasMatch(char *str, regmatch_t *match);
-void deriveOperation(char *str);
-void clearParser();
+	graph::Node *parse(std::string str);
+	graph::Node *nodeFromList(std::vector<std::string> list);
 
+}
 
 #endif /* PARSER_H */
