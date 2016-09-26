@@ -15,9 +15,13 @@ namespace graph {
 		std::string op;
 	} Node;
 
+	typedef Node * NodePtr;
 
-	graph::Node *newNode(std::string op, std::string inList[], size_t length, std::string out);
-	void cloneIncomingList(Node *node, std::string inList[], size_t length);
+	typedef std::vector<NodePtr> Nodes;
+
+
+	graph::NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
+	void cloneIncomingList(NodePtr node, std::string inList[], size_t length);
 
 }
 
