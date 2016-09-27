@@ -18,6 +18,8 @@ namespace graph {
 	typedef Node * NodePtr;
 
 	typedef std::vector<NodePtr> Nodes;
+	
+	typedef std::vector<graph::NodePtr>::iterator NodeIterator;
 
 
 	NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
