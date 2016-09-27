@@ -1,47 +1,75 @@
 
 #include "include/graph.h"
 
-using namespace graph;
+namespace graph {
+
+	GraphPtr newGraph(std::string type)
+	{
+	    GraphPtr graph = (GraphPtr) malloc(sizeof(Graph));
+	    graph->cursor = 0;
+	    graph->type = type;
+	    return graph;
+	}
+
+	NodePtr next(GraphPtr graph)
+	{
+	    return (graph->nodes.size() < graph->cursor)? NULL : graph->nodes[graph->cursor++];
+	}
+
+	void appendToGraph(GraphPtr graph, NodePtr node)
+	{
+	    graph->nodes.push_back(node);
+	    addEdges(graph, node);
+	}
+
+	void addEdges(GraphPtr graph, NodePtr node)
+	{
+	    if(graph->edges.find(node->out) == graph->edges.end()) {
+	        set(graph, node->out, 0);
+	    }
+	    for(std::string key : node->incoming) {
+	        if(graph->edges.find(key)  == graph->edges.end()) {
+	            set(graph, key, 0);
+	        }
+	    }
+	}
+
+	void set(GraphPtr graph, std::string key, int value)
+	{
+	    std::ostringstream os; 
+	    os << value; 
+	    graph->edges[key] = os.str(); 
+	}
+
+	void set(GraphPtr graph, std::string key, float value)
+	{
+	    std::ostringstream os; 
+	    os << value; 
+	    graph->edges[key] = os.str(); 
+	}
+
+	void set(GraphPtr graph, std::string key, double value)
+	{
+	    std::ostringstream os; 
+	    os << value; 
+	    graph->edges[key] = os.str(); 
+	}
 
 
+	void get(GraphPtr graph, std::string key, int &out)
+	{
+	    out = std::stoi(graph->edges[key], NULL);
+	}
+
+	void get(GraphPtr graph, std::string key, float &out)
+	{
+	    out = std::stof(graph->edges[key], NULL);
+	}
+
+	void get(GraphPtr graph, std::string key, double &out)
+	{
+	    out = std::stod(graph->edges[key], NULL);
+	}
 
 
-template <typename T>
-NodePtr Graph<T>::next()
-{
-	return (nodes.size() < cursor)? NULL : nodes[cursor++];
-}
-
-
-template <typename T>
-void Graph<T>::append(Node *node)
-{
-	nodes.push_back(node);
-	// add edges
-}
-
-template <typename T>
-void Graph<T>::set(std::string key, T value)
-{
-	std::ostringstream os; 
-   	os << value; 
-    edges[key] = os.str(); 
-}
-
-
-int Graph<int>::get(std::string key)
-{
-	return std::stoi(edges[key], NULL);
-}
-
-
-float Graph<float>::get(std::string key)
-{
-	return std::stof(edges[key], NULL);
-}
-
-
-double Graph<double>::get(std::string key)
-{
-	return std::stod(edges[key], NULL);
 }
