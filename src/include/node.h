@@ -9,7 +9,7 @@
 namespace graph {
 
 	typedef struct {
-		std::string incoming[10];
+		std::vector<std::string> incoming;
 		size_t length;
 		std::string out;
 		std::string op;
@@ -20,7 +20,7 @@ namespace graph {
 	typedef std::vector<NodePtr> Nodes;
 
 
-	graph::NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
+	NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
 	void cloneIncomingList(NodePtr node, std::string inList[], size_t length);
 
 }

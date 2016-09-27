@@ -61,7 +61,13 @@ namespace graph {
 
     template <typename T> using GraphPtr = Graph<T> *;
 
-    template <typename T> GraphPtr<T> newGraph();
+    template <typename T> 
+    inline GraphPtr<T> newGraph()
+    {
+        GraphPtr<T> graph = (GraphPtr<T>) malloc(sizeof(Graph<T>));
+        graph->cursor = 0;
+        return graph;
+    }
 
 }
 
