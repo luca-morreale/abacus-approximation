@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "include/parser.h"
+#include "include/graph.h"
 
 #define PARAMETERS 4
 #define FLAG_FILE "-f"
@@ -20,14 +21,6 @@ void extractFlags(int argc, char *argv[], string &benchmark, string &type)
         } else if(strcmp(FLAG_FILE, argv[i]) == 0) {
             benchmark.assign(argv[i], strlen(argv[++i]));
         }
-    }
-}
-
-void extractGraph(ifstream &cin)
-{
-    string buf;
-    while(getline(cin, buf)) {
-        parser::parse(buf);
     }
 }
 
@@ -49,11 +42,9 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    //initParser();
 
-    extractGraph(cin);
+    graph::GraphPtr graph = parser::extractGraph(cin, type);
 
-    //clearParser();
     cin.close();
 
 
