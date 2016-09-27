@@ -9,7 +9,7 @@ namespace parser {
         
         std::string buf;
         while(getline(cin, buf)) {
-            graph::appendToGraph(graph, parse(buf));
+            graph->appendToGraph(parse(buf));
         }
         return graph;
     }

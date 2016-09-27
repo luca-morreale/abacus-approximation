@@ -11,64 +11,63 @@ namespace graph {
 	    return graph;
 	}
 
-	NodePtr next(GraphPtr graph)
+	NodePtr Graph::next()
 	{
-	    return (graph->nodes.size() < graph->cursor)? NULL : graph->nodes[graph->cursor++];
+	    return (nodes.size() < cursor)? NULL : nodes[cursor++];
 	}
 
-	void appendToGraph(GraphPtr graph, NodePtr node)
+	void Graph::appendToGraph(NodePtr node)
 	{
-	    graph->nodes.push_back(node);
-	    addEdges(graph, node);
+	    nodes.push_back(node);
+	    addEdges(node);
 	}
 
-	void addEdges(GraphPtr graph, NodePtr node)
+	void Graph::addEdges(NodePtr node)
 	{
-	    if(graph->edges.find(node->out) == graph->edges.end()) {
-	        set(graph, node->out, 0);
+	    if(edges.find(node->out) == edges.end()) {
+	        set(node->out, 0);
 	    }
 	    for(std::string key : node->incoming) {
-	        if(graph->edges.find(key)  == graph->edges.end()) {
-	            set(graph, key, 0);
+	        if(edges.find(key)  == edges.end()) {
+	            set(key, 0);
 	        }
 	    }
 	}
 
-	void set(GraphPtr graph, std::string key, int value)
+	void Graph::set(std::string key, int value)
 	{
 	    std::ostringstream os; 
 	    os << value; 
-	    graph->edges[key] = os.str(); 
+	    edges[key] = os.str(); 
 	}
 
-	void set(GraphPtr graph, std::string key, float value)
+	void Graph::set(std::string key, float value)
 	{
 	    std::ostringstream os; 
 	    os << value; 
-	    graph->edges[key] = os.str(); 
+	    edges[key] = os.str(); 
 	}
 
-	void set(GraphPtr graph, std::string key, double value)
+	void Graph::set(std::string key, double value)
 	{
 	    std::ostringstream os; 
 	    os << value; 
-	    graph->edges[key] = os.str(); 
+	    edges[key] = os.str(); 
 	}
 
-
-	void get(GraphPtr graph, std::string key, int &out)
+	void Graph::get(std::string key, int &out)
 	{
-	    out = std::stoi(graph->edges[key], NULL);
+	    out = std::stoi(edges[key], NULL);
 	}
 
-	void get(GraphPtr graph, std::string key, float &out)
+	void Graph::get(std::string key, float &out)
 	{
-	    out = std::stof(graph->edges[key], NULL);
+	    out = std::stof(edges[key], NULL);
 	}
 
-	void get(GraphPtr graph, std::string key, double &out)
+	void Graph::get(std::string key, double &out)
 	{
-	    out = std::stod(graph->edges[key], NULL);
+	    out = std::stod(edges[key], NULL);
 	}
 
 
