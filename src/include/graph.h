@@ -3,14 +3,20 @@
 
 #include <string>
 #include <sstream>
+#include <cstdlib>
+#include <map>
 
 #include "node.h"
 #include "edge.h"
 
+#ifdef DEBUG
+    #include <iostream>
+#endif
+
 
 namespace graph {
 
-    struct Graph {
+    typedef struct Graph {
         Nodes nodes;
         Edges edges;
         unsigned int cursor;
@@ -25,11 +31,15 @@ namespace graph {
         void get(std::string key, int &out);
         void get(std::string key, float &out);
         void get(std::string key, double &out);
-    };
+    } Graph;
 
     typedef Graph* GraphPtr;
 
     GraphPtr newGraph(std::string type);
+
+    #ifdef DEBUG
+        void debug(GraphPtr graph);
+    #endif
 
 }
 

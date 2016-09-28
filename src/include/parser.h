@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <regex>
@@ -11,12 +10,13 @@
 
 namespace parser {
 
-	const std::regex regex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c)( )+(\\w+)( )+(\\w+))? *\n*");
+    const std::regex regex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c)( )+(\\w+)( )+(\\w+))? *\n*");
 
 
-	graph::GraphPtr extractGraph(std::ifstream &cin, std::string type);
-	graph::NodePtr parse(std::string str);
-	graph::NodePtr nodeFromList(std::vector<std::string> list);
+    graph::GraphPtr extractGraph(std::ifstream &cin, std::string type);
+    graph::NodePtr parse(std::string str);
+    bool isValidString(std::string str);
+    graph::NodePtr nodeFromList(std::vector<std::string> list);
 
 }
 

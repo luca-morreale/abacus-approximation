@@ -6,9 +6,9 @@
 
 namespace graph {
 
-	typedef std::map<std::string, std::string> Edges;
+    typedef std::map<std::string, std::string> Edges;
 
-	typedef std::map<std::string, std::string>::iterator EdgeIterator;
+    typedef std::map<std::string, std::string>::iterator EdgeIterator;
 
 }
 

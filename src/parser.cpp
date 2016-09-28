@@ -1,4 +1,3 @@
-
 #include "include/parser.h"
 
 namespace parser {
@@ -6,7 +5,7 @@ namespace parser {
     graph::GraphPtr extractGraph(std::ifstream &cin, std::string type)
     {
         graph::GraphPtr graph = graph::newGraph(type);
-        
+
         std::string buf;
         while(getline(cin, buf)) {
             graph->appendToGraph(parse(buf));
@@ -16,6 +15,8 @@ namespace parser {
 
     graph::NodePtr parse(std::string str)
     {
+        if (!isValidString(str)) return NULL;
+
         std::smatch matches;
         std::vector<std::string> list;
         
@@ -27,6 +28,11 @@ namespace parser {
             return nodeFromList(list);
         }
         return NULL;
+    }
+
+    bool isValidString(std::string str) 
+    {
+        return str.size() > 2 && str.find("#") == std::string::npos;
     }
 
     graph::NodePtr nodeFromList(std::vector<std::string> list)
