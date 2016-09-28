@@ -4,7 +4,7 @@ namespace parser {
 
     graph::GraphPtr extractGraph(std::ifstream &cin, std::string type)
     {
-        graph::GraphPtr graph = graph::newGraph(type);
+        graph::GraphPtr graph = new graph::Graph(type);
 
         std::string buf;
         while(getline(cin, buf)) {

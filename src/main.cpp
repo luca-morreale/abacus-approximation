@@ -42,8 +42,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-
     graph::GraphPtr graph = parser::extractGraph(cin, type);
+
+    #ifdef DEBUG
+        graph->debug();
+    #endif
+
 
     cin.close();
 
