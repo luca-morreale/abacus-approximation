@@ -1,41 +1,47 @@
 # all same type
 # lengthinput given
 # input given
+#####################################################
 
-filterLength + 63 0
 
 
-_do
+# input must be of 80 values
+# each iteration carries new data 
 
+lengthinput + 0 80
+filterlength + 0 63
+
+# considered all array  all the time so input is bigger, each loop should start from 63
+
+# intToFloat( input, floatInput, size );
 i + 0 0
 _for < i lengthinput
 
-t - filterLength 1
-index + t i
-floatInput_index <<c double input_i
+_if >= i  63
+floatInput_i <<c double input_i
+_else
+floatInput + input_i 0
+_if
 
 i + i 1
 _for
 
 
+# firFloat(coeffs, floatInput, floatOutput, size,
 
-n + 0 0
-_for < n lengthinput
+n + 0 
+_for < n filterlength
 
-
-t1 - filterLength 1
-cindex + t1 n
-inputp + n 0
+t1 - filterlength 1
+inindex + t1 n
 
 acc + 0 0
-
 k + 0 0
-_for < k filterLength
-
+_for < k filterlength
 
 cindex + cindex 1
-inputp - inputp 1
-t4 * coeffs_cindex floatInput_inputp
+inindex - inindex 1
+t4 * coeffs_cindex floatInput_inindex
 acc + acc t4
 
 k + k 1
@@ -43,17 +49,16 @@ _for
 
 floatOutput_n + acc 0
 
-n + n 1
 _for
 
-floatInput <<a lengthinput 63
 
+# floatToInt( floatOutput, output, size );
 
-i + 0 0
-_for < i lengthinput
+half / 1 2
+j + 0 0
+_for < j filterlength
 
-
-floatOutput_i + floatOutput_i 0.5
+floatOutput_j + floatOutput_j half
 
 neg - 0 32768
 _if > floatOutput_i 32767
@@ -65,8 +70,8 @@ _if
 output_i <<c int16_t floatOutput_i
 
 
-i + i 1
 _for
 
 
-_while != size 0
+
+# result is in output
