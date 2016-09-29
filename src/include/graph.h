@@ -20,8 +20,11 @@ namespace graph {
 
     public:
         Graph(std::string type);
-        NodePtr next();
+        ~Graph();
+        
         void appendToGraph(NodePtr node);
+
+        NodePtr next();
 
         void set(std::string key, int value);
         void set(std::string key, float value);
@@ -30,6 +33,8 @@ namespace graph {
         void get(std::string key, int &out);
         void get(std::string key, float &out);
         void get(std::string key, double &out);
+
+        std::string getType();
 
         #ifdef DEBUG
             void debug();

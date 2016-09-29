@@ -11,7 +11,7 @@ namespace graph {
 
     NodePtr Graph::next()
     {
-        return (nodes.size() < cursor)? NULL : nodes[cursor++];
+        return (nodes.size() <= cursor)? NULL : nodes[cursor++];
     }
 
     void Graph::appendToGraph(NodePtr node)
@@ -86,6 +86,17 @@ namespace graph {
         out = std::stod(edges[key], NULL);
     }
 
+    std::string Graph::getType()
+    {
+        return this->type;
+    }
+
+    Graph::~Graph()
+    {
+        for (NodeIterator it = this->nodes.begin(); it != this->nodes.end(); it++) {
+            free(*it);
+        }
+    }
 
     #ifdef DEBUG
         void Graph::debug()
@@ -94,7 +105,7 @@ namespace graph {
                 std::cout << "edge: " << it->first << " value: " << it->second << std::endl;
             }
 
-            for (NodeIterator it = this->nodes.begin(); it != this->nodes.end(); it++ ) {
+            for (NodeIterator it = this->nodes.begin(); it != this->nodes.end(); it++) {
                 std::cout << "out: " << (*it)->out << " op: " << (*it)->op << " operands list: ";
                 for (std::vector<std::string>::iterator sit = (*it)->incoming.begin(); sit != (*it)->incoming.end(); sit++) {
                     std::cout << *sit << " ";
