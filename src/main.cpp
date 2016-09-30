@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     ifstream cin(benchmark);
     if(!cin.is_open()) {
-        cout << "Couldn't open " << benchmark << ", path or file invalid";
+        cout << "Couldn't open " << benchmark << ", path or file invalid" << std::endl;
         return 1;
     }
 

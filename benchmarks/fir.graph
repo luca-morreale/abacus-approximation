@@ -6,7 +6,7 @@
 
 
 # input must be of 80 values
-# each iteration carries new data 
+# each iteration carries new data and shift the data
 
 lengthinput + 0 80
 filterlength + 0 63
