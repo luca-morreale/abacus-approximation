@@ -4,6 +4,7 @@
 
 #include <string>
 #include "graph.h"
+#include <iostream>
 
 
 namespace executer {
@@ -156,9 +157,9 @@ namespace executer {
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        long int *ptr1 = (long int *) (&op1);
-        long int *ptr2 = (long int *) (&op2);
-        return (T) (*ptr1 & *ptr2);
+        int *ptr1 = (int *) (&op1);
+        int *ptr2 = (int *) (&op2);
+        return (T) ((*ptr1) & (*ptr2));
     }
 
     template<typename T>
@@ -166,9 +167,9 @@ namespace executer {
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        long int *ptr1 = (long int *) (&op1);
-        long int *ptr2 = (long int *) (&op2);
-        return (T) (*ptr1 | *ptr2);
+        int *ptr1 = (int *) (&op1);
+        int *ptr2 = (int *) (&op2);
+        return (T) ((*ptr1) | (*ptr2));
     }
 
     template<typename T>
@@ -176,7 +177,7 @@ namespace executer {
     {
         T op;
         extractOperand(nameOp1, op, graph);
-        long int *ptr = (long int *) (&op);
+        int *ptr = (int *) (&op);
         return (T) ~(*ptr);
     }
 

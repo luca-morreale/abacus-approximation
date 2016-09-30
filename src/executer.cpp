@@ -25,9 +25,7 @@ namespace executer {
                 selectOperation<float>(node, graph);
             } else if (graph->getType().compare("double")) {
                 selectOperation<double>(node, graph);
-            }
-
-            
+            }            
         }
 
     }
