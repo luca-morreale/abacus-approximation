@@ -1,0 +1,10 @@
+# simple graph used for tests
+
+a + 0 0
+b - 0 5
+c / 1 2
+
+c & a c
+b * b 2
+
+output + c b
