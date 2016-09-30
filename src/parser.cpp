@@ -1,5 +1,6 @@
 #include "include/parser.h"
 
+
 namespace parser {
 
     graph::GraphPtr extractGraph(std::ifstream &cin, std::string type)
