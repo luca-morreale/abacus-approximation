@@ -21,8 +21,23 @@ namespace graph {
     
     typedef std::vector<graph::NodePtr>::iterator NodeIterator;
 
-
+    /**
+     * Creates a node using the given informations.
+     * std::string op           string representing the operation
+     * std::string inList[]     array of string containing incoming edges
+     * size_t length            length of the above array
+     * std::string out          outgoing edge
+     *
+     * return NodePtr   pointer to the generated node
+     */
     NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
+
+    /**
+     * Copies the list of incoming edges inside the node.
+     * NodePtr node             node to be filled
+     * std::string inList[]     list of incoming edge
+     * size_t length            length of incoming edge
+     */
     void cloneIncomingList(NodePtr node, std::string inList[], size_t length);
 
 }

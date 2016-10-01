@@ -22,14 +22,31 @@ namespace graph {
         Graph(std::string type);
         ~Graph();
         
+        /**
+         * Appends the node to the graph and add new edges.
+         * NodePtr node     node to add
+         */
         void appendToGraph(NodePtr node);
 
+        /**
+         * Returns the next node to be exected.
+         */
         NodePtr next();
 
+        /**
+         * Sets the value of the given edge.
+         * key      identifier of the edge
+         * out      value to set
+         */
         void set(std::string key, int value);
         void set(std::string key, float value);
         void set(std::string key, double value);
 
+        /**
+         * Gets the value of the given edge.
+         * key      identifier of the edge
+         * out      reference to the ouput variable
+         */
         void get(std::string key, int &out);
         void get(std::string key, float &out);
         void get(std::string key, double &out);
