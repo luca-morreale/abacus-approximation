@@ -14,6 +14,11 @@ namespace graph {
         return (nodes.size() <= cursor)? NULL : nodes[cursor++];
     }
 
+    NodePtr Graph::rollback()
+    {
+        return (0 >= cursor)? NULL : nodes[--cursor];
+    }
+
     void Graph::appendToGraph(NodePtr node)
     {
         if(this->isValidNode(node)) {

@@ -29,9 +29,14 @@ namespace graph {
         void appendToGraph(NodePtr node);
 
         /**
-         * Returns the next node to be exected.
+         * Returns the next node to be executed.
          */
         NodePtr next();
+
+        /**
+         * Returns the previous exectued node.
+         */
+        NodePtr rollback();
 
         /**
          * Sets the value of the given edge.
