@@ -13,10 +13,22 @@ namespace executer {
     double runabacusApproximation(graph::GraphPtr graph);
 
     void runNode(graph::NodePtr node, graph::GraphPtr graph);
+    void runBasicOperation(graph::NodePtr node, graph::GraphPtr graph);
+    void runControlOperation(graph::NodePtr node, graph::GraphPtr graph);
+    void runComplementaryBlock(std::string opening, graph::GraphPtr graph);
+    void runBlock(std::string opening, graph::GraphPtr graph);
+    void skipToEndBlock(std::string control, graph::GraphPtr graph);
 
-
+    bool isCloseBlock(std::string opening, graph::NodePtr node);
+    bool isEndBlock(std::string opening, graph::NodePtr node);
+    bool isComplementaryClosing(std::string opening, std::string current);
+    bool isDoWhile(std::string opening, std::string closing);
+    bool allowsComplementaryBlock(std::string control);
     bool isControlOp(std::string op);
+
     bool isNumber(const std::string &str);
+    bool is(std::string a, std::string b);
+    bool emptyOp(graph::NodePtr node);
 
 
     template<typename T>
@@ -195,41 +207,45 @@ namespace executer {
         T out;
         T (*operation)(std::string, std::string, graph::GraphPtr);
 
-        if (node->op.compare("+") == 0) {
-            operation = &sum<T>;
-        } else if(node->op.compare("-") == 0) {
-            operation = &minus<T>;
-        } else if(node->op.compare("*") == 0) {
-            operation = &mult<T>;
-        } else if(node->op.compare("/") == 0) {
-            operation = &div<T>;
-        } else if(node->op.compare("<<") == 0) {
-            operation = &leftShift<T>;
-        } else if(node->op.compare(">>") == 0) {
-            operation = &rightShift<T>;
-        } else if(node->op.compare("<") == 0) {
-            operation = &less<T>;
-        } else if(node->op.compare("<=") == 0) {
-            operation = &lessEq<T>;
-        } else if(node->op.compare("==") == 0) {
+        if (is(node->out, "_do")) { // fake calculation of condition to result true
             operation = &eq<T>;
-        } else if(node->op.compare(">=") == 0) {
+            node->incoming[0] = "1";
+            node->incoming[1] = "1";
+        } else if (is(node->op, "+")) {
+            operation = &sum<T>;
+        } else if(is(node->op, "-")) {
+            operation = &minus<T>;
+        } else if(is(node->op, "*")) {
+            operation = &mult<T>;
+        } else if(is(node->op, "/")) {
+            operation = &div<T>;
+        } else if(is(node->op, "<<")) {
+            operation = &leftShift<T>;
+        } else if(is(node->op, ">>")) {
+            operation = &rightShift<T>;
+        } else if(is(node->op, "<")) {
+            operation = &less<T>;
+        } else if(is(node->op, "<=")) {
+            operation = &lessEq<T>;
+        } else if(is(node->op, "==")) {
+            operation = &eq<T>;
+        } else if(is(node->op, ">=")) {
             operation = &greatEq<T>;
-        } else if(node->op.compare(">") == 0) {
+        } else if(is(node->op, ">")) {
             operation = &great<T>;
-        } else if(node->op.compare("!=") == 0) {
+        } else if(is(node->op, "!=")) {
             operation = &diff<T>;
-        } else if(node->op.compare("&&") == 0) {
+        } else if(is(node->op ,"&&")) {
             operation = &andBin<T>;
-        } else if(node->op.compare("||") == 0) {
+        } else if(is(node->op, "||")) {
             operation = &orBin<T>;
-        } else if(node->op.compare("&") == 0) {
+        } else if(is(node->op, "&")) {
             operation = &andBit<T>;
-        } else if(node->op.compare("|") == 0) {
+        } else if(is(node->op, "|")) {
             operation = &orBit<T>;
-        } else if(node->op.compare("~") == 0) {
+        } else if(is(node->op, "~")) {
             operation = &negBit<T>;
-        } else if(node->op.compare("<<c") == 0) {
+        } else if(is(node->op, "<<c")) {
             operation = &cast<T>;
         }
 
