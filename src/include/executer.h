@@ -14,13 +14,44 @@ namespace executer {
 
     void runNode(graph::NodePtr node, graph::GraphPtr graph);
     void runBasicOperation(graph::NodePtr node, graph::GraphPtr graph);
+
+    /**
+     * Runs the control structure; after the execution the next instruction 
+     * will be the one following the entire control block.
+     */
     void runControlOperation(graph::NodePtr node, graph::GraphPtr graph);
+
+    /**
+     * Skips to the complementary structure if exists and then executes it.
+     */
     void runComplementaryBlock(std::string opening, graph::GraphPtr graph);
+
+    /**
+     * Runs a control block, at the end do not skip to the end of the structure.
+     */
     void runBlock(std::string opening, graph::GraphPtr graph);
+
+    /**
+     * Skips to the end of the control structure.
+     */
     void skipToEndBlock(std::string control, graph::GraphPtr graph);
 
+    /**
+     * Checks if the current node close the current control block.
+     * To clarify an 'if' can be closed by an 'else'.
+     */
     bool isCloseBlock(std::string opening, graph::NodePtr node);
+    
+    /**
+     * Checks if the current node close definetly the control block.
+     * To clarify an 'endif' ends an 'if' and a 'else', but 'else' do not ends an 'if'.
+     */
     bool isEndBlock(std::string opening, graph::NodePtr node);
+
+    /**
+     * Checks if the current node is a complementary closing of the control structure.
+     * To clarify 'else' and 'elseif' are both complementary to 'if'.
+     */
     bool isComplementaryClosing(std::string opening, std::string current);
     bool isDoWhile(std::string opening, std::string closing);
     bool allowsComplementaryBlock(std::string control);

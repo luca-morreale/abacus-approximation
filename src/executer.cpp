@@ -43,7 +43,10 @@ namespace executer {
             runBlock(node->out, graph);
         } else if (allowsComplementaryBlock(node->out)) {
             runComplementaryBlock(node->out, graph);
-        } else {
+        }
+
+        graph::NodePtr current = graph->rollback();
+        if(!isEndBlock(node->out, current)) {
             skipToEndBlock(node->out, graph);
         }
     }
