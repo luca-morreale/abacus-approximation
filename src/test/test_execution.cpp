@@ -2,6 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <fstream>
+#include <iostream>
 #include "graph.h"
 #include "parser.h"
 #include "executer.h"
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE(run_single_node)
     in.close();
 }
 
-BOOST_AUTO_TEST_CASE(execution)
+BOOST_AUTO_TEST_CASE(simpleExecution)
 {
     
     ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
@@ -68,6 +69,47 @@ BOOST_AUTO_TEST_CASE(execution)
     int out;
     graph->get("output", out);
     BOOST_CHECK_EQUAL(-10, out);
+
+    in.close();
+}
+
+
+BOOST_AUTO_TEST_CASE(controlStructureExecution)
+{
+    
+    ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
+    graph::GraphPtr graph = parser::extractGraph(in, "int");
+    
+    int out;
+    graph::NodePtr current = graph->next();
+    executer::runBasicOperation(current, graph);
+    current = graph->next();
+    executer::runBasicOperation(current, graph);
+    current = graph->next();
+    executer::runBasicOperation(current, graph);
+    
+    current = graph->next();
+    executer::runBasicOperation(current, graph);
+    graph->get(current->out, out);
+    BOOST_CHECK_EQUAL(0, out);
+
+    executer::skipToEndBlock(current->out, graph);
+    current = graph->next();
+    BOOST_CHECK_EQUAL("output", current->out);
+    executer::runBasicOperation(current, graph);
+    graph->get(current->out, out);
+    BOOST_CHECK_EQUAL(0, out);
+
+    current = graph->next();
+    executer::runNode(current, graph);
+    
+
+    current = graph->next();
+    BOOST_CHECK_EQUAL("output", current->out);
+    executer::runBasicOperation(current, graph);
+    graph->get(current->out, out);
+    BOOST_CHECK_EQUAL(5, out);
+
 
     in.close();
 }

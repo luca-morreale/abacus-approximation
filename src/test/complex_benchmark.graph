@@ -1,0 +1,20 @@
+# complex graph used for tests
+
+a + 0 0
+b - 0 5
+c / 1 2
+
+_if < a b
+c + c b
+_if
+
+output + c 0
+
+
+_if < a b
+c + c b
+_elseif > a b
+c - c b
+_if
+
+output + c 0
