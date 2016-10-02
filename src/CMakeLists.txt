@@ -14,11 +14,13 @@ add_library(Graph ${PROJECT_SOURCE_DIR}/graph.cpp ${PROJECT_SOURCE_DIR}/node.cpp
 set(SRC
    ${PROJECT_SOURCE_DIR}/parser.cpp
    ${PROJECT_SOURCE_DIR}/executer.cpp
+   ${PROJECT_SOURCE_DIR}/syntax.cpp
 )
 
 set(HEAD
    ${PROJECT_SOURCE_DIR}/include/parser.h
    ${PROJECT_SOURCE_DIR}/include/executer.h
+   ${PROJECT_SOURCE_DIR}/include/syntax.h
 )
 
 
