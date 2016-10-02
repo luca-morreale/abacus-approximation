@@ -2,72 +2,68 @@
 #define EXECUTER_H
 
 
+#include <iostream>
 #include <string>
 #include "graph.h"
-#include <iostream>
+#include "syntax.h"
 
 
 namespace executer {
 
-    double runGraph(graph::GraphPtr graph);
-    double runabacusApproximation(graph::GraphPtr graph);
+    class Executer {
 
-    void runNode(graph::NodePtr node, graph::GraphPtr graph);
-    void runBasicOperation(graph::NodePtr node, graph::GraphPtr graph);
+    public:
+        Executer();
+        ~Executer() { }
 
-    /**
-     * Runs the control structure; after the execution the next instruction 
-     * will be the one following the entire control block.
-     */
-    void runControlOperation(graph::NodePtr node, graph::GraphPtr graph);
+        double runGraph(graph::GraphPtr graph);
+        double runabacusApproximation(graph::GraphPtr graph);
 
-    /**
-     * Skips to the complementary structure if exists and then executes it.
-     */
-    void runComplementaryBlock(std::string opening, graph::GraphPtr graph);
+        void runNode(graph::NodePtr node, graph::GraphPtr graph);
+        void runBasicOperation(graph::NodePtr node, graph::GraphPtr graph);
 
-    /**
-     * Runs a control block, at the end do not skip to the end of the structure.
-     */
-    void runBlock(std::string opening, graph::GraphPtr graph);
+        /**
+         * Runs the control structure; after the execution the next instruction 
+         * will be the one following the entire control block.
+         */
+        void runControlOperation(graph::NodePtr node, graph::GraphPtr graph);
 
-    /**
-     * Skips to the end of the control structure.
-     */
-    void skipToEndBlock(std::string control, graph::GraphPtr graph);
+        /**
+         * Skips to the complementary structure if exists and then executes it.
+         */
+        void runComplementaryBlock(std::string opening, graph::GraphPtr graph);
 
-    void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph);
-    void rollbackBefore(graph::NodePtr start, graph::GraphPtr graph);
+        /**
+         * Runs a control block, at the end do not skip to the end of the structure.
+         */
+        void runBlock(std::string opening, graph::GraphPtr graph);
 
-    int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph);
+        /**
+         * Skips to the end of the control structure.
+         */
+        void skipToEndBlock(std::string control, graph::GraphPtr graph);
 
-    bool isLoopBlock(std::string start, std::string end);
 
-    /**
-     * Checks if the current node close the current control block.
-     * To clarify an 'if' can be closed by an 'else'.
-     */
-    bool isCloseBlock(std::string opening, graph::NodePtr node);
-    
-    /**
-     * Checks if the current node close definetly the control block.
-     * To clarify an 'endif' ends an 'if' and a 'else', but 'else' do not ends an 'if'.
-     */
-    bool isEndBlock(std::string opening, graph::NodePtr node);
-    bool isComplementaryEnding(std::string opening, std::string current);
+        void completeControlExecution(graph::NodePtr node, graph::GraphPtr graph);
 
-    /**
-     * Checks if the current node is a complementary closing of the control structure.
-     * To clarify 'else' and 'elseif' are both complementary to 'if'.
-     */
-    bool isComplementaryClosing(std::string opening, std::string current);
-    bool isDoWhile(std::string opening, std::string closing);
-    bool allowsComplementaryBlock(std::string control);
-    bool isControlOp(std::string op);
+        void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph);
+        void rollbackBefore(graph::NodePtr start, graph::GraphPtr graph);
 
-    bool isNumber(const std::string &str);
+
+    private:
+        syntax::SyntaxPtr checker;
+
+        int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph);
+
+        bool isDoWhile(std::string opening, std::string closing);
+        
+        bool emptyOp(graph::NodePtr node);
+
+    };
+
+
     bool is(std::string a, std::string b);
-    bool emptyOp(graph::NodePtr node);
+    bool isNumber(const std::string &str);
 
 
     template<typename T>

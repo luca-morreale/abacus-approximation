@@ -33,26 +33,27 @@ BOOST_AUTO_TEST_CASE(run_single_node)
 {
     ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
+    executer::Executer exec;
 
     graph::NodePtr current = graph->next();
-    executer::runNode(current, graph);
+    exec.runNode(current, graph);
     
     int out;
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
     current = graph->next();
-    executer::runNode(current, graph);
+    exec.runNode(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(-5, out);
 
     current = graph->next();
-    executer::runNode(current, graph);
+    exec.runNode(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
     current = graph->next();
-    executer::runNode(current, graph);
+    exec.runNode(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
@@ -64,7 +65,9 @@ BOOST_AUTO_TEST_CASE(simpleExecution)
     
     ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
-    executer::runGraph(graph);
+    executer::Executer exec;
+
+    exec.runGraph(graph);
     
     int out;
     graph->get("output", out);
@@ -79,34 +82,35 @@ BOOST_AUTO_TEST_CASE(controlStructureExecution)
     
     ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
+    executer::Executer exec;
     
     int out;
     graph::NodePtr current = graph->next();
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     current = graph->next();
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     current = graph->next();
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     
     current = graph->next();
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
-    executer::skipToEndBlock(current->out, graph);
+    exec.skipToEndBlock(current->out, graph);
     current = graph->next();
     BOOST_CHECK_EQUAL("output", current->out);
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
     current = graph->next();
-    executer::runNode(current, graph);
+    exec.runNode(current, graph);
     
 
     current = graph->next();
     BOOST_CHECK_EQUAL("output", current->out);
-    executer::runBasicOperation(current, graph);
+    exec.runBasicOperation(current, graph);
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(5, out);
 
