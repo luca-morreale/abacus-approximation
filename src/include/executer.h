@@ -47,6 +47,7 @@ namespace executer {
      * To clarify an 'endif' ends an 'if' and a 'else', but 'else' do not ends an 'if'.
      */
     bool isEndBlock(std::string opening, graph::NodePtr node);
+    bool isComplementaryEnding(std::string opening, std::string current);
 
     /**
      * Checks if the current node is a complementary closing of the control structure.

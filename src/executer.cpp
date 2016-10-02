@@ -100,7 +100,12 @@ namespace executer {
 
     bool isEndBlock(std::string opening, graph::NodePtr node)
     {
-        return is(opening, node->out) && emptyOp(node);
+        return (is(opening, node->out) || isComplementaryEnding(opening, node->out)) && emptyOp(node);
+    }
+
+    bool isComplementaryEnding(std::string opening, std::string current)
+    {
+        return (is(opening, "_elseif") || is(opening, "_else")) && is(current, "_if");
     }
 
     bool isComplementaryClosing(std::string opening, std::string current)
@@ -142,7 +147,7 @@ namespace executer {
 
     bool emptyOp(graph::NodePtr node)
     {
-        return is(node->op, "");
+        return is(node->op, "") || node->op.size() == 0;
     }
 
 
