@@ -35,9 +35,7 @@ namespace executer {
 
     void runControlOperation(graph::NodePtr node, graph::GraphPtr graph)
     {
-        int result;
-        runBasicOperation(node, graph);
-        graph->get(node->out, result);
+        int result = evaluateCondition(node, graph);
 
         if (result) {
             runBlock(node->out, graph);
@@ -46,7 +44,10 @@ namespace executer {
         }
 
         graph::NodePtr current = graph->rollback();
-        if(!isEndBlock(node->out, current)) {
+        if(isLoopBlock(node->out, current->out)) {
+            rollbackToStart(node, current, graph);
+            runNode(graph->next(), graph);
+        } else if(!isEndBlock(node->out, current)) {
             skipToEndBlock(node->out, graph);
         }
     }
@@ -85,6 +86,41 @@ namespace executer {
                 depth--;
             }
         }
+    }
+
+    void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph)
+    {
+        if(isDoWhile(start->out, current->out)) {
+            int result = evaluateCondition(start, graph);
+            if (result) {
+                rollbackBefore(start, graph);
+            }
+        } else {
+            rollbackBefore(start, graph);
+        }
+    }
+
+    void rollbackBefore(graph::NodePtr start, graph::GraphPtr graph)
+    {
+        graph::NodePtr cursor = graph->rollback();
+        while (cursor != start) {
+            cursor = graph->rollback();
+        }
+        cursor = graph->rollback();
+    }
+
+    int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph)
+    {
+        int result;
+        runBasicOperation(condition, graph);
+        graph->get(condition->out, result);
+        return result;
+    }
+
+
+    bool isLoopBlock(std::string start, std::string end)
+    {
+        return (is(start, end) && is(start,"_for")) || isDoWhile(start, end);
     }
 
 
@@ -151,4 +187,4 @@ namespace executer {
     }
 
 
-}
+} // namespace executer

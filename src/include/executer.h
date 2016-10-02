@@ -36,6 +36,13 @@ namespace executer {
      */
     void skipToEndBlock(std::string control, graph::GraphPtr graph);
 
+    void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph);
+    void rollbackBefore(graph::NodePtr start, graph::GraphPtr graph);
+
+    int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph);
+
+    bool isLoopBlock(std::string start, std::string end);
+
     /**
      * Checks if the current node close the current control block.
      * To clarify an 'if' can be closed by an 'else'.
@@ -287,7 +294,7 @@ namespace executer {
     }
 
 
-}
+}  // namespace executer
 
 
 #endif /* EXECUTER_H */
