@@ -5,6 +5,7 @@
 
 #include "include/parser.h"
 #include "include/graph.h"
+#include "include/executer.h"
 
 #define PARAMETERS 4
 #define FLAG_FILE "-f"
@@ -47,6 +48,10 @@ int main(int argc, char *argv[])
     #ifdef DEBUG
         graph->debug();
     #endif
+
+    executer::ExecuterPtr exec = new executer::Executer();
+
+    exec->runGraph(graph);
 
 
     cin.close();
