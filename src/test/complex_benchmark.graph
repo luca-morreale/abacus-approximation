@@ -18,3 +18,19 @@ c - c b
 _if
 
 output + c 0
+
+counter + 0 0
+i + 0 0
+_for < i 10
+counter + counter i
+i + i 1
+_for
+
+
+counter + 0 0
+i + 0 0
+_do
+counter + counter i
+i + i 1
+_while < i 10
+counter + counter 0
