@@ -61,6 +61,8 @@ namespace executer {
 
     };
 
+    typedef Executer * ExecuterPtr;
+
 
     bool is(std::string a, std::string b);
     bool isNumber(const std::string &str);

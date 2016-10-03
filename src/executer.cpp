@@ -44,11 +44,13 @@ namespace executer {
 
         if (result) {
             runBlock(node->out, graph);
+            completeControlExecution(node, graph);
         } else if (checker->allowsComplementaryBlock(node->out)) {
             runComplementaryBlock(node->out, graph);
-        }
-
-        completeControlExecution(node, graph);        
+            completeControlExecution(node, graph);
+        } else {
+            skipToEndBlock(node->out, graph);
+        }    
     }
 
     void Executer::completeControlExecution(graph::NodePtr node, graph::GraphPtr graph)
@@ -56,9 +58,11 @@ namespace executer {
         graph::NodePtr current = graph->rollback();
         if(checker->isLoop(node->out, current->out)) {
             rollbackToStart(node, current, graph);
+            runNode(graph->next(), graph);
         } else if(!checker->endsBlock(node->out, current->out)) {
             skipToEndBlock(node->out, graph);
         }
+        graph->next();
     }
 
     void Executer::runComplementaryBlock(std::string opening, graph::GraphPtr graph)
@@ -68,7 +72,7 @@ namespace executer {
             current = graph->next();
         }
 
-        if(!checker->isLoop(opening, current->out)) {
+        if(!checker->endsBlock(opening, current->out)) {
             runControlOperation(current, graph);
         }
     }
@@ -89,7 +93,7 @@ namespace executer {
         while(depth != 0) {
             cursor = graph->next();
 
-            if (this->checker->endsBlock(control, cursor->out) && emptyOp(cursor)) {
+            if (checker->endsBlock(control, cursor->out) && emptyOp(cursor)) {
                 depth++;
             } else if (is(control, cursor->out) && !emptyOp(cursor)) {
                 depth--;
@@ -112,7 +116,8 @@ namespace executer {
     void Executer::rollbackBefore(graph::NodePtr start, graph::GraphPtr graph)
     {
         graph::NodePtr cursor = graph->rollback();
-        while (cursor != start) {
+        while (graph->next() != start) {
+            cursor = graph->rollback();
             cursor = graph->rollback();
         }
         cursor = graph->rollback();
@@ -123,6 +128,7 @@ namespace executer {
         int result;
         runBasicOperation(condition, graph);
         graph->get(condition->out, result);
+
         return result;
     }
 
