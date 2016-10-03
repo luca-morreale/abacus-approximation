@@ -1,6 +1,5 @@
 #include "include/syntax.h"
 
-
 namespace syntax {
 
     Syntax::Syntax()
@@ -21,23 +20,33 @@ namespace syntax {
         
     bool Syntax::endsBlock(std::string start, std::string end)
     {
-        return is(this->ending[start], end);
+        return checkContainement(this->ending, start, end);
     }
 
     bool Syntax::closesBlock(std::string start, std::string close)
     {
-        return endsBlock(start, close) || is(this->closing[start], close);
+        return endsBlock(start, close) || checkContainement(this->closing, start, close);
     }
 
     bool Syntax::isLoop(std::string start, std::string end)
     {
-        return is(this->loops[start], end);
+        return checkContainement(this->loops, start, end);
     }
 
     bool Syntax::allowsComplementaryBlock(std::string control)
     {
         return this->closing.find(control) != this->closing.end();
     }
+
+    bool Syntax::checkContainement(strmap map, std::string key, std::string value)
+    {
+        try {
+            return is(map.at(key), value);
+        } catch (std::out_of_range e) {
+            return false;
+        }
+    }
+
 
     bool Syntax::isControlOp(std::string op)
     {

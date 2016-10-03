@@ -35,6 +35,7 @@ namespace syntax {
         strmap ending;
         strmap loops;
 
+        bool checkContainement(strmap map, std::string key, std::string value);
         bool is(std::string a, std::string b);
 
 
