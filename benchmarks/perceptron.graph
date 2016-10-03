@@ -10,7 +10,46 @@ weights_2 + randomFloat 0
 
 iteration + 0 0
 
-_do
+# from do-while to for, following first iteration
+
+iteration + iteration 1
+globalError + 0 0
+
+p + 0 0
+_for < p patternCount
+
+
+dotx * x weights_0
+doty * y weights_1
+sumdot + dotx doty 
+sum + sumdot weights_2
+_if >= sum 0
+output + 1 0
+_else
+output - 0 1
+
+
+localError - outputs_p output
+t1 * LEARNING_RATE localError
+wx * t1 x_p
+wy * t1 y_p
+weights_0 + weights_0 wx
+weights_1 + weights_1 wy
+weights_2 + weights_2 t1
+
+localsq * localError localError
+globalError + globalError localsq
+
+p + p 1
+_for
+
+# end first iteration
+
+exp1 != globalError 0
+exp2 <= iteration MAX_ITERATION
+
+
+_for && exp1 exp2
 
 iteration + iteration 1
 globalError + 0 0
@@ -47,4 +86,5 @@ _for
 
 exp1 != globalError 0
 exp2 <= iteration MAX_ITERATION
-_while && exp1 exp2
+_for
+
