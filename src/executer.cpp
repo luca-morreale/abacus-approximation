@@ -103,18 +103,6 @@ namespace executer {
 
     void Executer::rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph)
     {
-        if(isDoWhile(start->out, current->out)) {
-            int result = evaluateCondition(start, graph);
-            if (result) {
-                rollbackBefore(start, graph);
-            }
-        } else {
-            rollbackBefore(start, graph);
-        }
-    }
-
-    void Executer::rollbackBefore(graph::NodePtr start, graph::GraphPtr graph)
-    {
         graph::NodePtr cursor = graph->rollback();
         while (graph->next() != start) {
             cursor = graph->rollback();
@@ -130,12 +118,6 @@ namespace executer {
         graph->get(condition->out, result);
 
         return result;
-    }
-
-
-    bool Executer::isDoWhile(std::string opening, std::string closing)
-    {
-        return is(opening, "_do") && is(closing, "_while");
     }
 
     bool Executer::emptyOp(graph::NodePtr node)

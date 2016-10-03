@@ -12,9 +12,7 @@ namespace syntax {
         this->ending.insert(strpair("_elseif", "_if"));
         this->ending.insert(strpair("_else", "_if"));
         this->ending.insert(strpair("_for", "_for"));
-        this->ending.insert(strpair("_do", "_while"));
-
-        this->loops.insert(strpair("_do", "_while"));
+        
         this->loops.insert(strpair("_for", "_for"));
     }
         

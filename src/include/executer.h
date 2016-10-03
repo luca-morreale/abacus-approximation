@@ -47,15 +47,11 @@ namespace executer {
         void completeControlExecution(graph::NodePtr node, graph::GraphPtr graph);
 
         void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph);
-        void rollbackBefore(graph::NodePtr start, graph::GraphPtr graph);
-
 
     private:
         syntax::SyntaxPtr checker;
 
         int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph);
-
-        bool isDoWhile(std::string opening, std::string closing);
         
         bool emptyOp(graph::NodePtr node);
 
@@ -244,11 +240,7 @@ namespace executer {
         T out;
         T (*operation)(std::string, std::string, graph::GraphPtr);
 
-        if (is(node->out, "_do")) { // fake calculation of condition to result true
-            operation = &eq<T>;
-            node->incoming[0] = "1";
-            node->incoming[1] = "1";
-        } else if (is(node->op, "+")) {
+        if (is(node->op, "+")) {
             operation = &sum<T>;
         } else if(is(node->op, "-")) {
             operation = &minus<T>;

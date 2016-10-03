@@ -160,17 +160,6 @@ BOOST_AUTO_TEST_CASE(loopStructureExecution)
     graph->get("counter", out);
     BOOST_CHECK_EQUAL(45, out);
 
-    /*current = graph->next();
-    BOOST_CHECK_EQUAL("_do", current->out);
-    exec.runNode(current, graph);
-
-    graph->get("i", out);
-    BOOST_CHECK_EQUAL(10, out);
-
-    graph->get("counter", out);
-    BOOST_CHECK_EQUAL(45, out);*/
-
-
     in.close();
 }
 
