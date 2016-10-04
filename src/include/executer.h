@@ -14,10 +14,9 @@ namespace executer {
 
     public:
         Executer();
-        ~Executer() { }
+        ~Executer();
 
-        double runGraph(graph::GraphPtr graph);
-        double runabacusApproximation(graph::GraphPtr graph);
+        void runGraph(graph::GraphPtr graph);
 
         void runNode(graph::NodePtr node, graph::GraphPtr graph);
         void runBasicOperation(graph::NodePtr node, graph::GraphPtr graph);
@@ -59,18 +58,16 @@ namespace executer {
 
     typedef Executer * ExecuterPtr;
 
-
     bool is(std::string a, std::string b);
-    bool isNumber(const std::string &str);
 
 
     template<typename T>
     void extractOperand(std::string name, T &op, graph::GraphPtr graph)
     {
-        if (isNumber(name)){
+        if (syntax::isNumber(name)){
             op = std::stod(name, NULL);
         } else {
-            graph->get(name, op);
+            graph->get(syntax::getIdentifier(name, graph), op);
         }
     }
 
@@ -235,6 +232,14 @@ namespace executer {
     }
 
     template<typename T>
+    T abs(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)      // To check
+    {
+        T op;
+        extractOperand(nameOp1, op, graph);
+        return (T) std::abs((int)op);
+    }
+
+    template<typename T>
     void selectOperation(graph::NodePtr node, graph::GraphPtr graph)
     {
         T out;
@@ -276,6 +281,8 @@ namespace executer {
             operation = &negBit<T>;
         } else if(is(node->op, "<<c")) {
             operation = &cast<T>;
+        } else if(is(node->op, "abs")) {
+            operation = &abs<T>;
         }
 
         out = operation(node->incoming[0], node->incoming[1], graph);

@@ -8,13 +8,12 @@ namespace executer {
         this->checker = new syntax::Syntax();
     }
 
-    double Executer::runGraph(graph::GraphPtr graph)
+    void Executer::runGraph(graph::GraphPtr graph)
     {
         graph::NodePtr current;
         while ((current = graph->next()) != NULL) {
             runNode(current, graph);
         }
-
     }
 
     void Executer::runNode(graph::NodePtr node, graph::GraphPtr graph)
@@ -120,6 +119,11 @@ namespace executer {
         return result;
     }
 
+    Executer::~Executer()
+    {
+        delete(checker);
+    }
+
     bool Executer::emptyOp(graph::NodePtr node)
     {
         return is(node->op, "") || node->op.size() == 0;
@@ -129,11 +133,6 @@ namespace executer {
     bool is(std::string a, std::string b)
     {
         return a.compare(b) == 0;
-    }
-
-    bool isNumber(const std::string &str)
-    {
-        return !str.empty() && str.find_first_not_of(".0123456789") == std::string::npos;
     }
 
 
