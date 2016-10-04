@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include "graph.h"
+
 namespace syntax {
 
     typedef std::pair<std::string, std::string> strpair;
@@ -43,7 +45,12 @@ namespace syntax {
 
     typedef Syntax * SyntaxPtr;
 
+    std::string getIdentifier(std::string name, graph::GraphPtr graph);
+    std::string extractArray(std::string name, graph::GraphPtr graph);
+    std::string getIndex(std::string raw_index, graph::GraphPtr graph);
 
+    bool isNumber(std::string &var);
+    bool isArray(std::string &var);
 
     
 
