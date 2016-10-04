@@ -1,0 +1,110 @@
+# SAD-based block matching procedure for single macroblock 
+# Search area is sepcified by iLeft, iTop, iRight, iBottom. 
+# Result is returned through piMvPos. 
+# ARG:  pucRefX      Reference frame left top pointer. 
+#       pucRefY      Reference frame left top pointer. 
+#       pucCurX      Current   frame left top pointer. 
+#       pucCurY      Current   frame left top pointer. 
+#       piMvPos     Pointer of position indicated by result MV. 
+#       iWidth      Width of the frame. 
+#       iLeft       Search area left position. 
+#       iRight      Search area right position. 
+#       iTop        Search area top position. 
+#       iBottom     Search area bottom position. 
+#       iHpos       Current block left position in the frame. 
+#       iVpos       Current block top position in the frame. 
+# Comment: 
+#   MV  1 means 1pel 
+#   Not check validity of search area. 
+
+
+pucCurLeftTopX + pucCurX iHpos
+pucCurLeftTopY + pucCurY iVpos
+
+_if > pucCurLeftTopY iWidth
+    pucCurLeftTopX + pucCurLeftTopX 1
+    pucCurLeftTopY + 0 0
+_if
+
+# Matching loop */
+iY + 0 iTop
+_for <= iY iBottom
+
+	# Set start point for Refrence and Search window */
+	pucRefLeftX + pucRefX 0 
+	pucRefLeftY + pucRefY iY
+
+	_if > pucRefLeftY iWidth
+	    pucRefLeftX + pucRefLeftX 1
+	    pucRefLeftY + 0 0
+	_if
+
+	iX + iLeft 0
+	_for <= iX iRight
+		# Init temporal AD */
+		iTmpAd + 0 0
+		 
+	    # Copy Left posision pointer */ 
+	    pucCX + pucCurLeftTopX 0
+	    pucCY + pucCurLeftTopY 0
+
+	    pucRX + pucRefLeftX iX
+	    pucRY + pucRefLeftY 0
+
+	    # Get absoluete difference of current position */
+	    iV + 0 0
+	    _for < iV 16
+	    	
+	    	iH + 0 0
+	    	_for < iH 16
+
+	            t1 <<c INT32 input_pucCX_pucCY
+	            t2 <<c INT32 input_pucRX_pucRY
+	            t3 - t1 t2
+	            t4 abs t3 t3 
+
+	            iTmpAd + iTmpAd t4
+	            
+	            pucCY + pucCY 1
+	            pucRY + pucRY 1
+
+	            _if > pucCY iWidth
+	                pucCX + pucCX 1
+	                pucCY + 0 0
+	            _if
+
+	            _if > pucRY iWidth
+	            	pucRX + pucRX 1
+	                pucRY + 0 0
+	            _if
+
+	    	iH + iH 1
+	    	_for 
+	    	# Current pointer down 1 line */ 
+	        pucCX + pucCX 1
+	        pucRX + pucRX 1
+
+    	iV + iV 1
+	    _for
+
+	    # Check minimum AD */ 
+	    _if > iMinAd iTmpAd
+	    	iMinAd + iTmpAd 0
+	    	mv_piMvPos + iX 0
+	    	ind + piMvPos 1
+	    	mv__ind + iY 0
+	    _if
+
+	iX + iX 1
+	_for
+	
+
+iY + iY 1
+_for
+
+
+return iMinAd; 
+
+
+
+# Result is returned through piMvPos
