@@ -29,7 +29,7 @@ namespace graph {
 
     NodePtr Graph::current()
     {
-        return nodes[--cursor];
+        return nodes[cursor];
     }
 
     void Graph::appendToGraph(NodePtr node)
