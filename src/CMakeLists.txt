@@ -15,12 +15,18 @@ set(SRC
    ${PROJECT_SOURCE_DIR}/parser.cpp
    ${PROJECT_SOURCE_DIR}/executer.cpp
    ${PROJECT_SOURCE_DIR}/syntax.cpp
+   ${PROJECT_SOURCE_DIR}/approximated_graph.cpp
+   ${PROJECT_SOURCE_DIR}/abacus.cpp
+   ${PROJECT_SOURCE_DIR}/approximation.cpp
 )
 
 set(HEAD
    ${PROJECT_SOURCE_DIR}/include/parser.h
    ${PROJECT_SOURCE_DIR}/include/executer.h
    ${PROJECT_SOURCE_DIR}/include/syntax.h
+   ${PROJECT_SOURCE_DIR}/include/approximated_graph.h
+   ${PROJECT_SOURCE_DIR}/include/abacus.h
+   ${PROJECT_SOURCE_DIR}/include/approximation.h
 )
 
 
