@@ -31,6 +31,7 @@ namespace graph {
      * return NodePtr   pointer to the generated node
      */
     NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out);
+    NodePtr newNode(NodePtr other);
 
     /**
      * Copies the list of incoming edges inside the node.
@@ -39,6 +40,7 @@ namespace graph {
      * size_t length            length of incoming edge
      */
     void cloneIncomingList(NodePtr node, std::string inList[], size_t length);
+    void cloneIncomingList(NodePtr node, NodePtr other);
 
 }
 

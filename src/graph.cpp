@@ -9,6 +9,14 @@ namespace graph {
         this->type = type;
     }
 
+    Graph::Graph(const Graph &other)
+    {
+        this->cursor = other.cursor;
+        this->type = type;
+        this->nodes.insert(this->nodes.begin(), other.nodes.begin(), other.nodes.end());
+        this->edges.insert(other.edges.begin(), other.edges.end());
+    }
+
     NodePtr Graph::next()
     {
         return (nodes.size() <= cursor)? NULL : nodes[cursor++];
@@ -17,6 +25,11 @@ namespace graph {
     NodePtr Graph::rollback()
     {
         return (0 >= cursor)? NULL : nodes[--cursor];
+    }
+
+    NodePtr Graph::current()
+    {
+        return nodes[--cursor];
     }
 
     void Graph::appendToGraph(NodePtr node)
@@ -94,6 +107,21 @@ namespace graph {
     std::string Graph::getType()
     {
         return this->type;
+    }
+
+    void Graph::insert(NodePtr node, int pos)
+    {
+        this->nodes.insert(this->nodes.begin() + pos, node);
+    }
+
+    int Graph::find(NodePtr item)
+    {
+        return std::find(this->nodes.begin(), this->nodes.end(), item)  - this->nodes.begin();
+    }
+
+    void Graph::remove(int pos)
+    {
+        this->nodes.erase(this->nodes.begin() + pos);
     }
 
     Graph::~Graph()

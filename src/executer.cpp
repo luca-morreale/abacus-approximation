@@ -103,11 +103,9 @@ namespace executer {
     void Executer::rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph)
     {
         graph::NodePtr cursor = graph->rollback();
-        while (graph->next() != start) {
-            cursor = graph->rollback();
+        while (graph->current() != start) {
             cursor = graph->rollback();
         }
-        cursor = graph->rollback();
     }
 
     int Executer::evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph)

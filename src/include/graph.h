@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <algorithm>
 #include <map>
 
 #include "node.h"
@@ -20,6 +21,7 @@ namespace graph {
 
     public:
         Graph(std::string type);
+        Graph(const Graph &other);
         ~Graph();
         
         /**
@@ -37,6 +39,8 @@ namespace graph {
          * Returns the previous exectued node.
          */
         NodePtr rollback();
+
+        NodePtr current();
 
         /**
          * Sets the value of the given edge.
@@ -62,15 +66,20 @@ namespace graph {
             void debug();
         #endif
 
+    protected:
+        Graph();
+        void insert(NodePtr node, int pos);
+        int find(NodePtr item);
+        void remove(int pos);
 
-    private:
         Nodes nodes;
         Edges edges;
         unsigned int cursor;
         std::string type;
 
-        Graph();
 
+    private:
+        
         void addEdges(NodePtr node);
 
         bool isValidNode(NodePtr node);
