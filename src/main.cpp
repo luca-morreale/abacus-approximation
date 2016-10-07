@@ -2,10 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <omp.h>
 
 #include "include/parser.h"
 #include "include/graph.h"
 #include "include/executer.h"
+#include "include/abacus.h"
 
 #define PARAMETERS 4
 #define FLAG_FILE "-f"
@@ -52,7 +54,6 @@ int main(int argc, char *argv[])
     executer::ExecuterPtr exec = new executer::Executer();
 
     exec->runGraph(graph);
-
 
     cin.close();
 
