@@ -12,7 +12,7 @@ namespace approximation {
     ApproximatedGraph::ApproximatedGraph(const graph::Graph &other) : Graph(other)
     { /*   */ }
 
-    void ApproximatedGraph::approximate(graph::Nodes replacement, graph::NodePtr old)
+    void ApproximatedGraph::substitute(graph::Nodes replacement, graph::NodePtr old)
     {
         int pos = super::find(old);
         for(graph::NodeIterator it = replacement.end(); it != replacement.begin(); it--) {

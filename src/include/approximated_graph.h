@@ -6,14 +6,14 @@
 
 namespace approximation {
 
-    class ApproximatedGraph : graph::Graph {
+    class ApproximatedGraph : public graph::Graph {
     public:
         ApproximatedGraph(std::string type) : Graph(type) { }
         ApproximatedGraph(const graph::Graph &other);
         ApproximatedGraph(const ApproximatedGraph &other);
         ~ApproximatedGraph() { }
 
-        void approximate(graph::Nodes replacement, graph::NodePtr old);
+        void substitute(graph::Nodes replacement, graph::NodePtr old);
 
     private:
         ApproximatedGraph() : Graph() { }
