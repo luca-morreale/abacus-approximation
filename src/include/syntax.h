@@ -30,7 +30,7 @@ namespace syntax {
 
         bool isLoop(std::string start, std::string end);
         
-        bool isControlOp(std::string op);
+        static bool isControlOp(std::string op);
 
     private:
         strmap closing;
