@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <string>
+
+
 #include "graph.h"
 #include "syntax.h"
 
@@ -59,7 +61,6 @@ namespace executer {
     typedef Executer * ExecuterPtr;
 
     bool is(std::string a, std::string b);
-
 
     template<typename T>
     void extractOperand(std::string name, T &op, graph::GraphPtr graph)
@@ -226,9 +227,16 @@ namespace executer {
     template<typename T>
     T cast(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
-        T op1, op2;
-        getOperands(nameOp1, op1, nameOp2, op2, graph);
-        return (T) op2;
+        std::string op1;
+        T op2;
+        extractOperand(nameOp1, op1, graph);
+        extractOperand(nameOp2, op2, graph);
+
+        if(is(op1, "int")) {
+            return (int) op2;
+        } else {
+            return (double) op2;
+        }
     }
 
     template<typename T>
