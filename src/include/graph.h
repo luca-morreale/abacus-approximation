@@ -59,8 +59,10 @@ namespace graph {
         void get(std::string key, int &out);
         void get(std::string key, float &out);
         void get(std::string key, double &out);
+        void get(std::string key, std::string &out);
 
         std::string getType();
+        std::vector<std::string> getOutputList();
 
         #ifdef DEBUG
             void debug();

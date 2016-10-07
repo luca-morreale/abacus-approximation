@@ -104,9 +104,24 @@ namespace graph {
         out = std::stod(edges[key], NULL);
     }
 
+    void Graph::get(std::string key, std::string &out)
+    {
+        out = edges[key];
+    }
+
     std::string Graph::getType()
     {
         return this->type;
+    }
+
+    std::vector<std::string> Graph::getOutputList()
+    {
+        std::vector<std::string> outputList;
+        for (EdgeIterator it = this->edges.begin(); it != this->edges.end(); it++) {
+            if((it->first).find("output") != std::string::npos) {
+                outputList.push_back(it->first);
+            }
+        }
     }
 
     void Graph::insert(NodePtr node, int pos)
