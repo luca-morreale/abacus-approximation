@@ -67,7 +67,7 @@ _elseif < floatOutput_i neg
 floatOutput_i + 0 neg
 _if
 
-output_i <<c int16_t floatOutput_i
+output_i <<c int floatOutput_i
 
 
 _for

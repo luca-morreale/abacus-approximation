@@ -58,8 +58,8 @@ _for <= iY iBottom
 	    	iH + 0 0
 	    	_for < iH 16
 
-	            t1 <<c INT32 input_pucCX_pucCY
-	            t2 <<c INT32 input_pucRX_pucRY
+	            t1 <<c int input_pucCX_pucCY
+	            t2 <<c int input_pucRX_pucRY
 	            t3 - t1 t2
 	            t4 abs t3 t3 
 
