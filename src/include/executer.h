@@ -35,6 +35,8 @@ namespace executer {
          */
         void runComplementaryBlock(std::string opening, graph::GraphPtr graph);
 
+        void runLoop(graph::NodePtr start, graph::GraphPtr graph);
+
         /**
          * Runs a control block, at the end do not skip to the end of the structure.
          */
@@ -46,9 +48,8 @@ namespace executer {
         void skipToEndBlock(std::string control, graph::GraphPtr graph);
 
 
-        void completeControlExecution(graph::NodePtr node, graph::GraphPtr graph);
-
         void rollbackToStart(graph::NodePtr start, graph::NodePtr current, graph::GraphPtr graph);
+        void rollbackToStart(graph::NodePtr end, graph::GraphPtr graph);
 
     private:
         syntax::SyntaxPtr checker;

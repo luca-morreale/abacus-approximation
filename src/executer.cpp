@@ -41,37 +41,37 @@ namespace executer {
     {
         int result = evaluateCondition(node, graph);
 
-        if (result) {
+        if (result && checker->isLoop(node->out)) {
+            runLoop(node, graph);
+        } else if(result) {
             runBlock(node->out, graph);
-            completeControlExecution(node, graph);
-        } else if (checker->allowsComplementaryBlock(node->out)) {
+        } else if (!result && checker->allowsComplementaryBlock(node->out)) {
             runComplementaryBlock(node->out, graph);
-            completeControlExecution(node, graph);
-        } else {
+        } else if(!result) {
             skipToEndBlock(node->out, graph);
         }
     }
 
-    void Executer::completeControlExecution(graph::NodePtr node, graph::GraphPtr graph)
+    void Executer::runLoop(graph::NodePtr start, graph::GraphPtr graph)
     {
-        graph::NodePtr current = graph->rollback();
-        if(checker->isLoopBlock(node->out, current->out)) {
-            rollbackToStart(node, current, graph);
-            runNode(graph->next(), graph);
-        } else if(!checker->endsBlock(node->out, current->out)) {
-            skipToEndBlock(node->out, graph);
+        int condition = evaluateCondition(start, graph);
+        while(condition) {
+            runBlock(start->out, graph);
+            rollbackToStart(graph->rollback(), graph);
+            condition = evaluateCondition(graph->current(), graph);
+            graph->next();
         }
-        graph->next();
+        skipToEndBlock(start->out, graph);
     }
 
     void Executer::runComplementaryBlock(std::string opening, graph::GraphPtr graph)
     {
         graph::NodePtr current = graph->next();
-        while(!checker->closesBlock(opening, current->out)) {
+        while(!checker->closesBlock(opening, current)) {
             current = graph->next();
         }
 
-        if(!checker->endsBlock(opening, current->out)) {
+        if(!checker->endsBlock(opening, current)) {
             runControlOperation(current, graph);
         }
     }
@@ -79,7 +79,7 @@ namespace executer {
     void Executer::runBlock(std::string opening, graph::GraphPtr graph)
     {
         graph::NodePtr current = graph->next();
-        while(!checker->closesBlock(opening, current->out)) {
+        while(!checker->closesBlock(opening, current)) {
             runNode(current, graph);
             current = graph->next();
         }
@@ -89,12 +89,13 @@ namespace executer {
     {
         int depth = -1;
         graph::NodePtr cursor;
+        
         while(depth != 0) {
             cursor = graph->next();
 
-            if (checker->endsBlock(control, cursor->out) && isOpEmpty(cursor)) {
+            if (checker->endsBlock(control, cursor)) {
                 depth++;
-            } else if (is(control, cursor->out) && !isOpEmpty(cursor)) {
+            } else if (is(control, cursor->out) && checker->startsNewBlock(cursor)) {
                 depth--;
             }
         }
@@ -105,6 +106,21 @@ namespace executer {
         graph::NodePtr cursor = graph->rollback();
         while (graph->current() != start) {
             cursor = graph->rollback();
+        }
+    }
+
+    void Executer::rollbackToStart(graph::NodePtr end, graph::GraphPtr graph)
+    {
+        int depth = 1;
+        graph::NodePtr cursor;
+        while(depth != 0) {
+            cursor = graph->rollback();
+
+            if (checker->endsBlock(cursor->out, end) && checker->startsNewBlock(cursor)) {
+                depth--;
+            } else if(is(cursor->out, end->out) && isOpEmpty(cursor)) {
+                depth++;
+            }
         }
     }
 
