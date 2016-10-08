@@ -54,20 +54,8 @@ namespace abacus {
     };
 
     typedef ABACUSExecuter * ABACUSPtr;
-}
 
-/*
-for(int j = 0; j < this->M; j++) {
-    approximation = selectApproximation();
-    appGraph = approximate(graph, approximation);
-    accuracy = evalAccuracy(appGraph);
-    if(accuracy < this->threshold) {
-        fitness = evaluateFitness(appGraph, accuracy);
-        approximatedGraphs.push_back(std::make_pair(fitness, appGraph));
-    }
-}
-
-*/
+} // namespace abacus
 
 
 #endif /* ABACUS_H */
