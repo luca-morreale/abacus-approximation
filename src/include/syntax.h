@@ -8,9 +8,6 @@
 
 namespace syntax {
 
-    typedef std::pair<std::string, std::string> strpair;
-    typedef std::map<std::string, std::string> strmap;
-
     class Syntax {
     public:
         Syntax();
@@ -34,6 +31,9 @@ namespace syntax {
         static bool isControlOp(std::string op);
 
     private:
+        typedef std::pair<std::string, std::string> strpair;
+        typedef std::map<std::string, std::string> strmap;
+
         strmap closing;
         strmap ending;
         strmap loops;
