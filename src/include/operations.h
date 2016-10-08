@@ -1,6 +1,10 @@
 #ifndef BASIC_OPERATIONS_H
 #define BASIC_OPERATIONS_H
 
+#include "utility.h"
+#include "graph.h"
+
+
 namespace operations {
 
     template<typename T>
