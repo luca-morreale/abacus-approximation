@@ -13,19 +13,24 @@ namespace syntax {
         Syntax();
         ~Syntax() { }
 
+        bool startsNewBlock(graph::NodePtr start);
+
         /**
          * Checks if the current node close definetly the control block.
          * To clarify an 'endif' ends an 'if' and a 'else', but 'else' do not ends an 'if'.
          */
+        bool endsBlock(std::string start, graph::NodePtr end);
         bool endsBlock(std::string start, std::string end);
+
         /**
          * Checks if the current node close the current control block.
          * To clarify an 'if' can be closed by an 'else'.
          */
-        bool closesBlock(std::string start, std::string close);
+        bool closesBlock(std::string start, graph::NodePtr close);
 
         bool allowsComplementaryBlock(std::string control);
 
+        bool isLoop(std::string str);
         bool isLoopBlock(std::string start, std::string end);
         
         static bool isControlOp(std::string op);

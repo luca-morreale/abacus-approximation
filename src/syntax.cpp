@@ -15,15 +15,30 @@ namespace syntax {
         
         this->loops.insert(strpair("_for", "_for"));
     }
+
+    bool Syntax::startsNewBlock(graph::NodePtr start)
+    {
+        return isControlOp(start->out) && !isOpEmpty(start);
+    }
         
+    bool Syntax::endsBlock(std::string start, graph::NodePtr end)
+    {
+        return endsBlock(start, end->out) && isOpEmpty(end);
+    }
+
     bool Syntax::endsBlock(std::string start, std::string end)
     {
         return checkContainement(this->ending, start, end);
     }
 
-    bool Syntax::closesBlock(std::string start, std::string close)
+    bool Syntax::closesBlock(std::string start, graph::NodePtr close) 
     {
-        return endsBlock(start, close) || checkContainement(this->closing, start, close);
+        return endsBlock(start, close) || checkContainement(this->closing, start, close->out);
+    }
+
+    bool Syntax::isLoop(std::string str)
+    {
+        return this->loops.find(str) != this->loops.end();
     }
 
     bool Syntax::isLoopBlock(std::string start, std::string end)
