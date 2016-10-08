@@ -2,9 +2,9 @@
 
 #include <boost/test/unit_test.hpp>
 #include <fstream>
-#include "include/graph.h"
-#include "include/parser.h"
-#include "include/executer.h"
+#include "graph.h"
+#include "parser.h"
+#include "executer.h"
 
 using namespace std;
 

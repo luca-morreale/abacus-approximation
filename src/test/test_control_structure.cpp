@@ -105,6 +105,7 @@ BOOST_AUTO_TEST_CASE(completeExecution)
 
     exec.runGraph(graph);
 
+    int out;
     graph->get("i", out);
     BOOST_CHECK_EQUAL(10, out);
 
