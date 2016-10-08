@@ -54,16 +54,6 @@ namespace syntax {
         return false;
     }
 
-    bool Syntax::is(std::string a, std::string b)
-    {
-        return a.compare(b) == 0;
-    }
-
-    bool isNumber(std::string &var)
-    {
-        return !var.empty() && var.find_first_not_of(".0123456789") == std::string::npos;
-    }
-
     bool isArray(std::string &var)
     {
         return var.find("_") != std::string::npos;
@@ -72,7 +62,7 @@ namespace syntax {
     std::string getIdentifier(std::string name, graph::GraphPtr graph)
     {
         std::string var = name;
-        if (syntax::isArray(name)) {
+        if (isArray(name)) {
             var = extractArray(name, graph);
         }
 
@@ -90,7 +80,7 @@ namespace syntax {
     std::string getIndex(std::string raw_index, graph::GraphPtr graph)
     {
         std::string index;
-        if(!syntax::isNumber(raw_index)) {
+        if(!isNumber(raw_index)) {
             int i;
             graph->get(raw_index, i);
             index = "" + i;

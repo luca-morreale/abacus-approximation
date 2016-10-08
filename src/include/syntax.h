@@ -3,6 +3,7 @@
 
 #include <map>
 
+#include "utility.h"
 #include "graph.h"
 
 namespace syntax {
@@ -38,7 +39,6 @@ namespace syntax {
         strmap loops;
 
         bool checkContainement(strmap map, std::string key, std::string value);
-        bool is(std::string a, std::string b);
 
 
     };
@@ -49,7 +49,6 @@ namespace syntax {
     std::string extractArray(std::string name, graph::GraphPtr graph);
     std::string getIndex(std::string raw_index, graph::GraphPtr graph);
 
-    bool isNumber(std::string &var);
     bool isArray(std::string &var);
 
     
