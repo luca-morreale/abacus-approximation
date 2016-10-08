@@ -37,6 +37,10 @@ BOOST_AUTO_TEST_CASE(buildGraph)
     BOOST_CHECK_EQUAL("*", current->op);
 
     current = graph->next();
+    BOOST_CHECK_EQUAL("d", current->out);
+    BOOST_CHECK_EQUAL("0.7", current->incoming[0]);
+
+    current = graph->next();
     BOOST_CHECK_EQUAL("output", current->out);
     BOOST_CHECK_EQUAL("c", current->incoming[0]);
     BOOST_CHECK_EQUAL("b", current->incoming[1]);

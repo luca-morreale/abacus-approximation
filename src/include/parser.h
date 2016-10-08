@@ -10,7 +10,7 @@
 
 namespace parser {
 
-    const std::regex regex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+(\\w+)( )+(\\w+))? *\n*");
+    const std::regex regex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+([\\w.]+)( )+([\\w.]+))? *\n*");
 
     /**
      * Extracts the graph parsing the input stream from the file.
