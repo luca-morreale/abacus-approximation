@@ -49,13 +49,13 @@ namespace executer {
             completeControlExecution(node, graph);
         } else {
             skipToEndBlock(node->out, graph);
-        }    
+        }
     }
 
     void Executer::completeControlExecution(graph::NodePtr node, graph::GraphPtr graph)
     {
         graph::NodePtr current = graph->rollback();
-        if(checker->isLoop(node->out, current->out)) {
+        if(checker->isLoopBlock(node->out, current->out)) {
             rollbackToStart(node, current, graph);
             runNode(graph->next(), graph);
         } else if(!checker->endsBlock(node->out, current->out)) {

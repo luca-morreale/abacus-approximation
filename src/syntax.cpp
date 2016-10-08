@@ -26,7 +26,7 @@ namespace syntax {
         return endsBlock(start, close) || checkContainement(this->closing, start, close);
     }
 
-    bool Syntax::isLoop(std::string start, std::string end)
+    bool Syntax::isLoopBlock(std::string start, std::string end)
     {
         return checkContainement(this->loops, start, end);
     }

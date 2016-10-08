@@ -29,7 +29,7 @@ namespace syntax {
 
         bool allowsComplementaryBlock(std::string control);
 
-        bool isLoop(std::string start, std::string end);
+        bool isLoopBlock(std::string start, std::string end);
         
         static bool isControlOp(std::string op);
 
