@@ -30,6 +30,8 @@ void extractFlags(int argc, char *argv[], string &benchmark, string &type)
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
+    
     if(argc < PARAMETERS + 1) {
         cout << "Usage: -f benchmark_filename -t data_type" << endl;
         return 0;

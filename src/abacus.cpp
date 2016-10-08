@@ -44,7 +44,6 @@ namespace abacus {
 
     approximation::Approximation ABACUSExecuter::selectApproximation()
     {   
-        srand(time(NULL));
         int index = rand() % approximation::approximations.size();
         return approximation::approximations[index];
     }
@@ -62,7 +61,6 @@ namespace abacus {
 
     graph::NodePtr ABACUSExecuter::selectRandomNode(graph::Nodes suitableNodes, approximation::Approximation approximation)
     {
-        srand(time(NULL));
         int index = rand() % suitableNodes.size();
         return suitableNodes[index];
     }
@@ -81,6 +79,8 @@ namespace abacus {
             accuracy += real - app;
         }
 
+        // difference on all elements of the array
+        // sum up all differences??
 
         return accuracy;
     }
