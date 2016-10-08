@@ -16,6 +16,8 @@ endif()
 add_library(Graph ${PROJECT_SOURCE_DIR}/graph.cpp ${PROJECT_SOURCE_DIR}/node.cpp 
    ${PROJECT_SOURCE_DIR}/include/graph.h ${PROJECT_SOURCE_DIR}/include/node.h ${PROJECT_SOURCE_DIR}/include/edge.h)
 
+add_library(Utility ${PROJECT_SOURCE_DIR}/utility.cpp ${PROJECT_SOURCE_DIR}/include/utility.h)
+
 set(SRC
    ${PROJECT_SOURCE_DIR}/parser.cpp
    ${PROJECT_SOURCE_DIR}/executer.cpp
@@ -23,6 +25,7 @@ set(SRC
    ${PROJECT_SOURCE_DIR}/approximated_graph.cpp
    ${PROJECT_SOURCE_DIR}/abacus.cpp
    ${PROJECT_SOURCE_DIR}/approximation.cpp
+   ${PROJECT_SOURCE_DIR}/report.cpp
 )
 
 set(HEAD
@@ -32,6 +35,7 @@ set(HEAD
    ${PROJECT_SOURCE_DIR}/include/approximated_graph.h
    ${PROJECT_SOURCE_DIR}/include/abacus.h
    ${PROJECT_SOURCE_DIR}/include/approximation.h
+   ${PROJECT_SOURCE_DIR}/include/report.h
 )
 
 
@@ -39,7 +43,7 @@ add_executable(aapp main.cpp ${SRC} ${HEAD})
 
 
 target_link_libraries(aapp Graph)
-
+target_link_libraries(aapp Utility)
 
 
 enable_testing()
