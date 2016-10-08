@@ -12,7 +12,7 @@ namespace graph {
     Graph::Graph(const Graph &other)
     {
         this->cursor = other.cursor;
-        this->type = type;
+        this->type = other.type;
         this->nodes.insert(this->nodes.begin(), other.nodes.begin(), other.nodes.end());
         this->edges.insert(other.edges.begin(), other.edges.end());
     }

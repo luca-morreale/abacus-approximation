@@ -1,5 +1,5 @@
 #include "include/approximated_graph.h"
-
+#include <iostream>
 
 namespace approximation {
 
@@ -18,7 +18,7 @@ namespace approximation {
     void ApproximatedGraph::substitute(graph::Nodes replacement, graph::NodePtr old)
     {
         int pos = super::find(old);
-        for(graph::NodeIterator it = replacement.end(); it != replacement.begin(); it--) {
+        for(auto it = replacement.rbegin(); it != replacement.rend(); it++) {
             super::insert(*it, pos);
         }
         super::remove(pos + replacement.size());
