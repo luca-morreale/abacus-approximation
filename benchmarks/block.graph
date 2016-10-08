@@ -26,11 +26,11 @@ _if > pucCurLeftTopY iWidth
     pucCurLeftTopY + 0 0
 _if
 
-# Matching loop */
+
 iY + 0 iTop
 _for <= iY iBottom
 
-	# Set start point for Refrence and Search window */
+
 	pucRefLeftX + pucRefX 0 
 	pucRefLeftY + pucRefY iY
 
@@ -41,17 +41,16 @@ _for <= iY iBottom
 
 	iX + iLeft 0
 	_for <= iX iRight
-		# Init temporal AD */
+
 		iTmpAd + 0 0
 		 
-	    # Copy Left posision pointer */ 
 	    pucCX + pucCurLeftTopX 0
 	    pucCY + pucCurLeftTopY 0
 
 	    pucRX + pucRefLeftX iX
 	    pucRY + pucRefLeftY 0
 
-	    # Get absoluete difference of current position */
+
 	    iV + 0 0
 	    _for < iV 16
 	    	
@@ -80,19 +79,19 @@ _for <= iY iBottom
 
 	    	iH + iH 1
 	    	_for 
-	    	# Current pointer down 1 line */ 
+
 	        pucCX + pucCX 1
 	        pucRX + pucRX 1
 
     	iV + iV 1
 	    _for
 
-	    # Check minimum AD */ 
+
 	    _if > iMinAd iTmpAd
 	    	iMinAd + iTmpAd 0
-	    	mv_piMvPos + iX 0
+	    	output_piMvPos + iX 0
 	    	ind + piMvPos 1
-	    	mv__ind + iY 0
+	    	output__ind + iY 0
 	    _if
 
 	iX + iX 1
@@ -103,8 +102,5 @@ iY + iY 1
 _for
 
 
-return iMinAd; 
-
-
-
-# Result is returned through piMvPos
+# Result is returned through piMvPos (index of vector mv)
+# mv is output

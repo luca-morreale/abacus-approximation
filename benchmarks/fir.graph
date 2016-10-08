@@ -13,7 +13,7 @@ filterlength + 0 63
 
 # considered all array  all the time so input is bigger, each loop should start from 63
 
-# intToFloat( input, floatInput, size );
+
 i + 0 0
 _for < i lengthinput
 
@@ -26,8 +26,6 @@ _if
 i + i 1
 _for
 
-
-# firFloat(coeffs, floatInput, floatOutput, size,
 
 n + 0 
 _for < n filterlength
@@ -52,8 +50,6 @@ floatOutput_n + acc 0
 _for
 
 
-# floatToInt( floatOutput, output, size );
-
 half / 1 2
 j + 0 0
 _for < j filterlength
@@ -73,5 +69,4 @@ output_i <<c int floatOutput_i
 _for
 
 
-
-# result is in output
+# result is in output which is an array
