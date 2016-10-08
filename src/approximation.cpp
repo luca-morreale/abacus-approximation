@@ -5,16 +5,12 @@ namespace approximation {
 
     std::vector<Approximation> approximations(approx_values, approx_values + map_start_values_size);
 
-    std::map<Approximation, std::string> approximationsName(map_start_values, map_start_values + map_start_values_size);
-
     std::map<Approximation, std::string> approximationsOp(op_start_values, op_start_values + op_map_values_size);
 
 
     graph::Nodes selectSuitableNodes(graph::GraphPtr graph, Approximation approximation)
     {
-        if(approximation == approximateLoop) {
-            return selectIncrements(graph);
-        } else if(approximation == approximateValue) {
+        if(approximation == approximateValue) {
             return selectAll(graph);
         } else {
             return selectOperation(graph, approximationsOp[approximation]);
@@ -26,7 +22,7 @@ namespace approximation {
         graph::Nodes suitableNodes;
         graph::NodePtr current;
         while ((current=graph->next()) != NULL) {
-            if (executer::is(current->op, op)) {
+            if (is(current->op, op)) {
                 suitableNodes.push_back(current);
             }
         }
@@ -44,32 +40,7 @@ namespace approximation {
         }
         return suitableNodes;
     }
-
-    graph::Nodes selectIncrements(graph::GraphPtr graph)
-    {
-        graph::Nodes suitableNodes;
-        graph::NodePtr current;
-        while ((current=graph->next()) != NULL) {
-            if (executer::is(current->out, "_for") && executer::is(current->op, "")) {
-                suitableNodes.push_back(getIncrementNode(graph));
-                skipForwardToEnd(graph);
-            }
-        }
-        return suitableNodes;
-    }
-
-    graph::NodePtr getIncrementNode(graph::GraphPtr graph)
-    {
-        graph->rollback();
-        return graph->rollback();
-    }
-
-    void skipForwardToEnd(graph::GraphPtr graph)
-    {
-        graph->next();
-        graph->next();
-    }
-
+    
     
     graph::Nodes approximateSum(graph::NodePtr node)
     {
@@ -112,16 +83,6 @@ namespace approximation {
         return replacement;
     }
 
-    graph::Nodes approximateLoop(graph::NodePtr node)
-    {
-        graph::Nodes replacement;
-        replacement.push_back(graph::newNode(node));
-        
-        doubleIncrement(replacement);
-
-        return replacement;
-    }
-
     graph::Nodes approximateValue(graph::NodePtr node)  // put how many bit to zero?
     {
 
@@ -145,7 +106,7 @@ namespace approximation {
 
     void doubleIncrement(graph::Nodes &replacement)
     {
-        if(syntax::isNumber(replacement[0]->incoming[0])) {
+        if(isNumber(replacement[0]->incoming[0])) {
             int index = std::stoi(replacement[0]->incoming[0]) * 2;
             replacement[0]->incoming[0] = index + "";
         } else {
