@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-
+#include "utility.h"
 #include "graph.h"
 #include "syntax.h"
 
@@ -53,19 +53,16 @@ namespace executer {
         syntax::SyntaxPtr checker;
 
         int evaluateCondition(graph::NodePtr condition, graph::GraphPtr graph);
-        
-        bool emptyOp(graph::NodePtr node);
 
     };
 
     typedef Executer * ExecuterPtr;
 
-    bool is(std::string a, std::string b);
 
     template<typename T>
     void extractOperand(std::string name, T &op, graph::GraphPtr graph)
     {
-        if (syntax::isNumber(name)){
+        if (isNumber(name)){
             op = std::stod(name, NULL);
         } else {
             graph->get(syntax::getIdentifier(name, graph), op);

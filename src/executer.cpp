@@ -92,9 +92,9 @@ namespace executer {
         while(depth != 0) {
             cursor = graph->next();
 
-            if (checker->endsBlock(control, cursor->out) && emptyOp(cursor)) {
+            if (checker->endsBlock(control, cursor->out) && isOpEmpty(cursor)) {
                 depth++;
-            } else if (is(control, cursor->out) && !emptyOp(cursor)) {
+            } else if (is(control, cursor->out) && !isOpEmpty(cursor)) {
                 depth--;
             }
         }
@@ -120,17 +120,6 @@ namespace executer {
     Executer::~Executer()
     {
         delete(checker);
-    }
-
-    bool Executer::emptyOp(graph::NodePtr node)
-    {
-        return is(node->op, "") || node->op.size() == 0;
-    }
-
-
-    bool is(std::string a, std::string b)
-    {
-        return a.compare(b) == 0;
     }
 
 
