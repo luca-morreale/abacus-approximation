@@ -62,6 +62,10 @@ namespace graph {
         void get(std::string key, std::string &out);
 
         std::string getType();
+        
+        /**
+         * Returns all the name of the edges which contains 'output' as name.
+         */
         std::vector<std::string> getOutputList();
 
         #ifdef DEBUG
