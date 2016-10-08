@@ -3,6 +3,9 @@
 
 namespace approximation {
 
+    ApproximatedGraph::ApproximatedGraph(std::string type) : Graph(type)
+    { /*   */ }
+
     ApproximatedGraph::ApproximatedGraph(const ApproximatedGraph &other) : Graph(other.type)
     {
         this->nodes.insert(this->nodes.begin(), other.nodes.begin(), other.nodes.end());
@@ -18,7 +21,6 @@ namespace approximation {
         for(graph::NodeIterator it = replacement.end(); it != replacement.begin(); it--) {
             super::insert(*it, pos);
         }
-
         super::remove(pos + replacement.size());
     }
 

@@ -7,7 +7,6 @@
 #include "node.h"
 #include "graph.h"
 #include "syntax.h"
-#include "executer.h"
 
 namespace approximation {
 

@@ -8,7 +8,7 @@ namespace approximation {
 
     class ApproximatedGraph : public graph::Graph {
     public:
-        ApproximatedGraph(std::string type) : Graph(type) { }
+        ApproximatedGraph(std::string type);
         ApproximatedGraph(const graph::Graph &other);
         ApproximatedGraph(const ApproximatedGraph &other);
         ~ApproximatedGraph() { }

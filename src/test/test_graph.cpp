@@ -48,8 +48,6 @@ BOOST_AUTO_TEST_CASE(buildGraph)
     in.close();
 }
 
-// test set & get
-
 
 BOOST_AUTO_TEST_CASE(graphSetGet)
 {
