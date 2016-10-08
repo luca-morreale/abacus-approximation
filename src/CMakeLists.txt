@@ -36,6 +36,7 @@ set(HEAD
    ${PROJECT_SOURCE_DIR}/include/abacus.h
    ${PROJECT_SOURCE_DIR}/include/approximation.h
    ${PROJECT_SOURCE_DIR}/include/report.h
+   ${PROJECT_SOURCE_DIR}/include/operations.h
 )
 
 

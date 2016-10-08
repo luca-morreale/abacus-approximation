@@ -5,6 +5,7 @@
 #include "graph.h"
 #include "parser.h"
 #include "executer.h"
+#include "operations.h"
 
 using namespace std;
 
@@ -15,13 +16,13 @@ BOOST_AUTO_TEST_CASE(correctOperation)
     graph::GraphPtr graph = parser::extractGraph(in, "int");
 
     graph::NodePtr current = graph->next();
-    int out = executer::sum<int>(current->incoming[0], current->incoming[1], graph);
+    int out = operations::sum<int>(current->incoming[0], current->incoming[1], graph);
     BOOST_CHECK_EQUAL(0, out);
     graph->set(current->out, out);
 
 
     current = graph->next();
-    out = executer::minus<int>(current->incoming[0], current->incoming[1], graph);
+    out = operations::minus<int>(current->incoming[0], current->incoming[1], graph);
     BOOST_CHECK_EQUAL(-5, out);
     graph->set(current->out, out);
 

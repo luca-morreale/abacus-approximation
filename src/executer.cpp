@@ -29,11 +29,11 @@ namespace executer {
     void Executer::runBasicOperation(graph::NodePtr node, graph::GraphPtr graph)
     {
         if (is(graph->getType(), "int")) {
-            selectOperation<int>(node, graph);
+            operations::selectOperation<int>(node, graph);
         } else if (is(graph->getType(), "float")) {
-            selectOperation<float>(node, graph);
+            operations::selectOperation<float>(node, graph);
         } else if (is(graph->getType(), "double")) {
-            selectOperation<double>(node, graph);
+            operations::selectOperation<double>(node, graph);
         }
     }
 
