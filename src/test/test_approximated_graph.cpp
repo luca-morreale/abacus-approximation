@@ -9,7 +9,7 @@ using namespace std;
 
 BOOST_AUTO_TEST_CASE(buildApproxGraph)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr original = parser::extractGraph(in, "int");
     approximation::ApproximatedGraphPtr graph = new approximation::ApproximatedGraph(*original);
 
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(buildApproxGraph)
 
 BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr original = parser::extractGraph(in, "int");
     approximation::ApproximatedGraphPtr graph = new approximation::ApproximatedGraph(*original);
 

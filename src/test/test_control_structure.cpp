@@ -12,7 +12,7 @@ using namespace std;
 BOOST_AUTO_TEST_CASE(controlStructureExecution)
 {
     
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
+    ifstream in("../../src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
     
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(controlStructureExecution)
 BOOST_AUTO_TEST_CASE(guidedIfExecution)
 {
     
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
+    ifstream in("../../src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
     
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(guidedIfExecution)
 BOOST_AUTO_TEST_CASE(loopStructureExecution)
 {
     
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
+    ifstream in("../../src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
     
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(loopStructureExecution)
 BOOST_AUTO_TEST_CASE(completeExecution)
 {
     
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/complex_benchmark.graph");
+    ifstream in("../../src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
 

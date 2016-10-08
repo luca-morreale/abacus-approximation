@@ -10,7 +10,7 @@ using namespace std;
 
 BOOST_AUTO_TEST_CASE(buildGraph)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
 
     BOOST_CHECK_EQUAL("int", graph->getType());
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(buildGraph)
 
 BOOST_AUTO_TEST_CASE(graphSetGet)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
 
     graph->set("a", 1.5);

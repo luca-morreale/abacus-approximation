@@ -12,7 +12,7 @@ using namespace std;
 
 BOOST_AUTO_TEST_CASE(correctOperation)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
 
     graph::NodePtr current = graph->next();
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(correctOperation)
 
 BOOST_AUTO_TEST_CASE(run_single_node)
 {
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
 
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(run_single_node)
 BOOST_AUTO_TEST_CASE(simpleExecution)
 {
     
-    ifstream in("/home/luca/projects/School/aapp/code/src/test/benchmark.graph");
+    ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;
 
