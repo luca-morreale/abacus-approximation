@@ -8,7 +8,7 @@ _if < a b
 c + c b
 _if
 
-output + c 0
+out + c 0
 
 
 _if < a b
@@ -23,5 +23,19 @@ counter + 0 0
 i + 0 0
 _for < i 10
 counter + counter i
+i + i 1
+_for
+
+
+sum + 0 0
+i + 0 0
+_for < i 10
+
+j + 0 0
+_for < j 10
+sum + sum j
+j + j 1
+_for
+
 i + i 1
 _for
