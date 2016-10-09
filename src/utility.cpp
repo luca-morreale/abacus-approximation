@@ -31,3 +31,45 @@ std::vector<double> normalizeProbabilities(std::vector<int> &prob)
     return arr;
 }
 
+double* normalizeProbabilities(int prob[], size_t size)
+{
+    double *arr = (double *) malloc(sizeof(double) * size);
+    
+    double sum = 0;
+    for(int i = 0; i < size; i++) {
+        sum += prob[i];
+    }
+
+    for(int i = 0; i < size; i++) {
+        arr[i] = prob[i] / sum;
+    }
+
+    return arr;
+}
+
+int sampleIndex(std::vector<double> &probabilities)
+{
+    double rnd = randDouble();
+    for(int i = 0; i < probabilities.size(); i++) {
+        if(rnd < probabilities[i]) {
+            return i;
+        }
+        rnd -= probabilities[i];
+    }
+}
+
+int sampleIndex(double probabilities[], size_t size)
+{
+    double rnd = randDouble();
+    for(int i = 0; i < size; i++) {
+        if(rnd < probabilities[i]) {
+            return i;
+        }
+        rnd -= probabilities[i];
+    }
+}
+
+double randDouble()
+{
+    return ((double) rand() / (RAND_MAX));
+}
