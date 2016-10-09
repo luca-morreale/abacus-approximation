@@ -1,5 +1,5 @@
 #include "include/approximated_graph.h"
-#include <iostream>
+
 
 namespace approximation {
 
@@ -15,13 +15,24 @@ namespace approximation {
     ApproximatedGraph::ApproximatedGraph(const graph::Graph &other) : Graph(other)
     { /*   */ }
 
-    void ApproximatedGraph::substitute(graph::Nodes replacement, graph::NodePtr old)
+    ApproximatedGraph* ApproximatedGraph::substitute(graph::Nodes replacement, graph::NodePtr old)
     {
+        auto copy = new ApproximatedGraph(*this);
+
         int pos = super::find(old);
         for(auto it = replacement.rbegin(); it != replacement.rend(); it++) {
-            super::insert(*it, pos);
+            copy->insert(*it, pos);
         }
-        super::remove(pos + replacement.size());
+        copy->remove(pos + replacement.size());
+
+        return copy;
+    }
+
+    void ApproximatedGraph::rollbackToStart()
+    {
+        while(this->rollback() != NULL) {
+            this->rollback();
+        }
     }
 
 }

@@ -13,7 +13,8 @@ namespace approximation {
         ApproximatedGraph(const ApproximatedGraph &other);
         ~ApproximatedGraph() { }
 
-        void substitute(graph::Nodes replacement, graph::NodePtr old);
+        virtual ApproximatedGraph* substitute(graph::Nodes replacement, graph::NodePtr old);
+        virtual void rollbackToStart();
 
     private:
         ApproximatedGraph() : Graph() { }
