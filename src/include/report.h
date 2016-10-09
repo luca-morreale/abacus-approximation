@@ -9,11 +9,37 @@
 
 namespace report {
 
+    typedef struct {
+        approximation::Approximation approx = NULL;
+        double fitness;
+        double accuracy;
+        int mask;
+    } Data;
+
+    typedef Data* DataPtr;
+
+    DataPtr newData(approximation::Approximation &approx, double fitness, double accuracy, int mask=-1);
+
+    typedef std::map<std::string, unsigned int> Informations;
+    typedef std::map<int, unsigned int> ShiftInformations;
+
     class Report {
+
+        static void appendApproximation(DataPtr data);
+        static void appendShift(unsigned int mask);
+
+
+        static Informations getReport();
+        static ShiftInformations getShiftReport();
+        static void printReport(std::ostream &cout);
 
 
     private:
         Report() { }
+
+        static Informations info;
+        static ShiftInformations shiftInfo;
+
 
         typedef std::map<approximation::Approximation, std::string> AppName;
         typedef std::pair<approximation::Approximation, std::string> approxpair;

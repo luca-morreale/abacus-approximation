@@ -3,16 +3,68 @@
 
 namespace report {
 
+    const Report::approxpair Report::map_start_values[] = {
+        Report::approxpair(&approximation::approximateSum, "sum"),
+        Report::approxpair(&approximation::approximateMinus, "min"),
+        Report::approxpair(&approximation::approximateMult, "mult"),
+        Report::approxpair(&approximation::approximateDiv, "div"),
+        Report::approxpair(&approximation::approximateValue, "value")
+    };
+
     Report::AppName Report::approximationsName(map_start_values, map_start_values + map_start_values_size);
 
-    const Report::approxpair Report::map_start_values[] = {
-            Report::approxpair(&approximation::approximateSum, "sum"),
-            Report::approxpair(&approximation::approximateMinus, "min"),
-            Report::approxpair(&approximation::approximateMult, "mult"),
-            Report::approxpair(&approximation::approximateDiv, "div"),
-            Report::approxpair(&approximation::approximateValue, "value")
-        };
+    Informations Report::info;
+    ShiftInformations Report::shiftInfo;
 
+
+    DataPtr newData(approximation::Approximation &approx, double fitness, double accuracy, int mask)
+    {
+        auto data = new Data;
+        data->approx = approx;
+        data->fitness = fitness;
+        data->accuracy = accuracy;
+        data->mask = mask;
+
+        return data;
+    }
+
+
+    void Report::appendApproximation(DataPtr data)
+    {
+        std::string name = approximationsName[data->approx];
+        info[name]++;
+        appendShift(data->mask);
+    }
+
+    void Report::appendShift(unsigned int mask)
+    {
+        if(mask >= 0) {
+            shiftInfo[mask]++;
+        }
+    }
+
+    Informations Report::getReport()
+    {
+        return info;
+    }
+
+    ShiftInformations Report::getShiftReport()
+    {
+        return shiftInfo;
+    }
+
+    void Report::printReport(std::ostream &cout)
+    {
+        for(auto it = info.begin(); it != info.end(); it++) {
+            cout << it->first << ": " << it->second << std::endl;
+        }
+
+        if(shiftInfo.size() != 0) {
+            for(auto it = shiftInfo.begin(); it != shiftInfo.end(); it++) {
+                cout << it->first << ": " << it->second << std::endl;
+            }
+        }
+    }
 
 
 
