@@ -26,21 +26,36 @@ namespace abacus {
         double getThreshold() { return threshold; }
 
     protected:
+        /**
+         * Selects randomly an approximation.
+         */
+        virtual approximation::Approximation selectRandomApproximation();
+        /**
+         * Replaces an operation with an approximated version of it.
+         */
+        virtual AppGraphPtr approximate(AppGraphPtr graph, approximation::Approximation approximation);
+        /**
+         * Runs the graph and evaluate its accuracy wrt the original one.
+         */
+        virtual double evalAccuracy(AppGraphPtr graph, graph::GraphPtr original);
+        /**
+         * Evaluates the fitness given the approximation applied and the accuracy obtained.
+         */
+        virtual double evaluateFitness(approximation::Approximation approximation, double accuracy);
+
         typedef std::pair<approximation::Approximation, AppGraphPtr> PairAppr;
         typedef std::pair<double, PairAppr> PairFitness;
 
         static bool cmpPairs(PairFitness a, PairFitness b);
-
-        virtual approximation::Approximation selectApproximation();
-        virtual AppGraphPtr approximate(AppGraphPtr graph, approximation::Approximation approximation);
-        virtual double evalAccuracy(AppGraphPtr graph, graph::GraphPtr original);
-        virtual double evaluateFitness(approximation::Approximation approximation, double accuracy);
 
     private:
         int N;
         int M;
         double threshold;
 
+        /**
+         * Constants used in the fitness formula
+         */
         const double a1 = 0.8;
         const double a2 = 0.12;
         //const double a3 = 0.08;

@@ -22,7 +22,7 @@ namespace approximation {
         graph::Nodes suitableNodes;
         graph::NodePtr current;
         while ((current=graph->next()) != NULL) {
-            if (is(current->op, op)) {
+            if (is(current->op, op) && !syntax::Syntax::isControlOp(current->out)) {
                 suitableNodes.push_back(current);
             }
         }
@@ -83,7 +83,7 @@ namespace approximation {
         return replacement;
     }
 
-    graph::Nodes approximateValue(graph::NodePtr node)  // put how many bit to zero?
+    graph::Nodes approximateValue(graph::NodePtr node)  // to complete
     {
 
     }
@@ -98,21 +98,10 @@ namespace approximation {
         replacement[1]->incoming[0] = "tmp";
     }
 
-    std::string calculateShift()
+    std::string calculateShift()    // to complete
     {
 
         return 0 + "";
-    }
-
-    void doubleIncrement(graph::Nodes &replacement)
-    {
-        if(isNumber(replacement[0]->incoming[0])) {
-            int index = std::stoi(replacement[0]->incoming[0]) * 2;
-            replacement[0]->incoming[0] = index + "";
-        } else {
-            int index = std::stoi(replacement[0]->incoming[1]) * 2;
-            replacement[0]->incoming[1] = index + "";
-        }
     }
 
     

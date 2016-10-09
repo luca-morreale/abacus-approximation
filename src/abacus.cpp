@@ -17,14 +17,16 @@ namespace abacus {
     {
         AppGraphPtr original = new AppGraph(*graph);
         runGraph(graph);
+
         for(int i = 0; i < this->N; i++) {
             std::list<PairFitness> approximatedGraphs;
             
-            #pragma omp parallel for default(shared) shared(approximatedGraphs) num_threads(8)
+            #pragma omp parallel for default(shared) shared(approximatedGraphs) private(original) num_threads(8)
             for(int j = 0; j < this->M; j++) {
-                approximation::Approximation approximation = selectApproximation();
+                approximation::Approximation approximation = selectRandomApproximation();
                 AppGraphPtr appGraph = approximate(original, approximation);
                 double accuracy = evalAccuracy(appGraph, graph);
+
                 if(accuracy < this->threshold) {
                     double fitness = evaluateFitness(approximation, accuracy);
                     #pragma omp critical
@@ -39,24 +41,20 @@ namespace abacus {
                 original = approximatedGraphs.front().second.second;
             }
         }
-
     }
 
-    approximation::Approximation ABACUSExecuter::selectApproximation()
-    {   
+    approximation::Approximation ABACUSExecuter::selectRandomApproximation()
+    {
         int index = rand() % approximation::approximations.size();
         return approximation::approximations[index];
     }
 
     AppGraphPtr ABACUSExecuter::approximate(AppGraphPtr graph, approximation::Approximation approximation)
     {
-        AppGraphPtr copy = new AppGraph(*graph);
-        graph::Nodes suitableNodes = approximation::selectSuitableNodes(copy, approximation);
+        graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
 
         graph::NodePtr node = selectRandomNode(suitableNodes, approximation);
-        copy->substitute(approximation(node), node);
-
-        return copy;
+        return graph->substitute(approximation(node), node);
     }
 
     graph::NodePtr ABACUSExecuter::selectRandomNode(graph::Nodes suitableNodes, approximation::Approximation approximation)
