@@ -46,10 +46,9 @@ namespace abacus {
          */
         virtual double evaluateFitness(approximation::Approximation approximation, double accuracy);
 
-        typedef std::pair<approximation::Approximation, AppGraphPtr> PairAppr;
-        typedef std::pair<double, PairAppr> PairFitness;
+        typedef std::pair<report::DataPtr, AppGraphPtr> PairAppr;
 
-        static bool cmpPairs(PairFitness a, PairFitness b);
+        static bool cmpPairs(PairAppr a, PairAppr b);
 
     private:
         int N;
@@ -65,8 +64,7 @@ namespace abacus {
 
         ABACUSExecuter() :Executer() { }
 
-        graph::NodePtr selectRandomNode(graph::Nodes suitableNodes, approximation::Approximation approximation);
-        PairFitness make_pair(double fitness, approximation::Approximation approximation, AppGraphPtr graph);
+        PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
 
 
     };

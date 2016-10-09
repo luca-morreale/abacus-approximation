@@ -19,7 +19,7 @@ namespace abacus {
         runGraph(graph);
 
         for(int i = 0; i < this->N; i++) {
-            std::list<PairFitness> approximatedGraphs;
+            std::list<PairAppr> approximatedGraphs;
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) private(original) num_threads(8)
             for(int j = 0; j < this->M; j++) {
@@ -31,14 +31,15 @@ namespace abacus {
                     double fitness = evaluateFitness(approximation, accuracy);
                     #pragma omp critical
                     {
-                        approximatedGraphs.push_back(make_pair(fitness, approximation, appGraph));
+                        // Missing mask!!!!
+                        approximatedGraphs.push_back(make_pair(report::newData(approximation, fitness, accuracy, -1), appGraph));
                     }
                 }
             }
 
             if(approximatedGraphs.size() > 0) {
                 approximatedGraphs.sort(cmpPairs);
-                original = approximatedGraphs.front().second.second;
+                original = approximatedGraphs.front().second;
             }
         }
     }
@@ -53,14 +54,8 @@ namespace abacus {
     {
         graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
 
-        graph::NodePtr node = selectRandomNode(suitableNodes, approximation);
+        graph::NodePtr node = selectUniformlyRandom(suitableNodes);
         return graph->substitute(approximation(node), node);
-    }
-
-    graph::NodePtr ABACUSExecuter::selectRandomNode(graph::Nodes suitableNodes, approximation::Approximation approximation)
-    {
-        int index = rand() % suitableNodes.size();
-        return suitableNodes[index];
     }
     
     double ABACUSExecuter::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
@@ -89,15 +84,15 @@ namespace abacus {
         return this->a1 * accuracy + this->a2 * precisionErr;
     }
 
-    ABACUSExecuter::PairFitness ABACUSExecuter::make_pair(double fitness, approximation::Approximation approximation, AppGraphPtr graph)
+    ABACUSExecuter::PairAppr ABACUSExecuter::make_pair(report::DataPtr data, AppGraphPtr graph)
     {
-        return std::make_pair(fitness, std::make_pair(approximation, graph));
+        return std::make_pair(data, graph);
     }
 
 
-    bool ABACUSExecuter::cmpPairs(PairFitness a, PairFitness b)
+    bool ABACUSExecuter::cmpPairs(PairAppr a, PairAppr b)
     {
-        return a.first < b.first;
+        return a.first->fitness < b.first->fitness;
     }
 
     /**
