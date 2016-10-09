@@ -3,10 +3,10 @@
 
 #include <map>
 
-#include "utility.h"
-#include "node.h"
 #include "graph.h"
+#include "node.h"
 #include "syntax.h"
+#include "utility.h"
 
 namespace approximation {
 

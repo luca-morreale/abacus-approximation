@@ -4,10 +4,13 @@
 #include <algorithm>
 #include <omp.h>
 
-#include "graph.h"
-#include "executer.h"
 #include "approximated_graph.h"
 #include "approximation.h"
+#include "executer.h"
+#include "graph.h"
+#include "report.h"
+#include "utility.h"
+
 
 namespace abacus {
 

@@ -1,8 +1,8 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace graph {
 

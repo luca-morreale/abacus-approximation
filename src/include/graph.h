@@ -1,14 +1,14 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <string>
-#include <sstream>
-#include <cstdlib>
 #include <algorithm>
+#include <cstdlib>
 #include <map>
+#include <sstream>
+#include <string>
 
-#include "node.h"
 #include "edge.h"
+#include "node.h"
 
 #ifdef DEBUG
     #include <iostream>

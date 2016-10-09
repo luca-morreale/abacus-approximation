@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "utility.h"
 #include "graph.h"
+#include "utility.h"
 
 namespace syntax {
 

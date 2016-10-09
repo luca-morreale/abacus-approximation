@@ -1,8 +1,9 @@
 #ifndef BASIC_OPERATIONS_H
 #define BASIC_OPERATIONS_H
 
-#include "utility.h"
 #include "graph.h"
+#include "syntax.h"
+#include "utility.h"
 
 
 namespace operations {

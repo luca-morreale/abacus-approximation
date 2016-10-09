@@ -1,10 +1,11 @@
 #ifndef REPORT_H
 #define REPORT_H
 
+#include <iostream>
 #include <map>
 
-#include "utility.h"
 #include "approximation.h"
+#include "utility.h"
 
 namespace report {
 

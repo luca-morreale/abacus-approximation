@@ -2,8 +2,8 @@
 #define PARSER_H
 
 #include <fstream>
-#include <string>
 #include <regex>
+#include <string>
 #include <vector>
 
 #include "graph.h"

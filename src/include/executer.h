@@ -1,14 +1,12 @@
 #ifndef EXECUTER_H
 #define EXECUTER_H
 
-
-#include <iostream>
 #include <string>
 
-#include "utility.h"
 #include "graph.h"
-#include "syntax.h"
 #include "operations.h"
+#include "syntax.h"
+#include "utility.h"
 
 
 namespace executer {
