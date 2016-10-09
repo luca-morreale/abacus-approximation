@@ -72,10 +72,7 @@ BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
     tmp->op = "||";
     replacements.push_back(tmp);
 
-    graph->substitute(replacements, current);
-
-    approximation::ApproximatedGraphPtr copy = new approximation::ApproximatedGraph(*graph);
-
+    auto copy = graph->substitute(replacements, current);
 
     current = copy->next();
     BOOST_CHECK_EQUAL("a", current->out);
