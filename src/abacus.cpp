@@ -60,20 +60,24 @@ namespace abacus {
     
     double ABACUSExecuter::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
     {
-        AppGraphPtr copy = new AppGraph(*graph);
-        this->runGraph(copy);
+        this->runGraph(graph);
 
         double accuracy = 0;
+        double sum_real = 0;
+        double sum_approx = 0;
         auto outputList = original->getOutputList();
         for(auto it = outputList.begin(); it != outputList.end(); it++) {
             double app, real;
             original->get(*it, real);
             copy->get(*it, app);
-            accuracy += real - app;
+            sum_real += real;
+            sum_approx += approx;
         }
 
-        // difference on all elements of the array
-        // sum up all differences??
+        accuracy = (sum_real - sum_approx) / sum_real;
+
+        // double mae = (sum_real - sum_approx) / outputList.size();
+        // http://www10.org/cdrom/papers/519/node22.html
 
         return accuracy;
     }
