@@ -28,7 +28,7 @@ namespace abacus {
                 rep->accuracy = evalAccuracy(appGraph, graph);
 
                 if(rep->accuracy < this->threshold) {
-                    rep->fitness = evaluateFitness(rep->approx, rep->accuracy);
+                    rep->fitness = evaluateFitness(rep);
                     #pragma omp critical
                     {
                         // Missing mask!!!!
@@ -83,10 +83,15 @@ namespace abacus {
         return accuracy;
     }
     
-    double ABACUSExecuter::evaluateFitness(approximation::Approximation approximation, double accuracy)
+    double ABACUSExecuter::evaluateFitness(report::DataPtr rep)
     {
-        double precisionErr = (approximation == approximation::approximateValue)? 0.1 : 0;
-        return this->a1 * accuracy + this->a2 * precisionErr;
+        double precisionErr = (rep->approx == approximation::approximateValue)? evaluateBitReset(rep->mask) : 0;
+        return this->a1 * rep->accuracy + this->a2 * precisionErr;
+    }
+
+    double ABACUSExecuter::evaluateBitReset(int mask)
+    {
+        return ((double)mask) / 32.0;
     }
 
     AppGraphPtr ABACUSExecuter::popFront(ListPair list)

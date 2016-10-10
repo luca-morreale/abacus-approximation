@@ -45,7 +45,8 @@ namespace abacus {
         /**
          * Evaluates the fitness given the approximation applied and the accuracy obtained.
          */
-        virtual double evaluateFitness(approximation::Approximation approximation, double accuracy);
+        virtual double evaluateFitness(report::DataPtr rep);
+        virtual double evaluateBitReset(int mask);
 
         typedef std::pair<report::DataPtr, AppGraphPtr> PairAppr;
         typedef std::list<PairAppr> ListPair;
