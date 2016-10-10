@@ -36,7 +36,7 @@ namespace abacus {
         /**
          * Replaces an operation with an approximated version of it.
          */
-        virtual AppGraphPtr approximate(AppGraphPtr graph, approximation::Approximation approximation);
+        virtual AppGraphPtr approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask);
         /**
          * Runs the graph and evaluate its accuracy wrt the original one.
          */

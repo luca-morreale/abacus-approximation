@@ -23,16 +23,17 @@ namespace abacus {
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) private(original) num_threads(8)
             for(int j = 0; j < this->M; j++) {
-                approximation::Approximation approximation = selectRandomApproximation();
-                AppGraphPtr appGraph = approximate(original, approximation);
-                double accuracy = evalAccuracy(appGraph, graph);
+                report::DataPtr rep = new report::Data;
+                rep->approx = selectRandomApproximation();
+                AppGraphPtr appGraph = approximate(original, rep->approx, rep->mask);
+                rep->accuracy = evalAccuracy(appGraph, graph);
 
-                if(accuracy < this->threshold) {
-                    double fitness = evaluateFitness(approximation, accuracy);
+                if(rep->accuracy < this->threshold) {
+                    rep->fitness = evaluateFitness(rep->approx, rep->accuracy);
                     #pragma omp critical
                     {
                         // Missing mask!!!!
-                        approximatedGraphs.push_back(make_pair(report::newData(approximation, fitness, accuracy, -1), appGraph));
+                        approximatedGraphs.push_back(make_pair(rep, appGraph));
                     }
                 }
             }
@@ -50,12 +51,12 @@ namespace abacus {
         return approximation::approximations[index];
     }
 
-    AppGraphPtr ABACUSExecuter::approximate(AppGraphPtr graph, approximation::Approximation approximation)
+    AppGraphPtr ABACUSExecuter::approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask)
     {
         graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
 
         graph::NodePtr node = selectUniformlyRandom(suitableNodes);
-        return graph->substitute(approximation(node), node);
+        return graph->substitute(approximation(node, mask), node);
     }
     
     double ABACUSExecuter::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
@@ -67,9 +68,9 @@ namespace abacus {
         double sum_approx = 0;
         auto outputList = original->getOutputList();
         for(auto it = outputList.begin(); it != outputList.end(); it++) {
-            double app, real;
+            double approx, real;
             original->get(*it, real);
-            copy->get(*it, app);
+            graph->get(*it, approx);
             sum_real += real;
             sum_approx += approx;
         }

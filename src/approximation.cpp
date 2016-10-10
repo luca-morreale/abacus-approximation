@@ -1,4 +1,5 @@
 #include "include/approximation.h"
+#include "report.h"
 
 
 namespace approximation {
@@ -42,50 +43,60 @@ namespace approximation {
     }
     
     
-    graph::Nodes approximateSum(graph::NodePtr node)
+    graph::Nodes approximateSum(graph::NodePtr node, int &mask)
     {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement[0]->op = "|";
+        mask = -1;
         return replacement;
     }
 
-    graph::Nodes approximateMinus(graph::NodePtr node)
+    graph::Nodes approximateMinus(graph::NodePtr node, int &mask)
     {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
 
         replaceOperations(replacement, "~", "&", replacement[0]->incoming[1]);
+        mask = -1;
 
         return replacement;
     }
 
-    graph::Nodes approximateMult(graph::NodePtr node)
+    graph::Nodes approximateMult(graph::NodePtr node, int &mask)
     {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
 
-        replaceOperations(replacement, "<<", "+", calculateShift());
+        mask = calculateShift();
+        replaceOperations(replacement, "<<", "+", mask+"");
 
         return replacement;
     }
     
-    graph::Nodes approximateDiv(graph::NodePtr node)
+    graph::Nodes approximateDiv(graph::NodePtr node, int &mask)
     {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
 
-        replaceOperations(replacement, ">>", "-", calculateShift());
+        mask = calculateShift();
+        replaceOperations(replacement, ">>", "-", mask+"");
 
         return replacement;
     }
 
-    graph::Nodes approximateValue(graph::NodePtr node)  // to complete
+    graph::Nodes approximateValue(graph::NodePtr node, int &mask)  // to complete
     {
+        graph::Nodes replacement;
+        replacement.push_back(graph::newNode(node));
+        replacement.push_back(graph::newNode(node));
 
+        mask = calculateShift();
+        replaceOperations(replacement, "&", node->op, mask+"");
+        return replacement;
     }
 
     void replaceOperations(graph::Nodes &replacement, std::string op1, std::string op2, std::string operand)
@@ -98,12 +109,48 @@ namespace approximation {
         replacement[1]->incoming[0] = "tmp";
     }
 
-    std::string calculateShift()    // to complete
+    int calculateShift()    // to complete
     {
+        std::vector<int> shiftsCount = getShiftList();
+        std::vector<double> prob = normalizeProbabilities(shiftsCount);
+        int shift = shiftsCount[sampleIndex(prob)];
 
-        return 0 + "";
+        if(randDouble() > 0.5) {
+            shift = evolveShift(shift);
+        }
+
+        return shift;
     }
 
-    
+    std::vector<int> getShiftList()
+    {
+        auto shifts = report::Report::getShiftReport();
+        if(shifts.size() < 32) {
+            fillBaseShiftValue(shifts);
+        }
+        return values(shifts);
+    }
 
-}
+    void fillBaseShiftValue(report::ShiftInformations &shifts)
+    {
+        auto powtwo = getPowTwo();
+        for(auto it = shifts.begin(); it != shifts.end(); it++) {
+            shifts[it->first]++;
+        }
+        for(auto it = powtwo.begin(); it != powtwo.end(); it++) {
+            shifts[*it]++;
+        }
+    }
+
+    int evolveShift(int old_shift)
+    {
+        int evolution = old_shift;
+        auto powtwo = getPowTwo();
+        while(old_shift == evolution) {
+            evolution += selectUniformlyRandom(powtwo);
+        }
+        return evolution;
+    }
+
+
+} // namespace approximation

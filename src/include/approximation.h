@@ -10,7 +10,7 @@
 
 namespace approximation {
 
-    typedef graph::Nodes (*Approximation)(graph::NodePtr node);
+    typedef graph::Nodes (*Approximation)(graph::NodePtr node, int &mask);
 
     /**
      * Generates the approximated nodes with respect to the one given.
@@ -20,11 +20,11 @@ namespace approximation {
      * Division is replaced with a shift and a subtraction
      * Value approximation can cut of some bits from any operation.
      */
-    graph::Nodes approximateSum(graph::NodePtr node);
-    graph::Nodes approximateMinus(graph::NodePtr node);
-    graph::Nodes approximateMult(graph::NodePtr node);
-    graph::Nodes approximateDiv(graph::NodePtr node);
-    graph::Nodes approximateValue(graph::NodePtr node);
+    graph::Nodes approximateSum(graph::NodePtr node, int &mask);
+    graph::Nodes approximateMinus(graph::NodePtr node, int &mask);
+    graph::Nodes approximateMult(graph::NodePtr node, int &mask);
+    graph::Nodes approximateDiv(graph::NodePtr node, int &mask);
+    graph::Nodes approximateValue(graph::NodePtr node, int &mask);
 
     /**
      * Selectes all replacable nodes for the given approximation.
@@ -34,7 +34,10 @@ namespace approximation {
     graph::Nodes selectAll(graph::GraphPtr graph);
 
     void replaceOperations(graph::Nodes &replacement, std::string op1, std::string op2, std::string operand);
-    std::string calculateShift();
+    int calculateShift();
+    std::vector<int> getShiftList();
+    void fillBaseShiftValue(std::map<int, int> &shifts);
+    int evolveShift(int shift);
 
     extern std::vector<Approximation> approximations;
     extern std::map<Approximation, std::string> approximationsName;
