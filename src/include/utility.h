@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdlib>
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,8 @@ bool isIn(std::map<T, E> &m, T key)
 {
     return m.find(key) != m.end();
 }
+
+std::vector<std::string> split(const std::string &s, char delim);
 
 std::vector<int> getPowTwo();
 
