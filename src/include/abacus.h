@@ -2,6 +2,7 @@
 #define ABACUS_H
 
 #include <algorithm>
+#include <list>
 #include <omp.h>
 
 #include "approximated_graph.h"
@@ -47,6 +48,7 @@ namespace abacus {
         virtual double evaluateFitness(approximation::Approximation approximation, double accuracy);
 
         typedef std::pair<report::DataPtr, AppGraphPtr> PairAppr;
+        typedef std::list<PairAppr> ListPair;
 
         static bool cmpPairs(PairAppr a, PairAppr b);
 
@@ -65,6 +67,8 @@ namespace abacus {
         ABACUSExecuter() :Executer() { }
 
         PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
+        AppGraphPtr popFront(ListPair list);
+        void deleteGraphs(ListPair trashedGraphs);
 
 
     };

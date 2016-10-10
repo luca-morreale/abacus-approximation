@@ -1,5 +1,4 @@
 #include "include/abacus.h"
-#include <list>
 
 
 namespace abacus {
@@ -19,7 +18,7 @@ namespace abacus {
         runGraph(graph);
 
         for(int i = 0; i < this->N; i++) {
-            std::list<PairAppr> approximatedGraphs;
+            ListPair approximatedGraphs;
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) private(original) num_threads(8)
             for(int j = 0; j < this->M; j++) {
@@ -39,7 +38,8 @@ namespace abacus {
 
             if(approximatedGraphs.size() > 0) {
                 approximatedGraphs.sort(cmpPairs);
-                original = approximatedGraphs.front().second;
+                original = popFront(approximatedGraphs);
+                deleteGraphs(approximatedGraphs);
             }
         }
     }
@@ -82,6 +82,20 @@ namespace abacus {
     {
         double precisionErr = (approximation == approximation::approximateValue)? 0.1 : 0;
         return this->a1 * accuracy + this->a2 * precisionErr;
+    }
+
+    AppGraphPtr ABACUSExecuter::popFront(ListPair list)
+    {
+        auto first = list.front().second;
+        list.pop_front();
+        return first;
+    }
+
+    void ABACUSExecuter::deleteGraphs(ListPair trashedGraphs)
+    {
+        for(auto it = trashedGraphs.begin(); it != trashedGraphs.end(); it++) {
+            delete it->second;
+        }
     }
 
     ABACUSExecuter::PairAppr ABACUSExecuter::make_pair(report::DataPtr data, AppGraphPtr graph)
