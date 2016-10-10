@@ -3,6 +3,7 @@
 
 
 #include <cstdlib>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@ namespace graph {
         std::string op;
     } Node;
 
-    typedef Node * NodePtr;
+    typedef std::shared_ptr<Node> NodePtr;
 
     typedef std::vector<NodePtr> Nodes;
     

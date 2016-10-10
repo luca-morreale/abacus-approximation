@@ -5,7 +5,7 @@ namespace graph {
 
     NodePtr newNode(std::string op, std::string inList[], size_t length, std::string out)
     {
-        NodePtr node = new Node;
+        std::shared_ptr<Node> node = std::make_shared<Node>();
         node->op = op;
         node->out = out;
         node->length = length;
@@ -16,7 +16,7 @@ namespace graph {
 
     NodePtr newNode(NodePtr other)
     {
-        NodePtr node = new Node;
+        std::shared_ptr<Node> node = std::make_shared<Node>();
         node->op = other->op;
         node->out = other->out;
         node->length = other->length;
