@@ -1,6 +1,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <climits>
 #include <cstdlib>
 #include <map>
 #include <string>
@@ -11,6 +12,14 @@
 bool is(std::string a, std::string b);
 bool isNumber(std::string &str);
 bool isOpEmpty(graph::NodePtr node);
+
+template <typename T, typename E>
+bool isIn(std::map<T, E> &m, T key)
+{
+    return m.find(key) != m.end();
+}
+
+std::vector<int> getPowTwo();
 
 std::vector<double> normalizeProbabilities(std::vector<int> &prob);
 double* normalizeProbabilities(int prob[], size_t size);

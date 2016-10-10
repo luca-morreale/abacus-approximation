@@ -16,6 +16,17 @@ bool isOpEmpty(graph::NodePtr node)
     return node->op.size() == 0;
 }
 
+std::vector<int> getPowTwo()
+{
+    std::vector<int> v;
+    v.push_back(0);
+    int shift = 1;
+    while(shift < INT_MAX) {
+        v.push_back(shift);
+        shift <<= 1;
+    }
+}
+
 std::vector<double> normalizeProbabilities(std::vector<int> &prob)
 {
     std::vector<double> arr(prob.begin(), prob.end());
