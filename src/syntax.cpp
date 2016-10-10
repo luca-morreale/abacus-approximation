@@ -69,12 +69,12 @@ namespace syntax {
         return false;
     }
 
-    bool isArray(std::string &var)
+    bool Syntax::isArray(std::string &var)
     {
         return var.find("_") != std::string::npos;
     }
 
-    std::string getIdentifier(std::string name, graph::GraphPtr graph)
+    std::string Syntax::getIdentifier(std::string name, graph::GraphPtr graph)
     {
         std::string var = name;
         if (isArray(name)) {
@@ -84,24 +84,25 @@ namespace syntax {
         return var;
     }
 
-    std::string extractArray(std::string name, graph::GraphPtr graph)
+    std::string Syntax::extractArray(std::string name, graph::GraphPtr graph)
     {
-        int pos = name.find("_");
-        std::string vec = name.substr(0, pos);
-        std::string index = getIndex(name.substr(pos, name.size()), graph);
-        return vec + "[" + index + "]";
+        std::vector<std::string> list = split(name, '_');
+        return list[0] + getIndex(list, graph);
     }
 
-    std::string getIndex(std::string raw_index, graph::GraphPtr graph)
+    std::string Syntax::getIndex(std::vector<std::string> raw_index, graph::GraphPtr graph)
     {
-        std::string index;
-        if(!isNumber(raw_index)) {
-            int i;
-            graph->get(raw_index, i);
-            index = "" + i;
-        } else {
-            index = raw_index;
+        std::string index = "";
+        for(auto it = raw_index.begin(); it != raw_index.end(); it++) {
+            if(!isNumber(*it)) {
+                int i;
+                graph->get(*it, i);
+                index += "[" +  std::to_string(i) + "]";
+            } else {
+                index += "[" + *it + "]";
+            }
         }
+
         return index;
     }
 
