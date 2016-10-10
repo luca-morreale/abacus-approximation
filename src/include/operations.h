@@ -14,7 +14,7 @@ namespace operations {
         if (isNumber(name)){
             op = std::stod(name, NULL);
         } else {
-            graph->get(syntax::getIdentifier(name, graph), op);
+            graph->get(syntax::Syntax::getIdentifier(name, graph), op);
         }
     }
 
