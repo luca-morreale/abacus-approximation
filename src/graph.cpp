@@ -140,11 +140,7 @@ namespace graph {
     }
 
     Graph::~Graph()
-    {
-        for (NodeIterator it = this->nodes.begin(); it != this->nodes.end(); it++) {
-            free(*it);
-        }
-    }
+    { /*   */ }
 
     #ifdef DEBUG
         void Graph::debug()
