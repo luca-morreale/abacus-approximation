@@ -20,10 +20,11 @@ namespace report {
 
     DataPtr newData(approximation::Approximation &approx, double fitness, double accuracy, int mask=-1);
 
-    typedef std::map<std::string, unsigned int> Informations;
-    typedef std::map<int, unsigned int> ShiftInformations;
+    typedef std::map<std::string, int> Informations;
+    typedef std::map<int, int> ShiftInformations;
 
     class Report {
+    public:
 
         static void appendApproximation(DataPtr data);
         static void appendShift(unsigned int mask);
