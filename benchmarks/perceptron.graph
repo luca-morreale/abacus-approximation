@@ -1,4 +1,4 @@
-# given x1(x) x2(y) y(output)
+# given x1(x) x2(y) y(targets)
 # given patternCount
 
 
@@ -17,9 +17,9 @@ p + 0 0
 _for < p patternCount
 
 
-dotx * x output_0
-doty * y output_1
-sumdot + dotx doty 
+dotx * x_p output_0
+doty * y_p output_1
+sumdot + dotx doty
 sum + sumdot output_2
 _if >= sum 0
 output + 1 0
@@ -27,7 +27,7 @@ _else
 output - 0 1
 
 
-localError - outputs_p output
+localError - targets_p output
 t1 * LEARNING_RATE localError
 wx * t1 x_p
 wy * t1 y_p
@@ -56,8 +56,8 @@ p + 0 0
 _for < p patternCount
 
 
-dotx * x output_0
-doty * y output_1
+dotx * x_p output_0
+doty * y_p output_1
 sumdot + dotx doty 
 sum + sumdot output_2
 _if >= sum 0
@@ -66,7 +66,7 @@ _else
 output - 0 1
 
 
-localError - outputs_p output
+localError - targets_p output
 t1 * LEARNING_RATE localError
 wx * t1 x_p
 wy * t1 y_p
