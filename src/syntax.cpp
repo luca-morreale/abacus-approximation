@@ -72,7 +72,7 @@ namespace syntax {
 
     bool Syntax::isArray(std::string &var)
     {
-        return var.find("_") != std::string::npos;
+        return var.find("_") != std::string::npos && !isControlOp(var);
     }
 
     std::string Syntax::getIdentifier(std::string name, graph::GraphPtr graph)
