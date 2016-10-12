@@ -29,6 +29,7 @@ namespace graph {
          * NodePtr node     node to add
          */
         void appendToGraph(NodePtr node);
+        void loadInputData(Edges input);
 
         /**
          * Returns the next node to be executed.
@@ -85,11 +86,8 @@ namespace graph {
 
 
     private:
-        
-        void addEdges(NodePtr node);
 
         bool isValidNode(NodePtr node);
-        bool isNewEdge(std::string edge);
         bool isValidEdge(std::string edge);
 
     };

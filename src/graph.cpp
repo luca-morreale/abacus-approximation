@@ -36,31 +36,17 @@ namespace graph {
     {
         if(this->isValidNode(node)) {
             this->nodes.push_back(node);
-            this->addEdges(node);
         }
     }
 
-    void Graph::addEdges(NodePtr node)
+    void Graph::loadInputData(Edges input)
     {
-        if(this->isNewEdge(node->out)) {
-            this->set(node->out, 0);
-        }
-
-        for(std::string key : node->incoming) {
-            if(this->isNewEdge(key) && this->isValidEdge(key)) {
-                this->set(key, 0);
-            }
-        }
+        this->edges.insert(input.begin(), input.end());
     }
 
     bool Graph::isValidNode(NodePtr node)
     {
         return node != NULL;
-    }
-
-    bool Graph::isNewEdge(std::string edge)
-    {
-        return this->edges.find(edge)  == this->edges.end();
     }
 
     bool Graph::isValidEdge(std::string edge)
