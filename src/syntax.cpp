@@ -1,5 +1,6 @@
 #include "include/syntax.h"
 
+
 namespace syntax {
 
     Syntax::Syntax()
@@ -93,7 +94,7 @@ namespace syntax {
     std::string Syntax::getIndex(std::vector<std::string> raw_index, graph::GraphPtr graph)
     {
         std::string index = "";
-        for(auto it = raw_index.begin(); it != raw_index.end(); it++) {
+        for(auto it = raw_index.begin() + 1; it != raw_index.end(); it++) {
             if(!isNumber(*it)) {
                 int i;
                 graph->get(*it, i);
