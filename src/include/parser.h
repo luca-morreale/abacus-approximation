@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "graph.h"
+#include "syntax.h"
 
 namespace parser {
 
