@@ -10,6 +10,7 @@ iteration + 0 0
 
 # from do-while to for, following first iteration
 
+patternCount + 500 0
 iteration + iteration 1
 globalError + 0 0
 
