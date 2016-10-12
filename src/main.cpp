@@ -26,11 +26,11 @@ void extractFlags(int argc, char *argv[], string &benchmark, string &type, strin
 {
     for(int i = 1; i < argc; i++) {
         if(strcmp(FLAG_TYPE, argv[i]) == 0) {
-            assign(type, argv[i++]);
+            assign(type, argv[++i]);
         } else if(strcmp(FLAG_FILE, argv[i]) == 0) {
-            assign(benchmark, argv[i++]);
+            assign(benchmark, argv[++i]);
         } else if(strcmp(FLAG_INPUT, argv[i]) == 0) {
-            assign(input, argv[i++]);
+            assign(input, argv[++i]);
         }
     }
 }
@@ -55,6 +55,8 @@ graph::GraphPtr loadFromFiles(string benchFile, string type, string inputFile)
     graph::Edges edges = parser::extractEdges(input);
     graph->loadInputData(edges);
     input.close();
+
+
 
     return graph;
 }
