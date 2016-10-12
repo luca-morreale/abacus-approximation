@@ -56,7 +56,8 @@ namespace parser {
     void insertIn(graph::Edges &edges, std::vector<std::string> list)
     {
         if (!list.empty()) {
-            edges[list[0]] = list[1];
+            std::string index = syntax::Syntax::getIdentifier(list[0], NULL);
+            edges[index] = list[1];
         }
     }
 
