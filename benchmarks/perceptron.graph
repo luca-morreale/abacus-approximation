@@ -1,5 +1,6 @@
-# given x1(x) x2(y) y(targets)
-# given patternCount
+I# given x1(x) x2(y) y(targets)
+# given LEARNINGRATE
+#given MAXITERATION
 
 
 output_0 + randomFloat 0
@@ -30,7 +31,7 @@ _if
 
 
 localError - targets_p output
-t1 * LEARNING_RATE localError
+t1 * LEARNINGRATE localError
 wx * t1 x_p
 wy * t1 y_p
 output_0 + output_0 wx
@@ -46,7 +47,7 @@ _for
 # end first iteration
 
 exp1 != globalError 0
-exp2 <= iteration MAX_ITERATION
+exp2 <= iteration MAXITERATION
 
 
 _for && exp1 exp2
@@ -70,7 +71,7 @@ _if
 
 
 localError - targets_p output
-t1 * LEARNING_RATE localError
+t1 * LEARNINGRATE localError
 wx * t1 x_p
 wy * t1 y_p
 output_0 + output_0 wx
@@ -86,7 +87,7 @@ _for
 
 
 exp1 != globalError 0
-exp2 <= iteration MAX_ITERATION
+exp2 <= iteration MAXITERATION
 _for
 
 

@@ -2,7 +2,10 @@ clc;
 clear;
 clear all;
 
-points = 500;
+points = 100;
+learning_rate = 0.5;
+max_iteration = 500;
+
 for id=1:3
     % generates random data that can be lineary seperated (silent)
     % generate random function y = mx + n
@@ -28,9 +31,11 @@ for id=1:3
             f(ii,3) = 1;
         end    
     end
-
     filename = sprintf('perceptron_input%d.txt', id);
     fileID = fopen(filename,'w');
+    
+    fprintf(fileID, 'LEARNINGRATE %f\n', learning_rate);
+    fprintf(fileID, 'MAXITERATION %d\n', max_iteration);
 
     formatSpec = 'x_%d %f\n';
     for ii=1:size(f,1)
@@ -44,7 +49,7 @@ for id=1:3
     end
     fprintf(fileID, '\n');
 
-    formatSpec = 'targes_%d %d\n';
+    formatSpec = 'targets_%d %d\n';
     for ii=1:size(f,1)
         fprintf(fileID, formatSpec,ii-1,f(ii, 3));
     end
