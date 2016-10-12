@@ -11,7 +11,7 @@
 namespace parser {
 
     const std::regex nodeRegex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+([\\w.]+)( )+([\\w.]+))? *\n*");
-    const std::regex inputRegex("\\w+ [\\w.]+ *\n*");
+    const std::regex inputRegex("((\\w+))( ([\\w.])+) *\n*");
 
     /**
      * Extracts the graph parsing the input stream from the file.

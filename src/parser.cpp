@@ -1,5 +1,4 @@
 #include "include/parser.h"
-#include <iostream>
 
 
 namespace parser {
@@ -24,6 +23,7 @@ namespace parser {
             auto list = parse(buf, inputRegex);
             insertIn(edges, list);
         }
+
         return edges;
     }
 

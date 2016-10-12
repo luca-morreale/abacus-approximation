@@ -8,12 +8,26 @@
 
 namespace operations {
 
-    template<typename T>
+    template <typename T> inline
     void extractOperand(std::string name, T &op, graph::GraphPtr graph)
     {
         if (isNumber(name)){
             op = std::stod(name, NULL);
-        } else {
+        } else if (is(name, "randomFloat")) {
+            op = (T) randDouble();
+        }else {
+            graph->get(syntax::Syntax::getIdentifier(name, graph), op);
+        }
+    }
+
+    template <> inline
+    void extractOperand(std::string name, std::string &op, graph::GraphPtr graph)
+    {
+        if (isNumber(name)){
+            op = std::stod(name, NULL);
+        } else if (is(name, "randomFloat")) {
+            op = std::to_string(randDouble());
+        }else {
             graph->get(syntax::Syntax::getIdentifier(name, graph), op);
         }
     }
