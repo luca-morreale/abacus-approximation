@@ -36,6 +36,8 @@ for id=1:3
     
     fprintf(fileID, 'LEARNINGRATE %f\n', learning_rate);
     fprintf(fileID, 'MAXITERATION %d\n', max_iteration);
+    fprintf(fileID, 'SAMPLES %d\n', points);
+    
 
     formatSpec = 'x_%d %f\n';
     for ii=1:size(f,1)
