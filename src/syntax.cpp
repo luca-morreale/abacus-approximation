@@ -34,7 +34,7 @@ namespace syntax {
 
     bool Syntax::closesBlock(std::string start, graph::NodePtr close) 
     {
-        return endsBlock(start, close) || checkContainement(this->closing, start, close->out);
+        return endsBlock(start, close) || checkMultiContainement(this->closing, start, close->out);
     }
 
     bool Syntax::isLoop(std::string str)
@@ -50,6 +50,16 @@ namespace syntax {
     bool Syntax::allowsComplementaryBlock(std::string control)
     {
         return this->closing.find(control) != this->closing.end();
+    }
+
+    bool Syntax::checkMultiContainement(multistrmap map, std::string key, std::string value)
+    {
+        for(auto it = map.find(key); it != map.end(); it++) {
+            if (is(it->second, value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool Syntax::checkContainement(strmap map, std::string key, std::string value)

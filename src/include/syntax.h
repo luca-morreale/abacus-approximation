@@ -42,12 +42,14 @@ namespace syntax {
     protected:
         typedef std::pair<std::string, std::string> strpair;
         typedef std::map<std::string, std::string> strmap;
+        typedef std::multimap<std::string, std::string> multistrmap;
 
-        strmap closing;
+        multistrmap closing;
         strmap ending;
         strmap loops;
 
         bool checkContainement(strmap map, std::string key, std::string value);
+        bool checkMultiContainement(multistrmap map, std::string key, std::string value);
 
 
     };
