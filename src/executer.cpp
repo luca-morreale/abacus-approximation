@@ -39,16 +39,20 @@ namespace executer {
 
     void Executer::runControlOperation(graph::NodePtr node, graph::GraphPtr graph)
     {
-        int result = evaluateCondition(node, graph);
-
-        if (result && checker->isLoop(node->out)) {
-            runLoop(node, graph);
-        } else if(result) {
+        if(isOpEmpty(node)) {       // _else case
             runBlock(node->out, graph);
-        } else if (!result && checker->allowsComplementaryBlock(node->out)) {
-            runComplementaryBlock(node->out, graph);
-        } else if(!result) {
-            skipToEndBlock(node->out, graph);
+        } else if (checker->isLoop(node->out)) {
+            runLoop(node, graph);
+        } else {
+            int result = evaluateCondition(node, graph);
+
+            if(result) {
+                runBlock(node->out, graph);
+            } else if (!result && checker->allowsComplementaryBlock(node->out)) {
+                runComplementaryBlock(node->out, graph);
+            } else if(!result) {
+                skipToEndBlock(node->out, graph);
+            }
         }
     }
 
@@ -83,13 +87,15 @@ namespace executer {
             runNode(current, graph);
             current = graph->next();
         }
+
+        graph->rollback();
+        skipToEndBlock(opening, graph);
     }
 
     void Executer::skipToEndBlock(std::string control, graph::GraphPtr graph) 
     {
         int depth = -1;
         graph::NodePtr cursor;
-        
         while(depth != 0) {
             cursor = graph->next();
 
