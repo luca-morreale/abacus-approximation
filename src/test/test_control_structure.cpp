@@ -39,7 +39,6 @@ BOOST_AUTO_TEST_CASE(controlStructureExecution)
 
 BOOST_AUTO_TEST_CASE(guidedIfExecution)
 {
-    
     ifstream in("../../src/test/complex_benchmark.graph");
     graph::GraphPtr graph = parser::extractGraph(in, "int");
     executer::Executer exec;

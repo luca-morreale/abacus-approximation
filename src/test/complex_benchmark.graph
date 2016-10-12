@@ -15,6 +15,8 @@ _if < a b
 c + c b
 _elseif > a b
 c - c b
+_else
+c + 0 0
 _if
 
 output + c 0
