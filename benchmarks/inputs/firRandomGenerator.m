@@ -26,13 +26,13 @@ for id=1:2
     filename = sprintf('fir_input%d.txt', id);
     fileID = fopen(filename,'w');
     
-    formatSpec = 'coeffs_%d + %f 0\n';
+    formatSpec = 'coeffs_%d %f\n';
     for ii=1:length(coeffs)
         fprintf(fileID, formatSpec,ii,coeffs(ii));
     end
     fprintf(fileID, '\n');
 
-    formatSpec = 'input_%d + %d 0\n';
+    formatSpec = 'input_%d %d\n';
     for ii=1:length(numbers)
         fprintf(fileID, formatSpec,ii,numbers(ii));
     end
@@ -49,13 +49,13 @@ numbers = -32767 + 2 * 32767 * rand(1,80)
 
 fileID = fopen('fir_input3.txt','w');
 
-formatSpec = 'coeffs_%d + %f 0\n';
+formatSpec = 'coeffs_%d %f\n';
 for ii=1:length(coeffs)
     fprintf(fileID, formatSpec,ii,coeffs(ii));
 end
 fprintf(fileID, '\n');
 
-formatSpec = 'input_%d + %f 0\n';
+formatSpec = 'input_%d %f\n';
 for ii=1:length(numbers)
     fprintf(fileID, formatSpec,ii,numbers(ii));
 end

@@ -32,19 +32,19 @@ for id=1:3
     filename = sprintf('perceptron_input%d.txt', id);
     fileID = fopen(filename,'w');
 
-    formatSpec = 'x_%d + %f 0\n';
+    formatSpec = 'x_%d %f\n';
     for ii=1:size(f,1)
         fprintf(fileID, formatSpec,ii,f(ii, 1));
     end
     fprintf(fileID, '\n');
 
-    formatSpec = 'y_%d + %f 0\n';
+    formatSpec = 'y_%d %f\n';
     for ii=1:size(f,1)
         fprintf(fileID, formatSpec,ii,f(ii, 2));
     end
     fprintf(fileID, '\n');
 
-    formatSpec = 'targes_%d + %d 0\n';
+    formatSpec = 'targes_%d %d\n';
     for ii=1:size(f,1)
         fprintf(fileID, formatSpec,ii,f(ii, 3));
     end
