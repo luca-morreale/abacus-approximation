@@ -34,19 +34,19 @@ for id=1:3
 
     formatSpec = 'x_%d %f\n';
     for ii=1:size(f,1)
-        fprintf(fileID, formatSpec,ii,f(ii, 1));
+        fprintf(fileID, formatSpec,ii-1,f(ii, 1));
     end
     fprintf(fileID, '\n');
 
     formatSpec = 'y_%d %f\n';
     for ii=1:size(f,1)
-        fprintf(fileID, formatSpec,ii,f(ii, 2));
+        fprintf(fileID, formatSpec,ii-1,f(ii, 2));
     end
     fprintf(fileID, '\n');
 
     formatSpec = 'targes_%d %d\n';
     for ii=1:size(f,1)
-        fprintf(fileID, formatSpec,ii,f(ii, 3));
+        fprintf(fileID, formatSpec,ii-1,f(ii, 3));
     end
     fprintf(fileID, '\n');
 

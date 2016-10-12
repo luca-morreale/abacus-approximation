@@ -28,13 +28,13 @@ for id=1:2
     
     formatSpec = 'coeffs_%d %f\n';
     for ii=1:length(coeffs)
-        fprintf(fileID, formatSpec,ii,coeffs(ii));
+        fprintf(fileID, formatSpec,ii-1,coeffs(ii));
     end
     fprintf(fileID, '\n');
 
     formatSpec = 'input_%d %d\n';
     for ii=1:length(numbers)
-        fprintf(fileID, formatSpec,ii,numbers(ii));
+        fprintf(fileID, formatSpec,ii-1,numbers(ii));
     end
     fprintf(fileID, '\n');
 
@@ -51,13 +51,13 @@ fileID = fopen('fir_input3.txt','w');
 
 formatSpec = 'coeffs_%d %f\n';
 for ii=1:length(coeffs)
-    fprintf(fileID, formatSpec,ii,coeffs(ii));
+    fprintf(fileID, formatSpec,ii-1,coeffs(ii));
 end
 fprintf(fileID, '\n');
 
 formatSpec = 'input_%d %f\n';
 for ii=1:length(numbers)
-    fprintf(fileID, formatSpec,ii,numbers(ii));
+    fprintf(fileID, formatSpec,ii-1,numbers(ii));
 end
 fprintf(fileID, '\n');
 
