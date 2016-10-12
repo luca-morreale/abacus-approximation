@@ -255,7 +255,8 @@ namespace operations {
 
         out = operation(node->incoming[0], node->incoming[1], graph);
 
-        graph->set(node->out, out);
+        std::string output = syntax::Syntax::getIdentifier(node->out, graph);
+        graph->set(output, out);
     }
 
 }
