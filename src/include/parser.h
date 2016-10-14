@@ -11,8 +11,9 @@
 
 namespace parser {
 
-    const std::regex nodeRegex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+([\\w.]+)( )+([\\w.]+))? *\n*");
-    const std::regex inputRegex("((\\w+))( ([\\w.])+) *\n*");
+    const std::string word("[\\w.-]");
+    const std::regex nodeRegex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+(" + word + "+)( )+(" + word + "+))? *\n*");
+    const std::regex inputRegex("((\\w+))( (" + word + ")+) *\n*");
 
     /**
      * Extracts the graph parsing the input stream from the file.
