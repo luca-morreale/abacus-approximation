@@ -19,17 +19,19 @@ namespace abacus {
     void ABACUS::runAbacusOnGraph(graph::GraphPtr graph)
     {
         AppGraphPtr original = new AppGraph(*graph);
-        this->exec->runGraph(graph);
 
         for(int i = 0; i < this->N; i++) {
+            AppGraphPtr execOriginal = new AppGraph(*original);
+            this->exec->runGraph(execOriginal);
+
             ListPair approximatedGraphs;
             
-            #pragma omp parallel for default(shared) shared(approximatedGraphs) private(original) num_threads(8)
+            #pragma omp parallel for default(shared) shared(approximatedGraphs) num_threads(8)
             for(int j = 0; j < this->M; j++) {
                 report::DataPtr rep = new report::Data;
                 rep->approx = selectRandomApproximation();
                 AppGraphPtr appGraph = approximate(original, rep->approx, rep->mask);
-                rep->accuracy = evalAccuracy(appGraph, graph);
+                rep->accuracy = evalAccuracy(appGraph, execOriginal);
 
                 if(rep->accuracy < this->threshold) {
                     rep->fitness = evaluateFitness(rep);
@@ -50,8 +52,20 @@ namespace abacus {
 
     approximation::Approximation ABACUS::selectRandomApproximation()
     {
-        int index = rand() % approximation::approximations.size();
+        std::vector<int> vals = getReportCounts();
+        std::vector<double> probs = normalizeProbabilities(vals);
+        int index = sampleIndex(probs);
         return approximation::approximations[index];
+    }
+
+    std::vector<int> ABACUS::getReportCounts()
+    {
+        auto rep = report::Report::getReport();
+        for(auto it = rep.begin(); it != rep.end(); it++) {
+            rep[it->first]++;
+        }
+
+        return values(rep);
     }
 
     AppGraphPtr ABACUS::approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask)
@@ -62,29 +76,16 @@ namespace abacus {
         return graph->substitute(approximation(node, mask), node);
     }
     
-    double ABACUS::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
+    double ABACUS::evalAccuracy(AppGraphPtr graph, AppGraphPtr original)
     {
-        this->exec->runGraph(graph);
+        AppGraphPtr copy = new AppGraph(*graph);
+        this->exec->runGraph(copy);
 
-        double accuracy = 0;
-        double sum_real = 0;
-        double sum_approx = 0;
-        auto outputList = original->getOutputList();
-        for(auto it = outputList.begin(); it != outputList.end(); it++) {
-            double approx, real;
-            original->get(*it, real);
-            graph->get(*it, approx);
-            sum_real += real;
-            sum_approx += approx;
-        }
+        double sum_real = calculateOutputSum(original);
+        double sum_approx = calculateOutputSum(copy);
 
-        accuracy = (sum_real - sum_approx) / sum_real;
-
-        // double mae = (sum_real - sum_approx) / outputList.size();
-        // http://www10.org/cdrom/papers/519/node22.html
-
-        return accuracy;
-    }
+        return (sum_real - sum_approx) / sum_real;
+    }    
     
     double ABACUS::evaluateFitness(report::DataPtr rep)
     {
@@ -95,6 +96,23 @@ namespace abacus {
     double ABACUS::evaluateBitReset(int mask)
     {
         return ((double)mask) / 32.0;
+    }
+
+    double ABACUS::calculateOutputSum(AppGraphPtr graph)
+    {
+        double sum;
+        auto outputList = graph->getOutputList();
+        for(auto it = outputList.begin(); it != outputList.end(); it++) {
+            sum += get(*it, graph);
+        }
+        return sum;
+    }
+
+    double ABACUS::get(std::string variable, graph::GraphPtr graph)
+    {
+        double value;
+        graph->get(variable, value);
+        return value;
     }
 
     AppGraphPtr ABACUS::popFront(ListPair list)

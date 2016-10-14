@@ -41,7 +41,7 @@ namespace abacus {
         /**
          * Runs the graph and evaluate its accuracy wrt the original one.
          */
-        virtual double evalAccuracy(AppGraphPtr graph, graph::GraphPtr original);
+        virtual double evalAccuracy(AppGraphPtr graph, AppGraphPtr original);
         /**
          * Evaluates the fitness given the approximation applied and the accuracy obtained.
          */
@@ -68,6 +68,9 @@ namespace abacus {
 
         ABACUS() { }
 
+        std::vector<int> getReportCounts();
+        double calculateOutputSum(AppGraphPtr graph);
+        double get(std::string variable, graph::GraphPtr graph);
         PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
         AppGraphPtr popFront(ListPair list);
         void deleteGraphs(ListPair trashedGraphs);
