@@ -11,10 +11,11 @@ namespace approximation {
 
     graph::Nodes selectSuitableNodes(graph::GraphPtr graph, Approximation approximation)
     {
+        graph::Graph copy(*graph);
         if(approximation == approximateValue) {
-            return selectAll(graph);
+            return selectAll(&copy);
         } else {
-            return selectOperation(graph, approximationsOp[approximation]);
+            return selectOperation(&copy, approximationsOp[approximation]);
         }
     }
 
