@@ -4,6 +4,7 @@
 #include <fstream>
 #include "approximated_graph.h"
 #include "parser.h"
+#include "executer.h"
 
 using namespace std;
 
@@ -105,3 +106,24 @@ BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
     delete(copy);
     in.close();
 }
+
+BOOST_AUTO_TEST_CASE(testSeparateRun)
+{
+    ifstream in("../../src/test/benchmark.graph");
+    graph::GraphPtr original = parser::extractGraph(in, "int");
+    approximation::ApproximatedGraph graph(*original);
+
+    executer::Executer exec;
+    exec.runGraph(original);
+
+    graph::NodePtr a = graph.next();
+    graph::NodePtr b = original->next();
+    BOOST_CHECK_PREDICATE(std::not_equal_to<graph::NodePtr>(), (a)(b));
+    BOOST_CHECK_EQUAL("a", a->out);
+    BOOST_CHECK_EQUAL("0", a->incoming[0]);
+    BOOST_CHECK_EQUAL("0", a->incoming[1]);
+
+    delete(original);
+    in.close();
+}
+
