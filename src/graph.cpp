@@ -77,22 +77,22 @@ namespace graph {
 
     void Graph::get(std::string key, int &out)
     {
-        out = std::stoi(edges[key], NULL);
+        out = std::stoi(edges.at(key), NULL);
     }
 
     void Graph::get(std::string key, float &out)
     {
-        out = std::stof(edges[key], NULL);
+        out = std::stof(edges.at(key), NULL);
     }
 
     void Graph::get(std::string key, double &out)
     {
-        out = std::stod(edges[key], NULL);
+        out = std::stod(edges.at(key), NULL);
     }
 
     void Graph::get(std::string key, std::string &out)
     {
-        out = edges[key];
+        out = edges.at(key);
     }
 
     std::string Graph::getType()
