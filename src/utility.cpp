@@ -1,4 +1,5 @@
 #include "include/utility.h"
+#include <iostream>
 
 
 bool is(std::string a, std::string b)
@@ -31,11 +32,12 @@ std::vector<int> getPowTwo()
 {
     std::vector<int> v;
     v.push_back(0);
-    int shift = 1;
-    while(shift < INT_MAX) {
-        v.push_back(shift);
-        shift <<= 1;
+
+    for(int i = 0; i < 31; i++) {
+        v.push_back(1 << i);
     }
+
+    return v;
 }
 
 std::vector<double> normalizeProbabilities(std::vector<int> &prob)
