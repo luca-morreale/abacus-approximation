@@ -25,13 +25,13 @@ doty * y_p output_1
 sumdot + dotx doty
 sum + sumdot output_2
 _if >= sum 0
-output + 1 0
+out + 1 0
 _else
-output - 0 1
+out - 0 1
 _if
 
 
-localError - targets_p output
+localError - targets_p out
 t1 * LEARNINGRATE localError
 wx * t1 x_p
 wy * t1 y_p
@@ -65,13 +65,13 @@ doty * y_p output_1
 sumdot + dotx doty 
 sum + sumdot output_2
 _if >= sum 0
-output + 1 0
+out + 1 0
 _else
-output - 0 1
+out - 0 1
 _if
 
 
-localError - targets_p output
+localError - targets_p out
 t1 * LEARNINGRATE localError
 wx * t1 x_p
 wy * t1 y_p
