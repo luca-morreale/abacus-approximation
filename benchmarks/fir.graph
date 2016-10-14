@@ -1,15 +1,14 @@
 # all same type
-# lengthinput given
-# input given
+# input array given
+# coeffs array given
 #####################################################
 
-
-
-# input must be of 80 values
+# input must be of 143 values
 # each iteration carries new data and shift the data
 
-lengthinput + 0 80
+lengthinput + 0 143
 filterlength + 0 63
+length - lengthinput filterlength
 
 # considered all array  all the time so input is bigger, each loop should start from 63
 
@@ -20,41 +19,46 @@ _for < i lengthinput
 _if >= i  63
 floatInput_i <<c double input_i
 _else
-floatInput + input_i 0
+floatInput_i + input_i 0
 _if
 
 i + i 1
 _for
 
 
-n + 0 
-_for < n filterlength
+n + 0 0 
+_for < n length
 
 t1 - filterlength 1
 inindex + t1 n
 
 acc + 0 0
+cindex + 0 0
+inindex - filterlength 1 
+inindex + inindex n
+
 k + 0 0
 _for < k filterlength
 
-cindex + cindex 1
-inindex - inindex 1
 t4 * coeffs_cindex floatInput_inindex
 acc + acc t4
+cindex + cindex 1
+inindex - inindex 1
 
 k + k 1
 _for
 
 floatOutput_n + acc 0
 
+n + n 1
 _for
 
 
 half / 1 2
-j + 0 0
-_for < j filterlength
+i + 0 0
+_for < i length
 
-floatOutput_j + floatOutput_j half
+floatOutput_i + floatOutput_i half
 
 neg - 0 32768
 _if > floatOutput_i 32767
@@ -65,7 +69,7 @@ _if
 
 output_i <<c int floatOutput_i
 
-
+i + i 1
 _for
 
 

@@ -21,7 +21,7 @@ for id=1:2
     
     % reate a m-by-n array of random integer values drawn from a discrete uniform distribution 
     % on the set of numbers [imin imax]. Use the syntax, randi([imin imax],m,n).
-    numbers = randi([-32767 32767], 1, 80);
+    numbers = randi([-32767 32767], 1, 143);
     
     filename = sprintf('fir_input%d.txt', id);
     fileID = fopen(filename,'w');
@@ -43,9 +43,9 @@ end
 
 %% create floating point input 
 
-% Generate a 1-by-80 column vector of uniformly distributed numbers 
+% Generate a 1-by-143 column vector of uniformly distributed numbers 
 % in the interval (-32767, 32767).
-numbers = -32767 + 2 * 32767 * rand(1,80)
+numbers = -32767 + 2 * 32767 * rand(1,143)
 
 fileID = fopen('fir_input3.txt','w');
 
