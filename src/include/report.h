@@ -27,13 +27,15 @@ namespace report {
     public:
 
         static void appendApproximation(DataPtr data);
-        static void appendShift(unsigned int mask);
-
-
+        
+        static std::string getApproximationName(approximation::Approximation app);
         static Informations getReport();
         static ShiftInformations getShiftReport();
+        
         static void printReport(std::ostream &cout);
 
+    protected:
+        static void appendShift(unsigned int mask);
 
     private:
         Report() { }

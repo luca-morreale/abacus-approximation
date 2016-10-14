@@ -50,6 +50,11 @@ namespace report {
         }
     }
 
+    std::string Report::getApproximationName(approximation::Approximation app)
+    {
+        return approximationsName[app];
+    }
+
     Informations Report::getReport()
     {
         return info;
