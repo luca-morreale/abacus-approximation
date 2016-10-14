@@ -69,3 +69,21 @@ BOOST_AUTO_TEST_CASE(valueSelection)
     delete(original);
     in.close();
 }
+
+BOOST_AUTO_TEST_CASE(multipleSelection)
+{
+    ifstream in("../../src/test/complex_benchmark.graph");
+    graph::GraphPtr original = parser::extractGraph(in, "int");
+
+    auto nodes = approximation::selectSuitableNodes(original, approximation::approximateMinus);
+    BOOST_CHECK_EQUAL(2, nodes.size());
+    nodes = approximation::selectSuitableNodes(original, approximation::approximateSum);
+    BOOST_CHECK_EQUAL(16, nodes.size());
+    nodes = approximation::selectSuitableNodes(original, approximation::approximateMult);
+    BOOST_CHECK_EQUAL(0, nodes.size());
+    nodes = approximation::selectSuitableNodes(original, approximation::approximateDiv);
+    BOOST_CHECK_EQUAL(1, nodes.size());
+    
+    delete(original);
+    in.close();
+}
