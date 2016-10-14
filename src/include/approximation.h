@@ -34,6 +34,7 @@ namespace approximation {
     graph::Nodes selectAll(graph::GraphPtr graph);
 
     void replaceOperations(graph::Nodes &replacement, std::string op1, std::string op2, std::string operand);
+    void invertedReplaceOperations(graph::Nodes &replacement, std::string op1, std::string op2, std::string operand);
     int calculateShift();
     std::vector<int> getShiftList();
     void fillBaseShiftValue(std::map<int, int> &shifts);

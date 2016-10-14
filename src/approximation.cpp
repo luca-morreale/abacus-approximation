@@ -49,6 +49,7 @@ namespace approximation {
         replacement.push_back(graph::newNode(node));
         replacement[0]->op = "|";
         mask = -1;
+
         return replacement;
     }
 
@@ -58,7 +59,8 @@ namespace approximation {
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
 
-        replaceOperations(replacement, "~", "&", replacement[0]->incoming[1]);
+        invertedReplaceOperations(replacement, "~", "&", node->incoming[1]);
+
         mask = -1;
 
         return replacement;
@@ -69,10 +71,10 @@ namespace approximation {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
-
+        
         mask = calculateShift();
-        replaceOperations(replacement, "<<", "+", mask+"");
-
+        replaceOperations(replacement, "<<", "+", std::to_string(mask));
+        
         return replacement;
     }
     
@@ -81,21 +83,20 @@ namespace approximation {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
-
+        
         mask = calculateShift();
-        replaceOperations(replacement, ">>", "-", mask+"");
-
+        replaceOperations(replacement, ">>", "-", std::to_string(mask));
         return replacement;
     }
 
-    graph::Nodes approximateValue(graph::NodePtr node, int &mask)  // to complete
+    graph::Nodes approximateValue(graph::NodePtr node, int &mask)
     {
         graph::Nodes replacement;
         replacement.push_back(graph::newNode(node));
         replacement.push_back(graph::newNode(node));
 
         mask = calculateShift();
-        replaceOperations(replacement, "&", node->op, mask+"");
+        replaceOperations(replacement, "&", node->op, std::to_string(mask));
         return replacement;
     }
 
@@ -104,12 +105,22 @@ namespace approximation {
         replacement[0]->op = op1;
         replacement[0]->out = "tmp";
         replacement[0]->incoming[1] = operand;
-
+        
         replacement[1]->op = op2;
         replacement[1]->incoming[0] = "tmp";
     }
 
-    int calculateShift()    // to complete
+    void invertedReplaceOperations(graph::Nodes &replacement, std::string op1, std::string op2, std::string operand)
+    {
+        replacement[0]->op = op1;
+        replacement[0]->out = "tmp";
+        replacement[0]->incoming[0] = operand;
+
+        replacement[1]->op = op2;
+        replacement[1]->incoming[1] = "tmp";
+    }
+
+    int calculateShift()
     {
         std::vector<int> shiftsCount = getShiftList();
         std::vector<double> prob = normalizeProbabilities(shiftsCount);
@@ -128,7 +139,7 @@ namespace approximation {
         if(shifts.size() < 32) {
             fillBaseShiftValue(shifts);
         }
-        return values(shifts);
+        return keys(shifts);
     }
 
     void fillBaseShiftValue(report::ShiftInformations &shifts)
