@@ -108,6 +108,7 @@ namespace graph {
                 outputList.push_back(it->first);
             }
         }
+        return outputList;
     }
 
     void Graph::insert(NodePtr node, int pos)
