@@ -11,9 +11,16 @@ namespace report {
         Report::approxpair(&approximation::approximateValue, "value")
     };
 
-    Report::AppName Report::approximationsName(map_start_values, map_start_values + map_start_values_size);
+    const Report::reportpair Report::map_report_start_values[] = {
+        Report::reportpair("sum", 0),
+        Report::reportpair("min", 0),
+        Report::reportpair("mult", 0),
+        Report::reportpair("div", 0),
+        Report::reportpair("value", 0)
+    };
 
-    Informations Report::info;
+    Report::AppName Report::approximationsName(map_start_values, map_start_values + map_values_size);
+    Informations Report::info(map_report_start_values, map_report_start_values + map_values_size);
     ShiftInformations Report::shiftInfo;
 
 
@@ -45,22 +52,12 @@ namespace report {
 
     Informations Report::getReport()
     {
-        if(info.size() == 0) {
-            fillBasicApproximation();
-        }
         return info;
     }
 
     ShiftInformations Report::getShiftReport()
     {
         return shiftInfo;
-    }
-
-    void Report::fillBasicApproximation()
-    {
-        for(auto it = approximationsName.begin(); it != approximationsName.end(); it++) {
-            info[it->second] = 0;
-        }
     }
 
     void Report::printReport(std::ostream &cout)
