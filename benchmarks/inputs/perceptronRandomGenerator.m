@@ -4,7 +4,7 @@ clear all;
 
 points = 100;
 learning_rate = 0.5;
-max_iteration = 500;
+max_iteration = 300;
 
 for id=1:3
     % generates random data that can be lineary seperated (silent)
