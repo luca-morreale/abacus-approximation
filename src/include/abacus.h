@@ -18,10 +18,10 @@ namespace abacus {
     typedef approximation::ApproximatedGraph AppGraph;
     typedef approximation::ApproximatedGraphPtr AppGraphPtr;
     
-    class ABACUSExecuter : public executer::Executer {
+    class ABACUS {
     public:
-        ABACUSExecuter(int N, int M, double threshold);
-        ~ABACUSExecuter();
+        ABACUS(int N, int M, double threshold);
+        ~ABACUS();
 
         virtual void runAbacusOnGraph(graph::GraphPtr graph);
 
@@ -57,6 +57,7 @@ namespace abacus {
         int N;
         int M;
         double threshold;
+        executer::ExecuterPtr exec;
 
         /**
          * Constants used in the fitness formula
@@ -65,7 +66,7 @@ namespace abacus {
         const double a2 = 0.12;
         //const double a3 = 0.08;
 
-        ABACUSExecuter() :Executer() { }
+        ABACUS() { }
 
         PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
         AppGraphPtr popFront(ListPair list);
@@ -74,7 +75,7 @@ namespace abacus {
 
     };
 
-    typedef ABACUSExecuter * ABACUSPtr;
+    typedef ABACUS * ABACUSPtr;
 
 } // namespace abacus
 

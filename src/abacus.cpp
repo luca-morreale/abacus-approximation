@@ -3,19 +3,23 @@
 
 namespace abacus {
 
-    ABACUSExecuter::ABACUSExecuter(int N, int M, double threshold) : Executer()
+    ABACUS::ABACUS(int N, int M, double threshold)
     {
         this->N = N;
         this->M = M;
         this->threshold = threshold;
+        this->exec = new executer::Executer();
     }
 
-    ABACUSExecuter::~ABACUSExecuter() { }
+    ABACUS::~ABACUS()
+    {
+        delete(exec);
+    }
 
-    void ABACUSExecuter::runAbacusOnGraph(graph::GraphPtr graph)
+    void ABACUS::runAbacusOnGraph(graph::GraphPtr graph)
     {
         AppGraphPtr original = new AppGraph(*graph);
-        runGraph(graph);
+        this->exec->runGraph(graph);
 
         for(int i = 0; i < this->N; i++) {
             ListPair approximatedGraphs;
@@ -31,7 +35,6 @@ namespace abacus {
                     rep->fitness = evaluateFitness(rep);
                     #pragma omp critical
                     {
-                        // Missing mask!!!!
                         approximatedGraphs.push_back(make_pair(rep, appGraph));
                     }
                 }
@@ -45,13 +48,13 @@ namespace abacus {
         }
     }
 
-    approximation::Approximation ABACUSExecuter::selectRandomApproximation()
+    approximation::Approximation ABACUS::selectRandomApproximation()
     {
         int index = rand() % approximation::approximations.size();
         return approximation::approximations[index];
     }
 
-    AppGraphPtr ABACUSExecuter::approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask)
+    AppGraphPtr ABACUS::approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask)
     {
         graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
 
@@ -59,9 +62,9 @@ namespace abacus {
         return graph->substitute(approximation(node, mask), node);
     }
     
-    double ABACUSExecuter::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
+    double ABACUS::evalAccuracy(AppGraphPtr graph, graph::GraphPtr original)
     {
-        this->runGraph(graph);
+        this->exec->runGraph(graph);
 
         double accuracy = 0;
         double sum_real = 0;
@@ -83,38 +86,38 @@ namespace abacus {
         return accuracy;
     }
     
-    double ABACUSExecuter::evaluateFitness(report::DataPtr rep)
+    double ABACUS::evaluateFitness(report::DataPtr rep)
     {
         double precisionErr = (rep->approx == approximation::approximateValue)? evaluateBitReset(rep->mask) : 0;
         return this->a1 * rep->accuracy + this->a2 * precisionErr;
     }
 
-    double ABACUSExecuter::evaluateBitReset(int mask)
+    double ABACUS::evaluateBitReset(int mask)
     {
         return ((double)mask) / 32.0;
     }
 
-    AppGraphPtr ABACUSExecuter::popFront(ListPair list)
+    AppGraphPtr ABACUS::popFront(ListPair list)
     {
         auto first = list.front().second;
         list.pop_front();
         return first;
     }
 
-    void ABACUSExecuter::deleteGraphs(ListPair trashedGraphs)
+    void ABACUS::deleteGraphs(ListPair trashedGraphs)
     {
         for(auto it = trashedGraphs.begin(); it != trashedGraphs.end(); it++) {
             delete it->second;
         }
     }
 
-    ABACUSExecuter::PairAppr ABACUSExecuter::make_pair(report::DataPtr data, AppGraphPtr graph)
+    ABACUS::PairAppr ABACUS::make_pair(report::DataPtr data, AppGraphPtr graph)
     {
         return std::make_pair(data, graph);
     }
 
 
-    bool ABACUSExecuter::cmpPairs(PairAppr a, PairAppr b)
+    bool ABACUS::cmpPairs(PairAppr a, PairAppr b)
     {
         return a.first->fitness < b.first->fitness;
     }
