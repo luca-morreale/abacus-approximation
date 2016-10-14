@@ -187,13 +187,13 @@ namespace operations {
     template<typename T>
     T cast(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
-        std::string op1;
         T op2;
-        extractOperand(nameOp1, op1, graph);
         extractOperand(nameOp2, op2, graph);
 
-        if(is(op1, "int")) {
+        if(is(nameOp1, "int")) {
             return (int) op2;
+        } else if(is(nameOp1, "float")) {
+            return (float) op2;
         } else {
             return (double) op2;
         }
