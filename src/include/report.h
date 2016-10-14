@@ -41,6 +41,8 @@ namespace report {
         static Informations info;
         static ShiftInformations shiftInfo;
 
+        static void fillBasicApproximation();
+
 
         typedef std::map<approximation::Approximation, std::string> AppName;
         typedef std::pair<approximation::Approximation, std::string> approxpair;

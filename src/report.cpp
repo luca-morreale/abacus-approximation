@@ -45,12 +45,22 @@ namespace report {
 
     Informations Report::getReport()
     {
+        if(info.size() == 0) {
+            fillBasicApproximation();
+        }
         return info;
     }
 
     ShiftInformations Report::getShiftReport()
     {
         return shiftInfo;
+    }
+
+    void Report::fillBasicApproximation()
+    {
+        for(auto it = approximationsName.begin(); it != approximationsName.end(); it++) {
+            info[it->second] = 0;
+        }
     }
 
     void Report::printReport(std::ostream &cout)
