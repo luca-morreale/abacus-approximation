@@ -9,10 +9,13 @@
 #include "include/executer.h"
 #include "include/abacus.h"
 
-#define PARAMETERS 6
+#define PARAMETERS 12
 #define FLAG_FILE "-f"
 #define FLAG_INPUT "-i"
 #define FLAG_TYPE "-t"
+#define FLAG_ACCURACY "-a"
+#define FLAG_N "-N"
+#define FLAG_M "-M"
 
 using namespace std;
 
@@ -22,7 +25,7 @@ void assign(string &str, char source[])
     str.assign(source, strlen(source));
 }
 
-void extractFlags(int argc, char *argv[], string &benchmark, string &type, string &input)
+void extractFlags(int argc, char *argv[], string &benchmark, string &type, string &input, double &acc, int &N, int &M)
 {
     for(int i = 1; i < argc; i++) {
         if(strcmp(FLAG_TYPE, argv[i]) == 0) {
@@ -31,6 +34,12 @@ void extractFlags(int argc, char *argv[], string &benchmark, string &type, strin
             assign(benchmark, argv[++i]);
         } else if(strcmp(FLAG_INPUT, argv[i]) == 0) {
             assign(input, argv[++i]);
+        } else if(strcmp(FLAG_ACCURACY, argv[i]) == 0) {
+            acc = strtod(argv[++i], NULL);
+        } else if(strcmp(FLAG_N, argv[i]) == 0) {
+            N = atoi(argv[++i]);
+        } else if(strcmp(FLAG_M, argv[i]) == 0) {
+            M = atoi(argv[++i]);
         }
     }
 }
@@ -70,10 +79,10 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    string benchmark;
-    string input;
-    string type;
-    extractFlags(argc, argv, benchmark, type, input);
+    string benchmark, input, type;
+    double acc;
+    int N, M;
+    extractFlags(argc, argv, benchmark, type, input, acc, N, M);
 
     graph::GraphPtr graph = loadFromFiles(benchmark, type, input);
 
