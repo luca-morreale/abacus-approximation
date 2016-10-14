@@ -45,6 +45,7 @@ BOOST_AUTO_TEST_CASE(buildGraph)
     BOOST_CHECK_EQUAL("c", current->incoming[0]);
     BOOST_CHECK_EQUAL("b", current->incoming[1]);
 
+    delete(graph);
     in.close();
 }
 
@@ -63,4 +64,7 @@ BOOST_AUTO_TEST_CASE(graphSetGet)
     int c;
     graph->get("c", c);
     BOOST_CHECK_EQUAL(7, c);
+
+    delete(graph);
+    in.close();
 }

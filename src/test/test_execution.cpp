@@ -26,6 +26,7 @@ BOOST_AUTO_TEST_CASE(correctOperation)
     BOOST_CHECK_EQUAL(-5, out);
     graph->set(current->out, out);
 
+    delete(graph);
     in.close();
 }
 
@@ -58,6 +59,7 @@ BOOST_AUTO_TEST_CASE(run_single_node)
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(0, out);
 
+    delete(graph);
     in.close();
 }
 
@@ -74,5 +76,6 @@ BOOST_AUTO_TEST_CASE(simpleExecution)
     graph->get("output", out);
     BOOST_CHECK_EQUAL(-10, out);
 
+    delete(graph);
     in.close();
 }

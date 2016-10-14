@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(controlStructureExecution)
     current = graph->current();
     BOOST_CHECK_EQUAL("c", current->out);   // check do not skip forward executing control op
 
-
+    delete(graph);
     in.close();
 }
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(guidedIfExecution)
     graph->get(current->out, out);
     BOOST_CHECK_EQUAL(5, out);
 
-
+    delete(graph);
     in.close();
 }
 
@@ -117,6 +117,7 @@ BOOST_AUTO_TEST_CASE(loopStructureExecution)
     graph->get("counter", out);
     BOOST_CHECK_EQUAL(45, out);
 
+    delete(graph);
     in.close();
 }
 
@@ -170,6 +171,6 @@ BOOST_AUTO_TEST_CASE(completeExecution)
     graph->get("sum", out);
     BOOST_CHECK_EQUAL(450, out);
 
-
+    delete(graph);
     in.close();
 }

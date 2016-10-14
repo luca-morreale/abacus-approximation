@@ -11,40 +11,41 @@ BOOST_AUTO_TEST_CASE(buildApproxGraph)
 {
     ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr original = parser::extractGraph(in, "int");
-    approximation::ApproximatedGraphPtr graph = new approximation::ApproximatedGraph(*original);
+    approximation::ApproximatedGraph graph(*original);
 
-    BOOST_CHECK_EQUAL("int", graph->getType());
+    BOOST_CHECK_EQUAL("int", graph.getType());
 
-    graph::NodePtr current = graph->next();
+    graph::NodePtr current = graph.next();
     BOOST_CHECK_EQUAL("a", current->out);
     BOOST_CHECK_EQUAL("0", current->incoming[0]);
     BOOST_CHECK_EQUAL("0", current->incoming[1]);
     
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("b", current->out);
     BOOST_CHECK_EQUAL("-", current->op);
 
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("c", current->out);
     BOOST_CHECK_EQUAL("/", current->op);
 
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("c", current->out);
     BOOST_CHECK_EQUAL("&", current->op);
 
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("b", current->out);
     BOOST_CHECK_EQUAL("*", current->op);
 
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("d", current->out);
     BOOST_CHECK_EQUAL("0.7", current->incoming[0]);
 
-    current = graph->next();
+    current = graph.next();
     BOOST_CHECK_EQUAL("output", current->out);
     BOOST_CHECK_EQUAL("c", current->incoming[0]);
     BOOST_CHECK_EQUAL("b", current->incoming[1]);
 
+    delete(original);
     in.close();
 }
 
@@ -53,14 +54,14 @@ BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
 {
     ifstream in("../../src/test/benchmark.graph");
     graph::GraphPtr original = parser::extractGraph(in, "int");
-    approximation::ApproximatedGraphPtr graph = new approximation::ApproximatedGraph(*original);
+    approximation::ApproximatedGraph graph(*original);
 
     graph::Nodes replacements;
     graph::NodePtr tmp, current;
     
-    current = graph->next();
-    current = graph->next();
-    current = graph->next();
+    current = graph.next();
+    current = graph.next();
+    current = graph.next();
 
     tmp = newNode(current);
     tmp->out = "d";
@@ -72,7 +73,7 @@ BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
     tmp->op = "||";
     replacements.push_back(tmp);
 
-    auto copy = graph->substitute(replacements, current);
+    auto copy = graph.substitute(replacements, current);
 
     current = copy->next();
     BOOST_CHECK_EQUAL("a", current->out);
@@ -100,5 +101,7 @@ BOOST_AUTO_TEST_CASE(substitutionApproxGraph)
     BOOST_CHECK_EQUAL("&", current->op);
 
 
+    delete(original);
+    delete(copy);
     in.close();
 }
