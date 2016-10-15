@@ -35,12 +35,10 @@ namespace abacus {
                 AppGraphPtr appGraph = approximate(original, rep);
                 rep->accuracy = evalAccuracy(appGraph, &executedOriginal);
 
-                if(rep->accuracy < this->threshold) {
+                if(rep->accuracy < 1 - this->threshold) {
                     rep->fitness = evaluateFitness(rep);
                     #pragma omp critical
-                    { 
-                        approximatedGraphs.push_back(make_pair(rep, appGraph));
-                    }
+                    approximatedGraphs.push_back(make_pair(rep, appGraph));
                 }
             }
 
@@ -129,6 +127,7 @@ namespace abacus {
     AppGraphPtr ABACUS::popFront(ListPair &list)
     {
         auto first = list.front().second;
+        report::Report::appendApproximation(list.front().first);
         list.pop_front();
         return first;
     }
