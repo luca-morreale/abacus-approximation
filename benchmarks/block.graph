@@ -31,72 +31,72 @@ i + 0 iTop
 _for <= i iBottom
 
 
-	pucRefLeftX + pucRefX 0 
-	pucRefLeftY + pucRefY iY
+    pucRefLeftX + pucRefX 0 
+    pucRefLeftY + pucRefY iY
 
-	_if > pucRefLeftY iWidth
-	    pucRefLeftX + pucRefLeftX 1
-	    pucRefLeftY + 0 0
-	_if
+    _if > pucRefLeftY iWidth
+        pucRefLeftX + pucRefLeftX 1
+        pucRefLeftY + 0 0
+    _if
 
-	j + iLeft 0
-	_for <= j iRight
+    j + iLeft 0
+    _for <= j iRight
 
-		iTmpAd + 0 0
-		 
-	    pucCX + pucCurLeftTopX 0
-	    pucCY + pucCurLeftTopY 0
+        iTmpAd + 0 0
+         
+        pucCX + pucCurLeftTopX 0
+        pucCY + pucCurLeftTopY 0
 
-	    pucRX + pucRefLeftX iX
-	    pucRY + pucRefLeftY 0
-
-
-	    k + 0 0
-	    _for < k 16
-	    	
-	    	n + 0 0
-	    	_for < n 16
-
-	            t1 <<c int input_pucCX_pucCY
-	            t2 <<c int input_pucRX_pucRY
-	            t3 - t1 t2
-	            t4 abs t3 t3 
-
-	            iTmpAd + iTmpAd t4
-	            
-	            pucCY + pucCY 1
-	            pucRY + pucRY 1
-
-	            _if > pucCY iWidth
-	                pucCX + pucCX 1
-	                pucCY + 0 0
-	            _if
-
-	            _if > pucRY iWidth
-	            	pucRX + pucRX 1
-	                pucRY + 0 0
-	            _if
-
-	    	n + n 1
-	    	_for 
-
-	        pucCX + pucCX 1
-	        pucRX + pucRX 1
-
-    	k + k 1
-	    _for
+        pucRX + pucRefLeftX iX
+        pucRY + pucRefLeftY 0
 
 
-	    _if > iMinAd iTmpAd
-	    	iMinAd + iTmpAd 0
-	    	output_piMvPos + j 0
-	    	ind + piMvPos 1
-	    	output__ind + i 0
-	    _if
+        k + 0 0
+        _for < k 16
+            
+            n + 0 0
+            _for < n 16
 
-	j + j 1
-	_for
-	
+                t1 <<c int input_pucCX_pucCY
+                t2 <<c int input_pucRX_pucRY
+                t3 - t1 t2
+                t4 abs t3 t3 
+
+                iTmpAd + iTmpAd t4
+                
+                pucCY + pucCY 1
+                pucRY + pucRY 1
+
+                _if > pucCY iWidth
+                    pucCX + pucCX 1
+                    pucCY + 0 0
+                _if
+
+                _if > pucRY iWidth
+                    pucRX + pucRX 1
+                    pucRY + 0 0
+                _if
+
+            n + n 1
+            _for 
+
+            pucCX + pucCX 1
+            pucRX + pucRX 1
+
+        k + k 1
+        _for
+
+
+        _if > iMinAd iTmpAd
+            iMinAd + iTmpAd 0
+            output_piMvPos + j 0
+            ind + piMvPos 1
+            output__ind + i 0
+        _if
+
+    j + j 1
+    _for
+    
 
 i + i 1
 _for
