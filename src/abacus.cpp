@@ -22,22 +22,23 @@ namespace abacus {
         AppGraphPtr original = new AppGraph(*graph);
 
         for(int i = 0; i < this->N; i++) {
-            AppGraphPtr execOriginal = new AppGraph(*original);
-            this->exec->runGraph(execOriginal);
+            AppGraph executedOriginal(*original);
+            this->exec->runGraph(&executedOriginal);
 
             ListPair approximatedGraphs;
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) num_threads(8)
             for(int j = 0; j < this->M; j++) {
                 report::DataPtr rep = new report::Data;
-                rep->approx = selectRandomApproximation();
-                AppGraphPtr appGraph = approximate(original, rep->approx, rep->mask);
-                rep->accuracy = evalAccuracy(appGraph, execOriginal);
+
+                rep->approx = selectAppliableApproximation(original);
+                AppGraphPtr appGraph = approximate(original, rep);
+                rep->accuracy = evalAccuracy(appGraph, &executedOriginal);
 
                 if(rep->accuracy < this->threshold) {
                     rep->fitness = evaluateFitness(rep);
                     #pragma omp critical
-                    {
+                    { 
                         approximatedGraphs.push_back(make_pair(rep, appGraph));
                     }
                 }
@@ -49,6 +50,8 @@ namespace abacus {
                 deleteGraphs(approximatedGraphs);
             }
         }
+    }
+
     approximation::Approximation ABACUS::selectAppliableApproximation(AppGraphPtr graph)
     {
         approximation::Approximation approx;
@@ -63,42 +66,25 @@ namespace abacus {
         std::vector<int> vals = getReportCounts();
         std::vector<double> probs = normalizeProbabilities(vals);
         int index = sampleIndex(probs);
+        
         return approximation::approximations[index];
     }
 
-    std::vector<int> ABACUS::getReportCounts()
     AppGraphPtr ABACUS::approximate(AppGraphPtr graph, report::DataPtr rep)
     {
-        auto rep = report::Report::getReport();
-        for(auto it = rep.begin(); it != rep.end(); it++) {
-            rep[it->first]++;
-        }
-
-        return values(rep);
-    }
-
-    AppGraphPtr ABACUS::approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask)
-    {
-        graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
-
         graph::Nodes suitableNodes = approximation::selectSuitableNodes(rep->approx, graph);
         graph::NodePtr node = selectUniformlyRandom(suitableNodes);
-        return graph->substitute(approximation(node, mask), node);
         return graph->substitute(rep->approx(node, rep->mask), node);
     }
     
     double ABACUS::evalAccuracy(AppGraphPtr graph, AppGraphPtr original)
     {
-        AppGraphPtr copy = new AppGraph(*graph);
-        this->exec->runGraph(copy);
         AppGraph copy(*graph);
         this->exec->runGraph(&copy);
 
         double sum_real = calculateOutputSum(original);
-        double sum_approx = calculateOutputSum(copy);
         double sum_approx = calculateOutputSum(&copy);
 
-        return (sum_real - sum_approx) / sum_real;
         return std::abs((sum_real - sum_approx) / sum_real);
     }    
     
@@ -115,7 +101,6 @@ namespace abacus {
 
     double ABACUS::calculateOutputSum(AppGraphPtr graph)
     {
-        double sum;
         double sum = 0;
         auto outputList = graph->getOutputList();
         for(auto it = outputList.begin(); it != outputList.end(); it++) {
@@ -141,7 +126,6 @@ namespace abacus {
         return value;
     }
 
-    AppGraphPtr ABACUS::popFront(ListPair list)
     AppGraphPtr ABACUS::popFront(ListPair &list)
     {
         auto first = list.front().second;
