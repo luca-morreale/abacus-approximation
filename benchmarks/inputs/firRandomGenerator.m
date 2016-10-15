@@ -17,22 +17,21 @@ coeffs = [-0.0448093,  0.0322875,   0.0181163,   0.0087615,   0.0056797, ...
        0.0181163,  0.0322875,  -0.0448093
 ];
 
-for id=1:2
+for id=1:3
     
-    % reate a m-by-n array of random integer values drawn from a discrete uniform distribution 
-    % on the set of numbers [imin imax]. Use the syntax, randi([imin imax],m,n).
-    numbers = randi([-32767 32767], 1, 143);
-    
-    filename = sprintf('fir_input%d.txt', id);
-    fileID = fopen(filename,'w');
-    
+    % Generate a 1-by-143 column vector of uniformly distributed numbers 
+    % in the interval (-32767, 32767).
+    numbers = -32767 + 2 * 32767 * rand(1,143)
+
+    fileID = fopen('fir_input3.txt','w');
+
     formatSpec = 'coeffs_%d %f\n';
     for ii=1:length(coeffs)
         fprintf(fileID, formatSpec,ii-1,coeffs(ii));
     end
     fprintf(fileID, '\n');
 
-    formatSpec = 'input_%d %d\n';
+    formatSpec = 'input_%d %f\n';
     for ii=1:length(numbers)
         fprintf(fileID, formatSpec,ii-1,numbers(ii));
     end
@@ -40,25 +39,3 @@ for id=1:2
 
     fclose(fileID);
 end
-
-%% create floating point input 
-
-% Generate a 1-by-143 column vector of uniformly distributed numbers 
-% in the interval (-32767, 32767).
-numbers = -32767 + 2 * 32767 * rand(1,143)
-
-fileID = fopen('fir_input3.txt','w');
-
-formatSpec = 'coeffs_%d %f\n';
-for ii=1:length(coeffs)
-    fprintf(fileID, formatSpec,ii-1,coeffs(ii));
-end
-fprintf(fileID, '\n');
-
-formatSpec = 'input_%d %f\n';
-for ii=1:length(numbers)
-    fprintf(fileID, formatSpec,ii-1,numbers(ii));
-end
-fprintf(fileID, '\n');
-
-fclose(fileID);
