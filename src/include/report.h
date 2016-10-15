@@ -35,7 +35,7 @@ namespace report {
         static void printReport(std::ostream &cout);
 
     protected:
-        static void appendShift(unsigned int mask);
+        static void appendShift(int mask);
 
     private:
         Report() { }

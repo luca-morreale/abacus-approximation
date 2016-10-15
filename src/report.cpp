@@ -43,7 +43,7 @@ namespace report {
         appendShift(data->mask);
     }
 
-    void Report::appendShift(unsigned int mask)
+    void Report::appendShift(int mask)
     {
         if(mask >= 0) {
             shiftInfo[mask]++;
