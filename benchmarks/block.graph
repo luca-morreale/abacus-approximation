@@ -1,10 +1,10 @@
 # SAD-based block matching procedure for single macroblock 
 # Search area is sepcified by iLeft, iTop, iRight, iBottom. 
 # Result is returned through piMvPos. 
-# ARG:  pucRefX      Reference frame left top pointer. 
-#       pucRefY      Reference frame left top pointer. 
-#       pucCurX      Current   frame left top pointer. 
-#       pucCurY      Current   frame left top pointer. 
+# ARG:  pucRefX      Reference frame left top pointer.  NOT USED (all assumed to be in the same frame)
+#       pucRefY      Reference frame left top pointer.  NOT USED
+#       pucCurX      Current   frame left top pointer.  NOT USED
+#       pucCurY      Current   frame left top pointer.  NOT USED 
 #       piMvPos     Pointer of position indicated by result MV. 
 #       iWidth      Width of the frame. 
 #       iLeft       Search area left position. 
@@ -18,8 +18,8 @@
 #   Not check validity of search area. 
 
 
-pucCurLeftTopX + pucCurX iHpos
-pucCurLeftTopY + pucCurY iVpos
+pucCurLeftTopX + 0 iHpos
+pucCurLeftTopY + 0 iVpos
 
 _if > pucCurLeftTopY iWidth
     pucCurLeftTopX + pucCurLeftTopX 1
@@ -31,8 +31,8 @@ i + 0 iTop
 _for <= i iBottom
 
 
-    pucRefLeftX + pucRefX 0 
-    pucRefLeftY + pucRefY iY
+    pucRefLeftX + 0 0 
+    pucRefLeftY + 0 i
 
     _if > pucRefLeftY iWidth
         pucRefLeftX + pucRefLeftX 1
@@ -47,7 +47,7 @@ _for <= i iBottom
         pucCX + pucCurLeftTopX 0
         pucCY + pucCurLeftTopY 0
 
-        pucRX + pucRefLeftX iX
+        pucRX + pucRefLeftX j
         pucRY + pucRefLeftY 0
 
 
