@@ -1,4 +1,5 @@
 #include "include/abacus.h"
+#include <cmath>
 
 
 namespace abacus {
@@ -48,6 +49,13 @@ namespace abacus {
                 deleteGraphs(approximatedGraphs);
             }
         }
+    approximation::Approximation ABACUS::selectAppliableApproximation(AppGraphPtr graph)
+    {
+        approximation::Approximation approx;
+        do {
+            approx = selectRandomApproximation();
+        } while(!approximation::canBeApplied(approx, graph));
+        return approx;
     }
 
     approximation::Approximation ABACUS::selectRandomApproximation()
@@ -59,6 +67,7 @@ namespace abacus {
     }
 
     std::vector<int> ABACUS::getReportCounts()
+    AppGraphPtr ABACUS::approximate(AppGraphPtr graph, report::DataPtr rep)
     {
         auto rep = report::Report::getReport();
         for(auto it = rep.begin(); it != rep.end(); it++) {
@@ -72,19 +81,25 @@ namespace abacus {
     {
         graph::Nodes suitableNodes = approximation::selectSuitableNodes(graph, approximation);
 
+        graph::Nodes suitableNodes = approximation::selectSuitableNodes(rep->approx, graph);
         graph::NodePtr node = selectUniformlyRandom(suitableNodes);
         return graph->substitute(approximation(node, mask), node);
+        return graph->substitute(rep->approx(node, rep->mask), node);
     }
     
     double ABACUS::evalAccuracy(AppGraphPtr graph, AppGraphPtr original)
     {
         AppGraphPtr copy = new AppGraph(*graph);
         this->exec->runGraph(copy);
+        AppGraph copy(*graph);
+        this->exec->runGraph(&copy);
 
         double sum_real = calculateOutputSum(original);
         double sum_approx = calculateOutputSum(copy);
+        double sum_approx = calculateOutputSum(&copy);
 
         return (sum_real - sum_approx) / sum_real;
+        return std::abs((sum_real - sum_approx) / sum_real);
     }    
     
     double ABACUS::evaluateFitness(report::DataPtr rep)
@@ -101,11 +116,22 @@ namespace abacus {
     double ABACUS::calculateOutputSum(AppGraphPtr graph)
     {
         double sum;
+        double sum = 0;
         auto outputList = graph->getOutputList();
         for(auto it = outputList.begin(); it != outputList.end(); it++) {
             sum += get(*it, graph);
         }
         return sum;
+    }
+
+    std::vector<int> ABACUS::getReportCounts()
+    {
+        auto rep = report::Report::getReport();
+        for(auto it = rep.begin(); it != rep.end(); it++) {
+            rep[it->first]++;
+        }
+
+        return values(rep);
     }
 
     double ABACUS::get(std::string variable, graph::GraphPtr graph)
@@ -116,6 +142,7 @@ namespace abacus {
     }
 
     AppGraphPtr ABACUS::popFront(ListPair list)
+    AppGraphPtr ABACUS::popFront(ListPair &list)
     {
         auto first = list.front().second;
         list.pop_front();
@@ -126,6 +153,7 @@ namespace abacus {
     {
         for(auto it = trashedGraphs.begin(); it != trashedGraphs.end(); it++) {
             delete it->second;
+            free(it->first);
         }
     }
 

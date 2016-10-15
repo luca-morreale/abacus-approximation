@@ -33,11 +33,12 @@ namespace abacus {
         /**
          * Selects randomly an approximation.
          */
+        virtual approximation::Approximation selectAppliableApproximation(AppGraphPtr graph);
         virtual approximation::Approximation selectRandomApproximation();
         /**
          * Replaces an operation with an approximated version of it.
          */
-        virtual AppGraphPtr approximate(AppGraphPtr graph, approximation::Approximation approximation, int &mask);
+        virtual AppGraphPtr approximate(AppGraphPtr graph, report::DataPtr rep);
         /**
          * Runs the graph and evaluate its accuracy wrt the original one.
          */
@@ -72,7 +73,7 @@ namespace abacus {
         double calculateOutputSum(AppGraphPtr graph);
         double get(std::string variable, graph::GraphPtr graph);
         PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
-        AppGraphPtr popFront(ListPair list);
+        AppGraphPtr popFront(ListPair &list);
         void deleteGraphs(ListPair trashedGraphs);
 
 
