@@ -27,8 +27,8 @@ _if > pucCurLeftTopY iWidth
 _if
 
 
-iY + 0 iTop
-_for <= iY iBottom
+i + 0 iTop
+_for <= i iBottom
 
 
 	pucRefLeftX + pucRefX 0 
@@ -39,8 +39,8 @@ _for <= iY iBottom
 	    pucRefLeftY + 0 0
 	_if
 
-	iX + iLeft 0
-	_for <= iX iRight
+	j + iLeft 0
+	_for <= j iRight
 
 		iTmpAd + 0 0
 		 
@@ -51,11 +51,11 @@ _for <= iY iBottom
 	    pucRY + pucRefLeftY 0
 
 
-	    iV + 0 0
-	    _for < iV 16
+	    k + 0 0
+	    _for < k 16
 	    	
-	    	iH + 0 0
-	    	_for < iH 16
+	    	n + 0 0
+	    	_for < n 16
 
 	            t1 <<c int input_pucCX_pucCY
 	            t2 <<c int input_pucRX_pucRY
@@ -77,28 +77,28 @@ _for <= iY iBottom
 	                pucRY + 0 0
 	            _if
 
-	    	iH + iH 1
+	    	n + n 1
 	    	_for 
 
 	        pucCX + pucCX 1
 	        pucRX + pucRX 1
 
-    	iV + iV 1
+    	k + k 1
 	    _for
 
 
 	    _if > iMinAd iTmpAd
 	    	iMinAd + iTmpAd 0
-	    	output_piMvPos + iX 0
+	    	output_piMvPos + j 0
 	    	ind + piMvPos 1
-	    	output__ind + iY 0
+	    	output__ind + i 0
 	    _if
 
-	iX + iX 1
+	j + j 1
 	_for
 	
 
-iY + iY 1
+i + i 1
 _for
 
 

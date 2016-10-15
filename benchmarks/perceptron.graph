@@ -16,12 +16,12 @@ iteration + 0 0
 iteration + iteration 1
 globalError + 0 0
 
-p + 0 0
-_for < p SAMPLES
+i + 0 0
+_for < i SAMPLES
 
 
-dotx * x_p output_0
-doty * y_p output_1
+dotx * x_i output_0
+doty * y_i output_1
 sumdot + dotx doty
 sum + sumdot output_2
 _if >= sum 0
@@ -31,10 +31,10 @@ out - 0 1
 _if
 
 
-localError - targets_p out
+localError - targets_i out
 t1 * LEARNINGRATE localError
-wx * t1 x_p
-wy * t1 y_p
+wx * t1 x_i
+wy * t1 y_i
 output_0 + output_0 wx
 output_1 + output_1 wy
 output_2 + output_2 t1
@@ -42,7 +42,7 @@ output_2 + output_2 t1
 localsq * localError localError
 globalError + globalError localsq
 
-p + p 1
+i + i 1
 _for
 
 # end first iteration
@@ -56,12 +56,12 @@ _for && exp1 exp2
 iteration + iteration 1
 globalError + 0 0
 
-p + 0 0
-_for < p SAMPLES
+i + 0 0
+_for < i SAMPLES
 
 
-dotx * x_p output_0
-doty * y_p output_1
+dotx * x_i output_0
+doty * y_i output_1
 sumdot + dotx doty 
 sum + sumdot output_2
 _if >= sum 0
@@ -71,7 +71,7 @@ out - 0 1
 _if
 
 
-localError - targets_p out
+localError - targets_i out
 t1 * LEARNINGRATE localError
 wx * t1 x_p
 wy * t1 y_p
@@ -82,7 +82,7 @@ output_2 + output_2 t1
 localsq * localError localError
 globalError + globalError localsq
 
-p + p 1
+i + i 1
 _for
 
 
