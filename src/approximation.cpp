@@ -9,7 +9,7 @@ namespace approximation {
     std::map<Approximation, std::string> approximationsOp(op_start_values, op_start_values + op_map_values_size);
 
 
-    graph::Nodes selectSuitableNodes(graph::GraphPtr graph, Approximation approximation)
+    graph::Nodes selectSuitableNodes(Approximation approximation, graph::GraphPtr graph)
     {
         graph::Graph copy(*graph);
         if(approximation == approximateValue) {
@@ -41,6 +41,11 @@ namespace approximation {
             }
         }
         return suitableNodes;
+    }
+
+    bool canBeApplied(Approximation approximation, graph::GraphPtr graph)
+    {
+        return (selectSuitableNodes(approximation, graph)).size() > 0;
     }
     
     
