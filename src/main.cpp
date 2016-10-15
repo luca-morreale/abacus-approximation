@@ -8,6 +8,7 @@
 #include "include/graph.h"
 #include "include/executer.h"
 #include "include/abacus.h"
+#include "include/report.h"
 
 #define PARAMETERS 12
 #define FLAG_FILE "-f"
@@ -90,9 +91,21 @@ int main(int argc, char *argv[])
         graph->debug();
     #endif
 
-    executer::Executer exec;
+    
+    report::Report::printReport(cout);
 
-    exec.runGraph(graph);
+    // fir & perceptron 10 x 5
+    // block 15 x 6
+    // fir acc 0.909
+    // percep acc 0.762
+    
+    abacus::ABACUS ab(N, M, acc);
+    ab.runAbacusOnGraph(graph);
+
+    //auto outputList = graph->getOutputList();
+
+    report::Report::printReport(cout);
+    
 
     delete(graph);
 
