@@ -247,7 +247,7 @@ namespace operations {
             operation = &orBit<T>;
         } else if(is(node->op, "~")) {
             operation = &negBit<T>;
-        } else if(is(node->op, "<<c")) {
+        } else if(is(node->op, "cast")) {
             operation = &cast<T>;
         } else if(is(node->op, "abs")) {
             operation = &abs<T>;

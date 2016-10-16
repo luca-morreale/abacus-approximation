@@ -17,7 +17,7 @@ i + 0 0
 _for < i lengthinput
 
 _if >= i  63
-floatInput_i <<c double input_i
+floatInput_i cast double input_i
 _else
 floatInput_i + input_i 0
 _if
@@ -67,7 +67,7 @@ _elseif < floatOutput_i neg
 floatOutput_i + 0 neg
 _if
 
-output_i <<c int floatOutput_i
+output_i cast int floatOutput_i
 
 i + i 1
 _for
