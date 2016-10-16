@@ -12,7 +12,8 @@
 namespace parser {
 
     const std::string word("[\\w.-]");
-    const std::regex nodeRegex("(_?\\w+)( (\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~)( )+(" + word + "+)( )+(" + word + "+))? *\n*");
+    const std::string operations("\\+|-|\\*|\\/|<|<=|>|>=|==|\\!=|&&|\\|\\||<<a|<<c|&|\\||~|abs");
+    const std::regex nodeRegex("(_?\\w+)( (" + operations + ")( )+(" + word + "+)( )+(" + word + "+))? *\n*");
     const std::regex inputRegex("((\\w+))( (" + word + ")+) *\n*");
 
     /**
