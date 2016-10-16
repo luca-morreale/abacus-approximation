@@ -24,7 +24,6 @@ namespace approximation {
         graph::Nodes suitableNodes;
         graph::NodePtr current;
         while ((current=graph->next()) != NULL) {
-            if (is(current->op, op) && !syntax::Syntax::isControlOp(current->out)) {
             if (is(current->op, op) && isOperationalNode(current)) {
                 suitableNodes.push_back(current);
             }
@@ -37,7 +36,6 @@ namespace approximation {
         graph::Nodes suitableNodes;
         graph::NodePtr current;
         while ((current=graph->next()) != NULL) {
-            if (!syntax::Syntax::isControlOp(current->out)) {
             if (isOperationalNode(current) && !is(current->op, "cast") && !is(current->op, "abs")) {
                 suitableNodes.push_back(current);
             }
