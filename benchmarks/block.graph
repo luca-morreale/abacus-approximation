@@ -17,7 +17,7 @@
 #   MV  1 means 1pel 
 #   Not check validity of search area. 
 
-
+iMinAd + 0 0
 pucCurLeftTopX + 0 iHpos
 pucCurLeftTopY + 0 iVpos
 
@@ -60,7 +60,7 @@ _for <= i iBottom
                 t1 <<c int input_pucCX_pucCY
                 t2 <<c int input_pucRX_pucRY
                 t3 - t1 t2
-                t4 abs t3 t3 
+                t4 abs t3 t3
 
                 iTmpAd + iTmpAd t4
                 

@@ -200,7 +200,7 @@ namespace operations {
     }
 
     template<typename T>
-    T abs(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)      // To check
+    T abs(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
         T op;
         extractOperand(nameOp1, op, graph);
