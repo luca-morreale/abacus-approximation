@@ -45,7 +45,12 @@ namespace approximation {
 
     bool isOperationalNode(graph::NodePtr node)
     {
-        return !syntax::Syntax::isControlOp(node->out);
+        return !syntax::Syntax::isControlOp(node->out) && !isLoopIterator(node->out);
+    }
+
+    bool isLoopIterator(std::string it)
+    {
+        return is("i", it) || is("j", it) || is("k", it) || is("n", it); 
     }
 
     bool canBeApplied(Approximation approximation, graph::GraphPtr graph)
