@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(sumSelection)
     graph::GraphPtr original = parser::extractGraph(in, "int");
 
     auto nodes = approximation::selectSuitableNodes(approximation::approximateSum, original);
-    BOOST_CHECK_EQUAL(16, nodes.size());
+    BOOST_CHECK_EQUAL(10, nodes.size());
 
     delete(original);
     in.close();
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(valueSelection)
     graph::GraphPtr original = parser::extractGraph(in, "int");
 
     auto nodes = approximation::selectSuitableNodes(approximation::approximateValue, original);
-    BOOST_CHECK_EQUAL(19, nodes.size());
+    BOOST_CHECK_EQUAL(13, nodes.size());
     
     delete(original);
     in.close();
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(multipleSelection)
     auto nodes = approximation::selectSuitableNodes(approximation::approximateMinus, original);
     BOOST_CHECK_EQUAL(2, nodes.size());
     nodes = approximation::selectSuitableNodes(approximation::approximateSum, original);
-    BOOST_CHECK_EQUAL(16, nodes.size());
+    BOOST_CHECK_EQUAL(10, nodes.size());
     nodes = approximation::selectSuitableNodes(approximation::approximateMult, original);
     BOOST_CHECK_EQUAL(0, nodes.size());
     nodes = approximation::selectSuitableNodes(approximation::approximateDiv, original);
