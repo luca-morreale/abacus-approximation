@@ -20,7 +20,7 @@ namespace approximation {
     graph::Nodes selectAll(graph::GraphPtr graph);
     
     bool isOperationalNode(graph::NodePtr node);
-    bool isLoopIncrement(std::string str);
+    
     
     /**
      * Checks if there exists nodes on which the approximation can be applied.
