@@ -20,6 +20,7 @@ namespace approximation {
     graph::Nodes selectAll(graph::GraphPtr graph);
     
     bool isOperationalNode(graph::NodePtr node);
+    bool isLoopIterator(std::string it);
     
     
     /**
