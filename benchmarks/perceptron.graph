@@ -71,13 +71,13 @@ out - 0 1
 _if
 
 
-localError - targets_i out
-t1 * LEARNINGRATE localError
-wx * t1 x_p
-wy * t1 y_p
-output_0 + output_0 wx
-output_1 + output_1 wy
-output_2 + output_2 t1
+localError - targets_i out 
+t1 * LEARNINGRATE localError 
+wx * t1 x_i 
+wy * t1 y_i 
+output_0 + output_0 wx 
+output_1 + output_1 wy 
+output_2 + output_2 t1 
 
 localsq * localError localError
 globalError + globalError localsq
