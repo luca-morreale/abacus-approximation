@@ -47,6 +47,7 @@ namespace report {
 
         static Informations info;
         static ShiftInformations shiftInfo;
+        static double finalAccuracy;
 
 
         typedef std::map<approximation::Approximation, std::string> AppName;

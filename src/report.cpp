@@ -22,6 +22,7 @@ namespace report {
     Report::AppName Report::approximationsName(map_start_values, map_start_values + map_values_size);
     Informations Report::info(map_report_start_values, map_report_start_values + map_values_size);
     ShiftInformations Report::shiftInfo;
+    double Report::finalAccuracy = 0;
 
 
     DataPtr newData(approximation::Approximation &approx, double fitness, double accuracy, int mask)
@@ -41,6 +42,7 @@ namespace report {
         std::string name = approximationsName[data->approx];
         info[name]++;
         appendShift(data->mask);
+        finalAccuracy = data->accuracy;
     }
 
     void Report::appendShift(int mask)
@@ -78,6 +80,7 @@ namespace report {
                 cout << "\t" << it->first << ": " << it->second << std::endl;
             }
         }
+        cout << "Final accuracy: " << finalAccuracy << std::endl;
     }
 
 
