@@ -8,12 +8,12 @@ output_0 + randomFloat 0
 output_1 + randomFloat 0
 output_2 + randomFloat 0
 
-iteration + 0 0
+it + 0 0
 
 # from do-while to for, following first iteration
 
 
-iteration + iteration 1
+it + it 1
 globalError + 0 0
 
 i + 0 0
@@ -45,15 +45,15 @@ globalError + globalError localsq
 i + i 1
 _for
 
-# end first iteration
+# end first it
 
 exp1 != globalError 0
-exp2 <= iteration MAXITERATION
+exp2 <= it MAXITERATION
 
 
 _for && exp1 exp2
 
-iteration + iteration 1
+it + it 1
 globalError + 0 0
 
 i + 0 0
@@ -88,7 +88,7 @@ _for
 
 
 exp1 != globalError 0
-exp2 <= iteration MAXITERATION
+exp2 <= it MAXITERATION
 _for
 
 
