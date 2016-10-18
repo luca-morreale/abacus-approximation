@@ -92,8 +92,6 @@ int main(int argc, char *argv[])
     #endif
 
     
-    report::Report::printReport(cout);
-
     // fir & perceptron 10 x 5
     // block 15 x 6
     // fir acc 0.909
