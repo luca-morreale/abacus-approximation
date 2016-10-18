@@ -17,6 +17,7 @@ namespace abacus {
 
     typedef approximation::ApproximatedGraph AppGraph;
     typedef approximation::ApproximatedGraphPtr AppGraphPtr;
+
     
     class ABACUS {
     public:

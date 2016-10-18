@@ -1,5 +1,8 @@
 #include "include/abacus.h"
 #include <cmath>
+#ifdef ITERATIONS
+    #include <iostream>
+#endif
 
 
 namespace abacus {
@@ -35,7 +38,7 @@ namespace abacus {
                 AppGraphPtr appGraph = approximate(original, rep);
                 rep->accuracy = evalAccuracy(appGraph, &executedOriginal);
 
-                if(rep->accuracy < 1 - this->threshold) {
+                if(rep->accuracy < this->threshold) {
                     rep->fitness = evaluateFitness(rep);
                     #pragma omp critical
                     approximatedGraphs.push_back(make_pair(rep, appGraph));
@@ -47,6 +50,9 @@ namespace abacus {
                 original = popFront(approximatedGraphs);
                 deleteGraphs(approximatedGraphs);
             }
+            #ifdef ITERATIONS
+                std::cout <<"Iteration #"<< i << " completed." << std::endl;
+            #endif
         }
     }
 
@@ -150,12 +156,4 @@ namespace abacus {
     {
         return a.first->fitness < b.first->fitness;
     }
-
-    /**
-     * scan the entire graph using next while collect the node with the right operations
-     * then randomly choose one and approximate it substituting with different operations -> implement substitute in graph
-     * 
-     */
-
-
 }
