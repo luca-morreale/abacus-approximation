@@ -67,13 +67,15 @@ namespace report {
 
     void Report::printReport(std::ostream &cout)
     {
+        cout << "Report:" << std::endl;
         for(auto it = info.begin(); it != info.end(); it++) {
-            cout << it->first << ": " << it->second << std::endl;
+            cout << "\t" << it->first << ": " << it->second << std::endl;
         }
 
         if(shiftInfo.size() != 0) {
+            cout << "Shifts:" << std::endl;
             for(auto it = shiftInfo.begin(); it != shiftInfo.end(); it++) {
-                cout << it->first << ": " << it->second << std::endl;
+                cout << "\t" << it->first << ": " << it->second << std::endl;
             }
         }
     }
