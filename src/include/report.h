@@ -7,6 +7,11 @@
 #include "approximation.h"
 #include "utility.h"
 
+namespace approximation {
+    // forward declaration
+    typedef graph::Nodes (*Approximation)(graph::NodePtr node, int &mask);
+}
+
 namespace report {
 
     typedef struct {

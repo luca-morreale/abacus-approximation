@@ -7,6 +7,13 @@
 #include "node.h"
 #include "syntax.h"
 #include "utility.h"
+#include "report.h"
+
+namespace report {
+    // forward declaration
+    typedef std::map<std::string, int> Informations;
+    typedef std::map<int, int> ShiftInformations;
+}
 
 namespace approximation {
 
