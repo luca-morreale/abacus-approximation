@@ -2,11 +2,18 @@ clc;
 clear;
 clear all;
 
-points = 100;
 learning_rate = 0.5;
-max_iteration = 300;
 
-for id=1:3
+for id=1:6
+    
+    if id < 4
+        points = 50;
+        max_iteration = 200;
+    else
+        points = 100;
+        max_iteration = 300;
+    end
+    
     % generates random data that can be lineary seperated (silent)
     % generate random function y = mx + n
     m = 2  * rand * sign(randn);   % in (-2,2)/0
