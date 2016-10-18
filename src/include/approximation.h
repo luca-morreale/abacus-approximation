@@ -62,7 +62,7 @@ namespace approximation {
      * the previous applied shifts.
      */
     int calculateShift();
-    std::vector<int> getShiftList();
+    report::ShiftInformations getShiftList();
     void fillBaseShiftValue(std::map<int, int> &shifts);
 
     /**
@@ -94,6 +94,6 @@ namespace approximation {
 
     const size_t op_map_values_size = 4;
 
-}
+} // namespace approximation
 
-#endif
+#endif /* APPROXIMATION_H */

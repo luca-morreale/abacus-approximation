@@ -1,5 +1,6 @@
 #include "include/approximation.h"
-#include "include/report.h"
+//#include "include/report.h"
+#include <iostream>
 
 
 namespace approximation {
@@ -50,7 +51,7 @@ namespace approximation {
 
     bool isLoopIterator(std::string it)
     {
-        return is("i", it) || is("j", it) || is("k", it) || is("n", it); 
+        return is("i", it) || is("it", it) || is("j", it) || is("k", it) || is("n", it);
     }
 
     bool canBeApplied(Approximation approximation, graph::GraphPtr graph)
@@ -136,11 +137,23 @@ namespace approximation {
         replacement[1]->incoming[1] = "tmp";
     }
 
+    report::ShiftInformations getShiftList()
+    {
+        report::ShiftInformations shifts = report::Report::getShiftReport();
+        if(shifts.size() < 16) {
+            fillBaseShiftValue(shifts);
+        }
+        return shifts;
+    }
+
     int calculateShift()
     {
-        std::vector<int> shiftsCount = getShiftList();
-        std::vector<double> prob = normalizeProbabilities(shiftsCount);
-        int shift = shiftsCount[sampleIndex(prob)];
+        report::ShiftInformations shiftMap = getShiftList();
+        std::vector<int> shifts = keys(shiftMap);
+        std::vector<int> counts = values(shiftMap);
+
+        std::vector<double> prob = normalizeProbabilities(counts);
+        int shift = shifts[sampleIndex(prob)];
 
         if(randDouble() > 0.5) {
             shift = evolveShift(shift);
@@ -148,16 +161,7 @@ namespace approximation {
 
         return shift;
     }
-
-    std::vector<int> getShiftList()
-    {
-        auto shifts = report::Report::getShiftReport();
-        if(shifts.size() < 32) {
-            fillBaseShiftValue(shifts);
-        }
-        return keys(shifts);
-    }
-
+    
     void fillBaseShiftValue(report::ShiftInformations &shifts)
     {
         auto powtwo = getPowTwo();
