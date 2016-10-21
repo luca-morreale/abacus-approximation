@@ -23,36 +23,46 @@ namespace abacus {
     void ABACUS::runAbacusOnGraph(graph::GraphPtr graph)
     {
         AppGraphPtr original = new AppGraph(*graph);
+        AppGraphPtr executedOriginal = new AppGraph(*original);
+        
+        double relAccuracy = 1 - this->threshold;
+        this->exec->runGraph(executedOriginal);
 
         for(int i = 0; i < this->N; i++) {
-            AppGraph executedOriginal(*original);
-            this->exec->runGraph(&executedOriginal);
-
+            
             ListPair approximatedGraphs;
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) num_threads(8)
             for(int j = 0; j < this->M; j++) {
-                report::DataPtr rep = new report::Data;
-
-                rep->approx = selectAppliableApproximation(original);
-                AppGraphPtr appGraph = approximate(original, rep);
-                rep->accuracy = evalAccuracy(appGraph, &executedOriginal);
-
-                if(rep->accuracy < this->threshold) {
-                    rep->fitness = evaluateFitness(rep);
-                    #pragma omp critical
-                    approximatedGraphs.push_back(make_pair(rep, appGraph));
-                }
+                generateValidApproximation(approximatedGraphs, original, executedOriginal, relAccuracy);
             }
 
             if(approximatedGraphs.size() > 0) {
-                approximatedGraphs.sort(cmpPairs);
-                original = popFront(approximatedGraphs);
-                deleteGraphs(approximatedGraphs);
+                substituteOriginal(&original, &executedOriginal, relAccuracy, approximatedGraphs);
             }
+
             #ifdef ITERATIONS
                 std::cout <<"Iteration #"<< i << " completed." << std::endl;
             #endif
+        }
+
+        delete(executedOriginal);
+        delete(original);
+    }
+
+    void ABACUS::generateValidApproximation(ListPair &approximatedGraphs, AppGraphPtr original, AppGraphPtr executedOriginal, double &relAccuracy)
+    {
+        report::DataPtr rep = new report::Data;
+        rep->approx = selectAppliableApproximation(original);
+        AppGraphPtr appGraph = approximate(original, rep);
+
+        AppGraphPtr executedApproxGraph;
+        rep->accuracy = evalAccuracy(appGraph, executedOriginal, &executedApproxGraph);  // estimated relative accuracy wrt previuos approximation
+        
+        if(rep->accuracy < relAccuracy) {
+            rep->fitness = evaluateFitness(rep);
+            #pragma omp critical
+            approximatedGraphs.push_back(make_pair(rep, appGraph, executedApproxGraph));
         }
     }
 
@@ -81,13 +91,13 @@ namespace abacus {
         return graph->substitute(rep->approx(node, rep->mask), node);
     }
     
-    double ABACUS::evalAccuracy(AppGraphPtr graph, AppGraphPtr original)
+    double ABACUS::evalAccuracy(AppGraphPtr graph, AppGraphPtr original, AppGraphPtr *executed)
     {
-        AppGraph copy(*graph);
-        this->exec->runGraph(&copy);
+        *executed = new AppGraph(*graph);
+        this->exec->runGraph(*executed);
 
         double sum_real = calculateOutputSum(original);
-        double sum_approx = calculateOutputSum(&copy);
+        double sum_approx = calculateOutputSum(*executed);
 
         return std::abs((sum_real - sum_approx) / sum_real);
     }    
@@ -130,25 +140,47 @@ namespace abacus {
         return value;
     }
 
-    AppGraphPtr ABACUS::popFront(ListPair &list)
+    void ABACUS::substituteOriginal(AppGraphPtr *original, AppGraphPtr *executed, double &relAccuracy, ListPair &approximatedGraphs)
     {
-        auto first = list.front().second;
-        report::Report::appendApproximation(list.front().first);
+        approximatedGraphs.sort(cmpPairs);
+        reduceRelativeAccuracy(relAccuracy, approximatedGraphs);
+        auto pairGraphs = popFront(approximatedGraphs);
+        replaceGraphReferences(original, executed, pairGraphs);
+        deleteGraphs(approximatedGraphs);
+    }
+
+    void ABACUS::replaceGraphReferences(AppGraphPtr *original, AppGraphPtr *executed, GraphPair pairGraphs)
+    {
+        delete(*executed);
+        *original = pairGraphs.first;
+        *executed = pairGraphs.second;
+    }
+
+    void ABACUS::reduceRelativeAccuracy(double &relAccuracy, ListPair &approximatedGraphs)
+    {
+        relAccuracy -= approximatedGraphs.front().first->accuracy;
+    }
+
+    ABACUS::GraphPair ABACUS::popFront(ListPair &list)
+    {
+        auto firstEl = list.front();
+        report::Report::appendApproximation(firstEl.first);
         list.pop_front();
-        return first;
+        return firstEl.second;
     }
 
     void ABACUS::deleteGraphs(ListPair trashedGraphs)
     {
         for(auto it = trashedGraphs.begin(); it != trashedGraphs.end(); it++) {
-            delete it->second;
+            delete(it->second.first);
+            delete(it->second.second);
             free(it->first);
         }
     }
 
-    ABACUS::PairAppr ABACUS::make_pair(report::DataPtr data, AppGraphPtr graph)
+    ABACUS::PairAppr ABACUS::make_pair(report::DataPtr data, AppGraphPtr graph, AppGraphPtr executedGraph)
     {
-        return std::make_pair(data, graph);
+        return std::make_pair(data, std::make_pair(graph, executedGraph));
     }
 
 
@@ -156,4 +188,4 @@ namespace abacus {
     {
         return a.first->fitness < b.first->fitness;
     }
-}
+} // namespace abacus

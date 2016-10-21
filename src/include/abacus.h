@@ -31,6 +31,11 @@ namespace abacus {
         double getThreshold() { return threshold; }
 
     protected:
+        typedef std::pair<AppGraphPtr, AppGraphPtr> GraphPair;
+        typedef std::pair<report::DataPtr, GraphPair> PairAppr;
+        typedef std::list<PairAppr> ListPair;
+
+        virtual void generateValidApproximation(ListPair &approximatedGraphs, AppGraphPtr original, AppGraphPtr executedOriginal, double &relAccuracy);
         /**
          * Selects randomly an approximation.
          */
@@ -43,15 +48,12 @@ namespace abacus {
         /**
          * Runs the graph and evaluate its accuracy wrt the original one.
          */
-        virtual double evalAccuracy(AppGraphPtr graph, AppGraphPtr original);
+        virtual double evalAccuracy(AppGraphPtr graph, AppGraphPtr original, AppGraphPtr *executed);
         /**
          * Evaluates the fitness given the approximation applied and the accuracy obtained.
          */
         virtual double evaluateFitness(report::DataPtr rep);
         virtual double evaluateBitReset(int mask);
-
-        typedef std::pair<report::DataPtr, AppGraphPtr> PairAppr;
-        typedef std::list<PairAppr> ListPair;
 
         static bool cmpPairs(PairAppr a, PairAppr b);
 
@@ -71,10 +73,17 @@ namespace abacus {
         ABACUS() { }
 
         std::vector<int> getReportCounts();
-        double calculateOutputSum(AppGraphPtr graph);
         double get(std::string variable, graph::GraphPtr graph);
-        PairAppr make_pair(report::DataPtr data, AppGraphPtr graph);
-        AppGraphPtr popFront(ListPair &list);
+        
+        double calculateOutputSum(AppGraphPtr graph);
+        
+        PairAppr make_pair(report::DataPtr data, AppGraphPtr graph, AppGraphPtr executedGraph);
+        
+        void substituteOriginal(AppGraphPtr *original, AppGraphPtr *executed, double &accuracyLimit, ListPair &approximatedGraphs);
+        void replaceGraphReferences(AppGraphPtr *original, AppGraphPtr *executed, GraphPair pairGraphs);
+        void reduceRelativeAccuracy(double &relAccuracy, ListPair &approximatedGraphs);
+        
+        GraphPair popFront(ListPair &list);
         void deleteGraphs(ListPair trashedGraphs);
 
 
