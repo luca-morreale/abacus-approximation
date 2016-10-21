@@ -42,7 +42,7 @@ namespace report {
         std::string name = approximationsName[data->approx];
         info[name]++;
         appendShift(data->mask);
-        finalAccuracy = data->accuracy;
+        finalAccuracy += data->accuracy;
     }
 
     void Report::appendShift(int mask)
@@ -80,7 +80,7 @@ namespace report {
                 cout << "\t" << it->first << ": " << it->second << std::endl;
             }
         }
-        cout << "Final accuracy: " << finalAccuracy << std::endl;
+        cout << "Final accuracy: " << (1 - finalAccuracy) << std::endl;
     }
 
 
