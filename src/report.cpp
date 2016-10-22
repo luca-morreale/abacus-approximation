@@ -5,17 +5,17 @@ namespace report {
 
     const Report::approxpair Report::map_start_values[] = {
         Report::approxpair(&approximation::approximateSum, "sum"),
-        Report::approxpair(&approximation::approximateMinus, "min"),
-        Report::approxpair(&approximation::approximateMult, "mult"),
-        Report::approxpair(&approximation::approximateDiv, "div"),
+        Report::approxpair(&approximation::approximateMinus, "subtraction"),
+        Report::approxpair(&approximation::approximateMult, "multiplication"),
+        Report::approxpair(&approximation::approximateDiv, "division"),
         Report::approxpair(&approximation::approximateValue, "value")
     };
 
     const Report::reportpair Report::map_report_start_values[] = {
         Report::reportpair("sum", 0),
-        Report::reportpair("min", 0),
-        Report::reportpair("mult", 0),
-        Report::reportpair("div", 0),
+        Report::reportpair("subtraction", 0),
+        Report::reportpair("multiplication", 0),
+        Report::reportpair("division", 0),
         Report::reportpair("value", 0)
     };
 
