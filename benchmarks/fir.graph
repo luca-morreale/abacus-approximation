@@ -6,8 +6,6 @@
 # input must be of 143 values
 # each iteration carries new data and shift the data
 
-lengthinput + 0 143
-filterlength + 0 63
 length - lengthinput filterlength
 
 # considered all array  all the time so input is bigger, each loop should start from 63

@@ -34,7 +34,9 @@ namespace abacus {
             
             #pragma omp parallel for default(shared) shared(approximatedGraphs) num_threads(8)
             for(int j = 0; j < this->M; j++) {
-                generateValidApproximation(approximatedGraphs, original, executedOriginal, relAccuracy);
+                try {
+                    generateValidApproximation(approximatedGraphs, original, executedOriginal, relAccuracy);
+                } catch (std::out_of_range oor) { } // approximation may cause errors reguarding index of arrays, which is not a valid approximation
             }
 
             if(approximatedGraphs.size() > 0) {
