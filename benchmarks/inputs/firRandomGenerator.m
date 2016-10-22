@@ -17,19 +17,30 @@ coeffs = [-0.0448093,  0.0322875,   0.0181163,   0.0087615,   0.0056797, ...
        0.0181163,  0.0322875,  -0.0448093
 ];
 
-for id=1:3
-    
-    % Generate a 1-by-143 column vector of uniformly distributed numbers 
-    % in the interval (-32767, 32767).
-    numbers = -32767 + 2 * 32767 * rand(1,143)
+for id=1:6
 
-    fileID = fopen('fir_input3.txt','w');
+    filename = sprintf('fir_input%d.txt', id);
+    fileID = fopen(filename,'w');
+    
+    fprintf(fileID, 'filterlength 63\n');
+    
+    if id < 4
+        len = 143;
+        fprintf(fileID, 'lengthinput 143\n\n');
+    else
+        len = randi([63+80 1000], 1, 1);
+        fprintf(fileID, 'lengthinput %d\n\n', len);
+    end
 
     formatSpec = 'coeffs_%d %f\n';
     for ii=1:length(coeffs)
         fprintf(fileID, formatSpec,ii-1,coeffs(ii));
     end
     fprintf(fileID, '\n');
+    
+    % Generate a 1-by-143 column vector of uniformly distributed numbers 
+    % in the interval (-32767, 32767).
+    numbers = -32767 + 2 * 32767 * rand(1,len);
 
     formatSpec = 'input_%d %f\n';
     for ii=1:length(numbers)

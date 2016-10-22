@@ -1,3 +1,6 @@
+filterlength 63
+lengthinput 143
+
 coeffs_0 -0.044809
 coeffs_1 0.032287
 coeffs_2 0.018116
