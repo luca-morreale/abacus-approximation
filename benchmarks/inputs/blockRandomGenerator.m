@@ -17,38 +17,25 @@
 % on the set of numbers [imin imax]. Use the syntax, randi([imin imax],m,n).
 
 
-for id=1:3
-    
+for id=1:6
     
     filename = sprintf('block_input%d.txt', id);
     fileID = fopen(filename,'w');
     
-    %pucRefX = 0;
-    %pucRefY = 0;
-    %pucCurX = 0;
-    %pucCurY = 0;
     piMvPos = 0;
-    iWidth  = randi([100 150], 1, 1);
-    iLeft   = randi([0        iWidth-16], 1, 1);
-    iRight  = randi([iLeft+16 iWidth],    1, 1);
-    iTop    = randi([0        iWidth-16], 1, 1);
-    iBottom = randi([iTop+16  iWidth],    1, 1);
-    iHpos   = randi([0 iWidth-16], 1, 1);
-    iVpos   = randi([0 iWidth-16], 1, 1);
+    if id < 4
+        iWidth  = randi([33 40], 1, 1);
+    else
+        iWidth  = randi([50 100], 1, 1);
+    end
+    iLeft   = randi([0 iWidth-17], 1, 1);
+    iTop    = randi([0 iWidth-17], 1, 1);
     
     
-    %fprintf(fileID, 'pucRefX %d\n', pucRefX);
-    %fprintf(fileID, 'pucRefY %d\n', pucRefY);
-    %fprintf(fileID, 'pucCurX %d\n', pucCurX);
-    %fprintf(fileID, 'pucCurY %d\n', pucCurY);
     fprintf(fileID, 'piMvPos %d\n', piMvPos);
     fprintf(fileID, 'iWidth %d\n', iWidth);
     fprintf(fileID, 'iLeft %d\n', iLeft);
-    fprintf(fileID, 'iRight %d\n', iRight);
     fprintf(fileID, 'iTop %d\n', iTop);
-    fprintf(fileID, 'iBottom %d\n', iBottom);
-    fprintf(fileID, 'iHpos %d\n', iHpos);
-    fprintf(fileID, 'iVpos %d\n', iVpos);
     
     fprintf(fileID, '\n');
     

@@ -1,106 +1,55 @@
-# SAD-based block matching procedure for single macroblock 
-# Search area is sepcified by iLeft, iTop, iRight, iBottom. 
-# Result is returned through piMvPos. 
-# ARG:  pucRefX      Reference frame left top pointer.  NOT USED (all assumed to be in the same frame)
-#       pucRefY      Reference frame left top pointer.  NOT USED
-#       pucCurX      Current   frame left top pointer.  NOT USED
-#       pucCurY      Current   frame left top pointer.  NOT USED 
-#       piMvPos     Pointer of position indicated by result MV. 
-#       iWidth      Width of the frame. 
-#       iLeft       Search area left position. 
-#       iRight      Search area right position. 
-#       iTop        Search area top position. 
-#       iBottom     Search area bottom position. 
-#       iHpos       Current block left position in the frame. 
-#       iVpos       Current block top position in the frame. 
-# Comment: 
-#   MV  1 means 1pel 
-#   Not check validity of search area. 
 
 iMinAd + 10000 0
-pucCurLeftTopX + 0 iHpos
-pucCurLeftTopY + 0 iVpos
 
-_if > pucCurLeftTopY iWidth
-    pucCurLeftTopX + pucCurLeftTopX 1
-    pucCurLeftTopY + 0 0
-_if
-
-
-i + 0 iTop
-_for <= i iBottom
-
-
-    pucRefLeftX + 0 0 
-    pucRefLeftY + 0 i
-
-    _if > pucRefLeftY iWidth
-        pucRefLeftX + pucRefLeftX 1
-        pucRefLeftY + 0 0
-    _if
-
-    j + iLeft 0
-    _for <= j iRight
+limitx - iWidth 18
+i + 0 0
+_for < i limitx
+    
+    limity - iWidth 18
+    j + 0 0
+    _for < j limity
+    # selected where start matrix
 
         iTmpAd + 0 0
-         
-        pucCX + pucCurLeftTopX 0
-        pucCY + pucCurLeftTopY 0
-
-        pucRX + pucRefLeftX j
-        pucRY + pucRefLeftY 0
-
 
         k + 0 0
         _for < k 16
-            
+
             n + 0 0
             _for < n 16
 
-                t1 cast int input_pucCX_pucCY
-                t2 cast int input_pucRX_pucRY
-                t3 - t1 t2
+                posx + i k
+                posy + j n
+
+                searchx + iTop k
+                searchy + iLeft n
+
+                t1 cast int input_searchx_searchy 
+                t2 cast int input_posx_posy 
+                t3 - t1 t2 
                 t4 abs t3 t3
 
                 iTmpAd + iTmpAd t4
-                
-                pucCY + pucCY 1
-                pucRY + pucRY 1
-
-                _if > pucCY iWidth
-                    pucCX + pucCX 1
-                    pucCY + 0 0
-                _if
-
-                _if > pucRY iWidth
-                    pucRX + pucRX 1
-                    pucRY + 0 0
-                _if
 
             n + n 1
-            _for 
-
-            pucCX + pucCX 1
-            pucRX + pucRX 1
-
+            _for
+        
         k + k 1
         _for
 
-
         _if > iMinAd iTmpAd
             iMinAd + iTmpAd 0
-            output_piMvPos + j 0
-            ind + piMvPos 1
-            output_ind + i 0
+
+            output_piMvPos + i 0 
+            next + piMvPos 1
+            output_next + j 0
         _if
 
     j + j 1
     _for
-    
 
 i + i 1
 _for
-
 
 # Result is returned through piMvPos (index of vector mv)
 # mv is output

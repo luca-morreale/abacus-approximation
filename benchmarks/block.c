@@ -124,3 +124,23 @@ for(iY = iTop; iY <= iBottom; iY++) {
     } 
 } 
 return iMinAd; 
+
+for int i=... 
+    for int j = ...
+        iTmpAd = 0; 
+
+        for(iV = 0; iV < 16; iV++) { 
+            for(iH = 0; iH < 16; iH++) {
+
+                posx i + iV
+                posy j + iH
+                iTmpAd += abs((INT32)*(input_i_j) - (INT32)*(input_posx_posy)); 
+                
+            } 
+        } 
+        /* Check minimum AD */ 
+        if(iMinAd > iTmpAd) { 
+            iMinAd = iTmpAd; 
+            *piMvPos = iX; 
+            *(piMvPos+1) = iY; 
+        } 
