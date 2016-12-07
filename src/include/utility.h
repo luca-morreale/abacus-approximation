@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdlib>
 #include <map>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -14,8 +15,14 @@ bool is(std::string a, std::string b);
 bool isNumber(std::string &str);
 bool isOpEmpty(graph::NodePtr node);
 
-template <typename T, typename E>
+template <typename T, typename E> inline
 bool isIn(std::map<T, E> &m, T key)
+{
+    return m.find(key) != m.end();
+}
+
+template <typename T, typename E> inline
+bool isIn(std::set<T, E> &m, T key)
 {
     return m.find(key) != m.end();
 }
