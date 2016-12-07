@@ -13,6 +13,7 @@
 
 bool is(std::string a, std::string b);
 bool isNumber(std::string &str);
+bool containsNumber(std::string &str);
 bool isOpEmpty(graph::NodePtr node);
 
 template <typename T, typename E> inline

@@ -12,6 +12,11 @@ bool isNumber(std::string &str)
     return !str.empty() && str.find_first_not_of(".0123456789") == std::string::npos;
 }
 
+bool containsNumber(std::string &str)
+{
+    return str.find_first_of("0123456789") != std::string::npos;
+}
+
 bool isOpEmpty(graph::NodePtr node)
 {
     return node->op.size() == 0;
