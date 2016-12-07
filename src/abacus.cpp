@@ -146,9 +146,13 @@ namespace abacus {
     {
         approximatedGraphs.sort(cmpPairs);
         reduceRelativeAccuracy(relAccuracy, approximatedGraphs);
-        auto pairGraphs = popFront(approximatedGraphs);
+        auto pair = popFront(approximatedGraphs);
+
+        report::Report::appendApproximation(pair.first);
+        auto pairGraphs = pair.second;
+
         replaceGraphReferences(original, executed, pairGraphs);
-        deleteGraphs(approximatedGraphs);
+        deleteGraphs(approximatedGraphs, &ABACUS::deleteCouple);
     }
 
     void ABACUS::replaceGraphReferences(AppGraphPtr *original, AppGraphPtr *executed, GraphPair pairGraphs)
@@ -163,21 +167,10 @@ namespace abacus {
         relAccuracy -= approximatedGraphs.front().first->accuracy;
     }
 
-    ABACUS::GraphPair ABACUS::popFront(ListPair &list)
+    void ABACUS::deleteCouple(GraphPair pair)
     {
-        auto firstEl = list.front();
-        report::Report::appendApproximation(firstEl.first);
-        list.pop_front();
-        return firstEl.second;
-    }
-
-    void ABACUS::deleteGraphs(ListPair trashedGraphs)
-    {
-        for(auto it = trashedGraphs.begin(); it != trashedGraphs.end(); it++) {
-            delete(it->second.first);
-            delete(it->second.second);
-            free(it->first);
-        }
+        delete(pair.first);
+        delete(pair.second);
     }
 
     ABACUS::PairAppr ABACUS::make_pair(report::DataPtr data, AppGraphPtr graph, AppGraphPtr executedGraph)

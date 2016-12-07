@@ -55,7 +55,30 @@ namespace abacus {
         virtual double evaluateFitness(report::DataPtr rep);
         virtual double evaluateBitReset(int mask);
 
+        double calculateOutputSum(AppGraphPtr graph);
+
         static bool cmpPairs(PairAppr a, PairAppr b);
+
+        template <typename T, typename E>
+        std::pair<T,E> popFront(std::list<std::pair<T,E>> &list)
+        {
+            auto el = list.front();
+            list.pop_front();
+            return el;
+        }
+
+        template <typename T, typename E>
+        void deleteGraphs(std::list<std::pair<T,E>> &list, void (ABACUS::*deleter)(E)) {
+            for(auto it = list.begin(); it != list.end(); it++) {
+                (this->*deleter)(it->second);
+                free(it->first);
+            }
+        }
+
+        template <typename T>
+        void generalDeleter(T el) {
+            delete(el);
+        }
 
     private:
         int N;
@@ -75,16 +98,13 @@ namespace abacus {
         std::vector<int> getReportCounts();
         double get(std::string variable, graph::GraphPtr graph);
         
-        double calculateOutputSum(AppGraphPtr graph);
-        
         PairAppr make_pair(report::DataPtr data, AppGraphPtr graph, AppGraphPtr executedGraph);
         
         void substituteOriginal(AppGraphPtr *original, AppGraphPtr *executed, double &accuracyLimit, ListPair &approximatedGraphs);
         void replaceGraphReferences(AppGraphPtr *original, AppGraphPtr *executed, GraphPair pairGraphs);
         void reduceRelativeAccuracy(double &relAccuracy, ListPair &approximatedGraphs);
         
-        GraphPair popFront(ListPair &list);
-        void deleteGraphs(ListPair trashedGraphs);
+        void deleteCouple(GraphPair pair);
 
 
     };
