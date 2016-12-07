@@ -71,6 +71,10 @@ namespace syntax {
         }
     }
 
+    bool Syntax::isArray(std::string &var)
+    {
+        return (var.find("_") != std::string::npos || var.find("[") != std::string::npos) && !isControlOp(var);
+    }
 
     bool Syntax::isControlOp(std::string op)
     {
@@ -80,9 +84,40 @@ namespace syntax {
         return false;
     }
 
-    bool Syntax::isArray(std::string &var)
+    std::string Syntax::convertControlOperation(std::string controlOperation)
     {
-        return var.find("_") != std::string::npos && !isControlOp(var);
+        if(is(controlOperation, "_if")) {
+            return "if ";
+        } else if(is(controlOperation, "_else")) {
+            return " else {";
+        } else if(is(controlOperation, "_elseif")) {
+            return "} else if ";
+        } else if(is(controlOperation, "_for")) {
+            return "while ";
+        }
+    }
+
+    std::string Syntax::getVariableName(std::string name)
+    {
+        std::string var = name;
+        if (isArray(name)) {
+            auto group = split(name, '_');
+            if (group.size() < 2) {
+                group = split(name, '[');
+            }
+            var = group[0];
+        }
+
+        return var;
+    }
+
+    std::string Syntax::getCompleteIdentifier(std::string name)
+    {
+        std::string var = name;
+        if (isArray(name)) {
+            var = extractArray(name);
+        }
+        return var;
     }
 
     std::string Syntax::getIdentifier(std::string name, graph::GraphPtr graph)
@@ -101,6 +136,12 @@ namespace syntax {
         return list[0] + getIndex(list, graph);
     }
 
+    std::string Syntax::extractArray(std::string name)
+    {
+        std::vector<std::string> list = split(name, '_');
+        return list[0] + getIndex(list);
+    }
+
     std::string Syntax::getIndex(std::vector<std::string> raw_index, graph::GraphPtr graph)
     {
         std::string index = "";
@@ -114,6 +155,15 @@ namespace syntax {
             }
         }
 
+        return index;
+    }
+
+    std::string Syntax::getIndex(std::vector<std::string> raw_index)
+    {
+        std::string index = "";
+        for(auto it = raw_index.begin() + 1; it != raw_index.end(); it++) {
+            index += "[" + *it + "]";
+        }
         return index;
     }
 
