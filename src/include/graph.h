@@ -63,6 +63,8 @@ namespace graph {
         void get(std::string key, std::string &out);
 
         std::string getType();
+        Edges getEdges() { return edges; }
+        Nodes getNodes() { return nodes; }
         
         /**
          * Returns all the name of the edges which contains 'output' as name.
