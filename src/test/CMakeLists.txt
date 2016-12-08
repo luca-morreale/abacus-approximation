@@ -14,6 +14,7 @@ add_executable(selection_test test_selection.cpp ${SRC} ${HEAD})
 target_link_libraries (graph_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -22,6 +23,7 @@ target_link_libraries (graph_test
 target_link_libraries (execution_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -30,6 +32,7 @@ target_link_libraries (execution_test
 target_link_libraries (control_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -38,6 +41,7 @@ target_link_libraries (control_test
 target_link_libraries (app_graph_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -46,6 +50,7 @@ target_link_libraries (app_graph_test
 target_link_libraries (approximation_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
@@ -54,6 +59,7 @@ target_link_libraries (approximation_test
 target_link_libraries (selection_test
                         Graph
                         Utility
+                        Approximation
                         ${Boost_FILESYSTEM_LIBRARY}
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
