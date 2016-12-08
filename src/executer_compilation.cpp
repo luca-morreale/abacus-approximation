@@ -10,7 +10,7 @@ namespace executer {
 
     void ExecuterByCompilation::runGraph(graph::GraphPtr graph, std::string filename)
     {
-        writer::Writer::writeGraph(graph, filename + ".cpp");
+        writer::Writer::writeGraph(graph, filename);
         this->compile(filename);
         this->execute(filename);
     }
@@ -30,7 +30,7 @@ namespace executer {
         int i;
         i = std::system(command.c_str());
         if (i) {
-            std::cout << "Error executing command " + command;
+            std::cout << "Error executing command " + command << std::endl;
         }
     }
 
