@@ -47,11 +47,11 @@ _for
 
 # end first it
 
-exp1 != globalError 0
-exp2 <= it MAXITERATION
+j != globalError 0
+k <= it MAXITERATION
 
 
-_for && exp1 exp2
+_for && j k
 
 it + it 1
 globalError + 0 0
@@ -87,8 +87,8 @@ _for
 
 
 
-exp1 != globalError 0
-exp2 <= it MAXITERATION
+j != globalError 0
+k <= it MAXITERATION
 _for
 
 
