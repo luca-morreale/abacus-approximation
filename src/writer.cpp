@@ -81,7 +81,9 @@ namespace writer {
         std::string type = getTypeFor(variable, defaultType);
 
         if (syntax::Syntax::isArray(variable)) {
-            name += "[(int)" + name + "Length]";
+            for (int i=0; i < syntax::Syntax::getArrayDimension(variable); i++) {
+                name += "[(int)" + name + "Length]";
+            }
         }
         return type + " " + name;
     }
