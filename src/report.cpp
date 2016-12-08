@@ -83,6 +83,23 @@ namespace report {
         cout << "Final accuracy: " << (1 - finalAccuracy) << std::endl;
     }
 
+    void Report::printInCSVFormat(std::ostream &cout)
+    {
+
+        cout << (1 - finalAccuracy) << ";";
+        for(auto it = info.begin(); it != info.end(); it++) {
+            cout << it->second << ";";
+        }
+
+        cout << std::endl;
+
+        if(shiftInfo.size() != 0) {
+            for(auto it = shiftInfo.begin(); it != shiftInfo.end(); it++) {
+                cout << it->first << ";" << it->second << ";";
+            }
+        }
+        cout << std::endl;
+    }
 
 
 } // namespace report

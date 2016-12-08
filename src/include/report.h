@@ -38,6 +38,7 @@ namespace report {
         static ShiftInformations getShiftReport();
         
         static void printReport(std::ostream &cout);
+        static void printInCSVFormat(std::ostream &cout);
 
     protected:
         static void appendShift(int mask);
