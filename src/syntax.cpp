@@ -76,6 +76,16 @@ namespace syntax {
         return (var.find("_") != std::string::npos || var.find("[") != std::string::npos) && !isControlOp(var);
     }
 
+    int Syntax::getArrayDimension(std::string variable)
+    {
+        auto group = split(variable, '_');
+        if (group.size() < 2) {
+            group = split(variable, '[');
+        }
+        
+        return group.size() - 1;
+    }
+
     bool Syntax::isControlOp(std::string op)
     {
         if (op[0] == '_') {

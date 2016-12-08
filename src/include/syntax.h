@@ -34,6 +34,7 @@ namespace syntax {
         virtual bool isLoopBlock(std::string start, std::string end);
         
         static bool isArray(std::string &var);
+        static int getArrayDimension(std::string variable);
 
         static bool isControlOp(std::string op);
         static std::string convertControlOperation(std::string controlOperation);
