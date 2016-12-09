@@ -6,13 +6,13 @@
 # input must be of 143 values
 # each iteration carries new data and shift the data
 
-length - lengthinput filterlength
+length - inputLength filterlength
 
 # considered all array  all the time so input is bigger, each loop should start from 63
 
 
 i + 0 0
-_for < i lengthinput
+_for < i inputLength
 
 _if >= i  63
 floatInput_i cast double input_i
