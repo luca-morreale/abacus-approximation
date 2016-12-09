@@ -26,11 +26,13 @@ for id=1:6
     
     if id < 4
         len = 143;
-        fprintf(fileID, 'lengthinput 143\n\n');
+        fprintf(fileID, 'inputLength 143\n\n');
     else
         len = randi([63+80 1000], 1, 1);
-        fprintf(fileID, 'lengthinput %d\n\n', len);
+        fprintf(fileID, 'inputLength %d\n\n', len);
     end
+    
+    fprintf(fileID, 'coeffsLength %d\n\n', length(coeffs));
 
     formatSpec = 'coeffs_%d %f\n';
     for ii=1:length(coeffs)

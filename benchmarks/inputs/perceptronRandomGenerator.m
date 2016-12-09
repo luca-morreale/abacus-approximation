@@ -7,10 +7,10 @@ learning_rate = 0.5;
 for id=1:6
     
     if id < 4
-        points = 50;
+        points = 500;
         max_iteration = 200;
     else
-        points = 100;
+        points = 2000;
         max_iteration = 300;
     end
     
@@ -37,13 +37,19 @@ for id=1:6
             f(ii,1) = f(ii,1) + 2 * tol;
             f(ii,3) = 1;
         end    
-    end
+    end   
+    
     filename = sprintf('perceptron_input%d.txt', id);
     fileID = fopen(filename,'w');
     
     fprintf(fileID, 'LEARNINGRATE %f\n', learning_rate);
     fprintf(fileID, 'MAXITERATION %d\n', max_iteration);
     fprintf(fileID, 'SAMPLES %d\n', points);
+    
+    fprintf(fileID, 'targetsLength %f\n', points);
+    fprintf(fileID, 'xLength %d\n', points);
+    fprintf(fileID, 'yLength %d\n', points);
+    fprintf(fileID, 'outputLength %d\n', 4);
     
 
     formatSpec = 'x_%d %f\n';
