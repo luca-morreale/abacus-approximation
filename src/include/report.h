@@ -40,6 +40,8 @@ namespace report {
         static void printReport(std::ostream &cout);
         static void printInCSVFormat(std::ostream &cout);
 
+        static void reset();
+
     protected:
         static void appendShift(int mask);
 

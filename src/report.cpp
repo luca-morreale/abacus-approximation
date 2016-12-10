@@ -67,6 +67,14 @@ namespace report {
         return shiftInfo;
     }
 
+    void Report::reset()
+    {
+        info.clear();
+        info.insert(map_report_start_values, map_report_start_values + map_values_size);
+        shiftInfo.clear();
+        finalAccuracy = 0.0;
+    }
+
     void Report::printReport(std::ostream &cout)
     {
         cout << "Report:" << std::endl;
@@ -97,6 +105,8 @@ namespace report {
             for(auto it = shiftInfo.begin(); it != shiftInfo.end(); it++) {
                 cout << it->first << ";" << it->second << ";";
             }
+        } else {
+            cout << ";";
         }
         cout << std::endl;
     }
