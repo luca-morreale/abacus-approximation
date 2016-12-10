@@ -93,7 +93,7 @@ namespace abacus {
         std::vector<double> graphOutput;
         this->executer->getOutput(id, graphOutput);
         executed->setOutput(graphOutput);
-        //this->executer->deleteDependencies(id);
+        this->executer->deleteDependencies(id);
 
         return executed;
     }
