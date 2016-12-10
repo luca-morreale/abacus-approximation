@@ -9,7 +9,7 @@
 #include "include/compiled_abacus.h"
 #include "include/report.h"
 
-#define PARAMETERS 12
+#define PARAMETERS 14
 #define FLAG_FILE "-f"
 #define FLAG_INPUT "-i"
 #define FLAG_TYPE "-t"
@@ -103,10 +103,14 @@ int main(int argc, char *argv[])
     std::ofstream out("execution/report.txt", std::fstream::app);
 
     for (int i = 0; i < r; i++) {
-        ab.runAbacusOnGraph(graph);
+
+
+        ab.runAbacusOnGraph(new graph::Graph(*graph));
 
         report::Report::printReport(cout);
         report::Report::printInCSVFormat(out);
+        report::Report::reset();
+
     }
 
     
