@@ -81,11 +81,11 @@ target_link_libraries(aapp_compiled Graph)
 target_link_libraries(aapp_compiled Utility)
 target_link_libraries(aapp_compiled Approximation)
 
-add_executable(aapp__repetition main_repetition.cpp ${SRC_COMPILED} ${HEAD_COMPILED})
+add_executable(aapp_repetition main_repetition.cpp ${SRC_COMPILED} ${HEAD_COMPILED})
 
-target_link_libraries(aapp__repetition Graph)
-target_link_libraries(aapp__repetition Utility)
-target_link_libraries(aapp__repetition Approximation)
+target_link_libraries(aapp_repetition Graph)
+target_link_libraries(aapp_repetition Utility)
+target_link_libraries(aapp_repetition Approximation)
 
 enable_testing()
 add_subdirectory(test)
