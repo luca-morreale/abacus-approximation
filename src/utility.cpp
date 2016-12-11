@@ -102,3 +102,34 @@ double randDouble()
 {
     return ((double) rand() / (RAND_MAX));
 }
+
+long int getMask(std::string type)
+{
+    if (is(type, "int")) {
+        return 8589934591;
+    } else if (is(type, "double")) {
+        return 9007199254740991;
+    } else {
+        return 16777215;
+    }
+}
+
+long int leftshift(long int a, long int b) 
+{
+    return a << b;
+}
+
+long int rightshift(long int a, long int b) 
+{
+    return a >> b;
+}
+
+long int andbit(long int a, long int b) 
+{
+    return a & b;
+}
+
+long int orbit(long int a, long int b) 
+{
+    return a | b;
+}

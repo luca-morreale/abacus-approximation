@@ -69,5 +69,11 @@ std::vector<T> keys(std::map<T, E> m)
     return v;
 }
 
+long int getMask(std::string type);
+long int leftshift(long int a, long int b);
+long int rightshift(long int a, long int b);
+long int andbit(long int a, long int b);
+long int orbit(long int a, long int b);
+
 
 #endif /* UTILITY_H */
