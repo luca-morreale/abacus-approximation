@@ -1,6 +1,8 @@
 #ifndef BASIC_OPERATIONS_H
 #define BASIC_OPERATIONS_H
 
+#include <cstring>
+
 #include "graph.h"
 #include "syntax.h"
 #include "utility.h"
@@ -71,14 +73,25 @@ namespace operations {
         return op1 / op2;
     }
 
+
+    template <typename T>
+    T shiftOperation(T a, T b, long int mask, long int(*operation)(long int, long int)) {
+        long int first, second;
+        T result;
+        std::memcpy(&first, &a, sizeof a);
+        std::memcpy(&second, &b, sizeof b);
+        operation((first & mask), second);
+        first = (first & ~mask) | (((first & mask) >> second) & mask);
+        std::memcpy(&result, &first, sizeof first);
+        return result;
+    }
+
     template<typename T>
     T leftShift(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        long int *ptr = (long int *) (&op1);
-        *ptr <<= (int) op2;
-        return (T) *ptr;
+        return shiftOperation(op1, op2, getMask(graph->getType()), &leftshift);
     }
 
     template<typename T>
@@ -86,9 +99,7 @@ namespace operations {
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        long int *ptr = (long int *) (&op1);
-        *ptr >>= (int) op2;
-        return (T) *ptr;
+        return shiftOperation(op1, op2, getMask(graph->getType()), &rightshift);
     }
 
     template<typename T>
@@ -154,15 +165,25 @@ namespace operations {
         getOperands(nameOp1, op1, nameOp2, op2, graph);
         return op1 || op2;
     }
-    // from here
+
+    template <typename T>
+    T bitOperation(T a, T b, long int(*operation)(long int, long int)) 
+    {
+        long int first, second;
+        T result;
+        std::memcpy(&first, &a, sizeof a);
+        std::memcpy(&second, &b, sizeof b);
+        first = operation(first, second);
+        std::memcpy(&result, &first, sizeof first);
+        return result;
+    }
+    
     template<typename T>
     T andBit(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        int *ptr1 = (int *) (&op1);
-        int *ptr2 = (int *) (&op2);
-        return (T) ((*ptr1) & (*ptr2));
+        return bitOperation(op1, op2, &andbit);
     }
 
     template<typename T>
@@ -170,18 +191,22 @@ namespace operations {
     {
         T op1, op2;
         getOperands(nameOp1, op1, nameOp2, op2, graph);
-        int *ptr1 = (int *) (&op1);
-        int *ptr2 = (int *) (&op2);
-        return (T) ((*ptr1) | (*ptr2));
+        return bitOperation(op1, op2, &orbit);
     }
+
 
     template<typename T>
     T negBit(std::string nameOp1, std::string nameOp2, graph::GraphPtr graph)
     {
         T op;
+        long int first;
+
         extractOperand(nameOp1, op, graph);
-        int *ptr = (int *) (&op);
-        return (T) ~(*ptr);
+        
+        std::memcpy(&first, &op, sizeof op);
+        first = ~first;
+        std::memcpy(&op, &first, sizeof first);
+        return op;
     }
 
     template<typename T>
