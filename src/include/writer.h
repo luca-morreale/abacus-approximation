@@ -31,8 +31,6 @@ namespace writer {
         static void writeBasicOperation(ParsingState &state, std::ofstream &cout);
         static void writeControlOperation(ParsingState &state, std::ofstream &cout);
 
-        static void addVariableType(ParsingState &state, std::ofstream &cout);
-
         static void prepareFile(std::ofstream &cout, ParsingState &state, graph::GraphPtr graph);
         static void closeFile(std::ofstream &cout, graph::GraphPtr graph, std::string id);
 
