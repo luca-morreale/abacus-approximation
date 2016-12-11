@@ -93,7 +93,7 @@ namespace generator {
         } else if (is(name, "randomFloat")) {
             operand = "" + std::to_string(randDouble());
         }else {
-            operand = syntax::Syntax::getCompleteIdentifier(name);
+            operand = syntax::Syntax::getCompleteIdentifier(name, true);
         }
     }
 
