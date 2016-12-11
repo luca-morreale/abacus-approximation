@@ -131,20 +131,8 @@ namespace writer {
 
     void Writer::writeBasicOperation(ParsingState &state, std::ofstream &cout)
     {   
-        addVariableType(state, cout);
         std::string statement = generator::generateStatement(state.node);
         cout << statement << std::endl;
-    }
-
-    void Writer::addVariableType(ParsingState &state, std::ofstream &cout) 
-    {
-        if (syntax::Syntax::isArray(state.node->out)) return;
-
-        std::string outputVariable = syntax::Syntax::getIdentifier(state.node->out, state.graph);
-        if (!isIn(state.declaredVariables, outputVariable)) {
-            state.declaredVariables.insert(outputVariable);
-            cout << state.graph->getType() << " ";
-        }
     }
 
     void Writer::writeControlOperation(ParsingState &state, std::ofstream &cout)
@@ -171,7 +159,6 @@ namespace writer {
     std::string Writer::generateConditionedExpression(graph::NodePtr node)
     {
             std::string controlOperation = syntax::Syntax::convertControlOperation(node->out);
-            //cout << "// " << controlOperation << std::endl;
             std::string expression = generator::generateExpression(node);
             return controlOperation + "(" + expression + ") {"; 
     }
