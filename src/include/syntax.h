@@ -40,14 +40,14 @@ namespace syntax {
         static std::string convertControlOperation(std::string controlOperation);
 
         static std::string getVariableName(std::string);
-        static std::string getCompleteIdentifier(std::string name);
+        static std::string getCompleteIdentifier(std::string name, bool indexCast=false);
         static std::string getIdentifier(std::string name, graph::GraphPtr graph);
 
         static std::string extractArray(std::string name, graph::GraphPtr graph);
-        static std::string extractArray(std::string name);
+        static std::string extractArray(std::string name, bool indexCast=false);
 
         static std::string getIndex(std::vector<std::string> raw_index, graph::GraphPtr graph);
-        static std::string getIndex(std::vector<std::string> raw_index);
+        static std::string getIndex(std::vector<std::string> raw_index, bool indexCast=false);
 
     protected:
         typedef std::pair<std::string, std::string> strpair;

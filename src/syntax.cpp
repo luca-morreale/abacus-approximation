@@ -121,11 +121,11 @@ namespace syntax {
         return var;
     }
 
-    std::string Syntax::getCompleteIdentifier(std::string name)
+    std::string Syntax::getCompleteIdentifier(std::string name, bool indexCast)
     {
         std::string var = name;
         if (isArray(name)) {
-            var = extractArray(name);
+            var = extractArray(name, indexCast);
         }
         return var;
     }
@@ -146,10 +146,10 @@ namespace syntax {
         return list[0] + getIndex(list, graph);
     }
 
-    std::string Syntax::extractArray(std::string name)
+    std::string Syntax::extractArray(std::string name, bool indexCast)
     {
         std::vector<std::string> list = split(name, '_');
-        return list[0] + getIndex(list);
+        return list[0] + getIndex(list, indexCast);
     }
 
     std::string Syntax::getIndex(std::vector<std::string> raw_index, graph::GraphPtr graph)
@@ -168,11 +168,11 @@ namespace syntax {
         return index;
     }
 
-    std::string Syntax::getIndex(std::vector<std::string> raw_index)
+    std::string Syntax::getIndex(std::vector<std::string> raw_index, bool indexCast)
     {
         std::string index = "";
         for(auto it = raw_index.begin() + 1; it != raw_index.end(); it++) {
-            index += "[" + *it + "]";
+            index += (indexCast) ? "[(int)" + *it + "]" : "[" + *it + "]";
         }
         return index;
     }
