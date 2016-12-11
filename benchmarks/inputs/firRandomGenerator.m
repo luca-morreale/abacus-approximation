@@ -26,11 +26,14 @@ for id=1:6
     
     if id < 4
         len = 143;
-        fprintf(fileID, 'inputLength 143\n\n');
     else
         len = randi([63+80 1000], 1, 1);
-        fprintf(fileID, 'inputLength %d\n\n', len);
     end
+    
+    fprintf(fileID, 'inputLength %d\n\n', len);
+    fprintf(fileID, 'floatInputLength %d\n\n', len);
+    fprintf(fileID, 'floatOutputLength %d\n\n', len);
+    fprintf(fileID, 'outputLength %d\n\n', len);
     
     fprintf(fileID, 'coeffsLength %d\n\n', length(coeffs));
 
