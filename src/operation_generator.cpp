@@ -99,7 +99,7 @@ namespace generator {
 
     std::string generateIncludes()
     {
-        return "#include <cstring>\n";
+        return "#include <cstring>\n#include <cmath>\n";
     }
 
 
