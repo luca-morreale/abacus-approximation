@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
         report::Report::printReport(cout);
         report::Report::printInCSVFormat(out);
         report::Report::reset();
-
+        cout << i << endl;
     }
 
     

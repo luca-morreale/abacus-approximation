@@ -33,10 +33,6 @@ namespace abacus {
             if(list.size() > 0) {
                 replaceOriginal(&original, relativeAccuracy, list);
             }
-
-            #ifdef ITERATIONS
-                std::cout <<"Iteration #"<< i << " completed." << std::endl;
-            #endif
         }
 
         delete(original);
