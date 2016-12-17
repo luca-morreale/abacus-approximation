@@ -31,6 +31,7 @@ namespace writer {
             cout << "typedef union { float f; int i;} my_type;" << std::endl;
         } else {
             cout << "typedef union { int f; int i;} my_type;" << std::endl;
+            cout << "long int mask = 16777215;" << std::endl;
         }
 
         cout << generator::generateFunctions(graph->getType()) << std::endl;
@@ -81,9 +82,11 @@ namespace writer {
         std::string type = getTypeFor(variable, defaultType);
 
         if (syntax::Syntax::isArray(variable)) {
+            std::string dimension;
             for (int i=0; i < syntax::Syntax::getArrayDimension(variable); i++) {
-                name += "[(int)" + name + "Length]";
+                dimension += "[(int)" + name + "Length]";
             }
+            name += dimension;
         }
         return type + " " + name;
     }
