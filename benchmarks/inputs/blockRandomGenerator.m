@@ -37,11 +37,12 @@ for id=1:6
     fprintf(fileID, 'iLeft %d\n', iLeft);
     fprintf(fileID, 'iTop %d\n', iTop);
     
-    fprintf(fileID, 'inputLength %d\n', length(numbers));
-    
     fprintf(fileID, '\n');
     
     numbers = randi([0 255], iWidth, iWidth);
+    
+    fprintf(fileID, 'inputLength %d\n', length(numbers));
+    fprintf(fileID, 'outputLength %d\n', length(numbers));
     
     formatSpec = 'input_%d_%d %d\n';
     for r=1:length(numbers)
