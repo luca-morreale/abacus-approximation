@@ -17,7 +17,7 @@ namespace executer {
 
     void ExecuterByCompilation::compile(std::string filename)
     {
-        this->executeSystemCommand("g++ -o " + filename + " " + filename + ".cpp");
+        this->executeSystemCommand("g++ -O1 -o " + filename + " " + filename + ".cpp");
     }
 
     void ExecuterByCompilation::execute(std::string filename)
@@ -53,6 +53,8 @@ namespace executer {
         std::remove((filename + ".cpp").c_str());
         std::remove((filename + ".cpp.txt").c_str());
         std::remove((filename + ".txt").c_str());
+        std::remove((filename + ".o").c_str());
+        std::remove((filename + ".cpp.o").c_str());
         std::remove(filename.c_str());
     }
 
