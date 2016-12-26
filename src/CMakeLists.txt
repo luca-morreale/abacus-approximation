@@ -15,7 +15,7 @@ endif()
 SET(GCC_COVERAGE_COMPILE_FLAGS "-D ITERATIONS")
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
 add_library(Graph ${PROJECT_SOURCE_DIR}/graph.cpp ${PROJECT_SOURCE_DIR}/node.cpp 
    ${PROJECT_SOURCE_DIR}/include/graph.h ${PROJECT_SOURCE_DIR}/include/node.h ${PROJECT_SOURCE_DIR}/include/edge.h

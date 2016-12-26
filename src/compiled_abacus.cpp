@@ -1,10 +1,5 @@
 #include "include/compiled_abacus.h"
 
-#include <cmath>
-#ifdef ITERATIONS
-    #include <iostream>
-#endif
-
 
 namespace abacus {
 
@@ -58,7 +53,7 @@ namespace abacus {
         double sum_real = original->getOutputSum();
         double sum_approx = graph->getOutputSum();
 
-        return std::abs((sum_real - sum_approx) / sum_real);
+        return std::fabs((sum_real - sum_approx) / sum_real);
     }  
 
     approximation::ExecutedGraphPtr CompiledABACUS::applyApproximation(approximation::ExecutedGraphPtr original, report::DataPtr graphReport, std::string id)
