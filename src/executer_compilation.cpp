@@ -10,14 +10,20 @@ namespace executer {
 
     void ExecuterByCompilation::runGraph(graph::GraphPtr graph, std::string filename)
     {
-        writer::Writer::writeGraph(graph, filename);
+        this->writeExternalApproximationProgram(graph, filename);
         this->compile(filename);
         this->execute(filename);
     }
 
+    void ExecuterByCompilation::writeExternalApproximationProgram(graph::GraphPtr graph, std::string filename)
+    {
+        writer::Writer writer;
+        writer.writeGraph(graph, filename);
+    }
+
     void ExecuterByCompilation::compile(std::string filename)
     {
-        this->executeSystemCommand("g++ -O1 -o " + filename + " " + filename + ".cpp");
+        this->executeSystemCommand("g++ -o " + filename + " " + filename + ".cpp");
     }
 
     void ExecuterByCompilation::execute(std::string filename)

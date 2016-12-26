@@ -22,6 +22,7 @@ namespace executer {
         virtual void deleteDependencies(std::string filename);
 
     protected:
+        virtual void writeExternalApproximationProgram(graph::GraphPtr graph, std::string filename);
         virtual void compile(std::string filename);
         virtual void execute(std::string filename);
         virtual void executeSystemCommand(std::string command);
