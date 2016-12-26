@@ -15,40 +15,43 @@ namespace writer {
 
     class Writer {
     public:
-        static void writeGraph(graph::GraphPtr graph, std::string filename);
+        Writer() { /*    */ }
+        ~Writer() { /*    */ }
 
-    private:
-        static std::set<std::string> filename_used;
+        virtual void writeGraph(graph::GraphPtr graph, std::string filename);        
 
+    protected:
         typedef struct {
             graph::NodePtr node;
             graph::GraphPtr graph;
             std::set<std::string> declaredVariables;
+            int instructionIndex;
         } ParsingState;
 
-    protected:
-        static void writeNode(ParsingState &state, std::ofstream &cout);
-        static void writeBasicOperation(ParsingState &state, std::ofstream &cout);
-        static void writeControlOperation(ParsingState &state, std::ofstream &cout);
+        virtual void writeNode(ParsingState &state, std::ofstream &cout);
+        virtual void writeBasicOperation(ParsingState &state, std::ofstream &cout);
+        virtual void writeControlOperation(ParsingState &state, std::ofstream &cout);
 
-        static void prepareFile(std::ofstream &cout, ParsingState &state, graph::GraphPtr graph);
-        static void closeFile(std::ofstream &cout, graph::GraphPtr graph, std::string id);
+        virtual void prepareFile(std::ofstream &cout, ParsingState &state);
+        virtual std::string generateMasksForDataType(std::string defaultType);
+        virtual void closeFile(std::ofstream &cout, ParsingState &state, std::string id);
 
-        static void declareAllOutputVariables(std::ofstream &cout, ParsingState &state, graph::GraphPtr graph);
-        static void declareEdgesVariables(std::ofstream &cout, ParsingState &state, graph::Edges edges, std::string defaultType);
-        static void declareNodesVariables(std::ofstream &cout, ParsingState &state, graph::Nodes nodes, std::string defaultType);
-        static std::string builDeclaration(std::string variable, std::string defaultType);
+        virtual void declareAllOutputVariables(std::ofstream &cout, ParsingState &state);
+        virtual void declareEdgesVariables(std::ofstream &cout, ParsingState &state, graph::Edges edges, std::string defaultType);
+        virtual void declareNodesVariables(std::ofstream &cout, ParsingState &state, graph::Nodes nodes, std::string defaultType);
+        virtual std::string builDeclaration(std::string variable, std::string defaultType);
 
-        static void addOuputPrints(std::ofstream &cout, std::string id);
-
+        virtual void addOuputPrints(std::ofstream &cout, std::string id);
         
     private:
-        static bool isAlreadyDeclared(ParsingState &state, std::string variable);
-        static void addDeclaration(ParsingState &state, std::string variable);
-        static std::string getTypeFor(std::string variable, std::string defaultType);
+        std::set<std::string> filename_used;
 
-        static std::string generateUnconditionedExpression(std::string out);
-        static std::string generateConditionedExpression(graph::NodePtr node);
+        bool isAlreadyDeclared(ParsingState &state, std::string variable);
+        void addDeclaration(ParsingState &state, std::string variable);
+        std::string getTypeFor(std::string variable, std::string defaultType);
+
+        std::string generateUnconditionedExpression(std::string out);
+        std::string generateConditionedExpression(graph::NodePtr node);
 
     };
 

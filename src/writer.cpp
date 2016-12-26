@@ -6,44 +6,54 @@ namespace writer {
     void Writer::writeGraph(graph::GraphPtr graph, std::string filename)
     {
         ParsingState state;
+        state.graph = graph;
+        state.instructionIndex = 0;
         graph::NodePtr *current = &(state.node);
         
         std::ofstream cout(filename + ".cpp");
 
-        prepareFile(cout, state, graph);
+        prepareFile(cout, state);
 
         while ((*current = graph->next()) != NULL) {
             writeNode(state, cout);
         }
 
-        closeFile(cout, graph, filename);
+        closeFile(cout, state, filename);
     }
 
-    void Writer::prepareFile(std::ofstream &cout, ParsingState &state, graph::GraphPtr graph)
+    void Writer::prepareFile(std::ofstream &cout, ParsingState &state)
     {
         cout << "#include <fstream>" << std::endl;
         cout << generator::generateIncludes() << std::endl;
-        if (is(graph->getType(), "double")) {
-            cout << "long int mask = 9007199254740991;" << std::endl;
-            cout << "typedef union { double f; long int i;} my_type;" << std::endl;
-        } else if (is(graph->getType(), "float")) {
-            cout << "long int mask = 16777215;" << std::endl;
-            cout << "typedef union { float f; int i;} my_type;" << std::endl;
-        } else {
-            cout << "typedef union { int f; int i;} my_type;" << std::endl;
-            cout << "long int mask = 16777215;" << std::endl;
-        }
+        cout << generateMasksForDataType(state.graph->getType()) << std::endl;
 
-        cout << generator::generateFunctions(graph->getType()) << std::endl;
+        cout << generator::generateFunctions(state.graph->getType()) << std::endl;
         cout << "int main(void) {" << std::endl << std::endl;
 
-        declareAllOutputVariables(cout, state, graph);
+        declareAllOutputVariables(cout, state);
     }
 
-    void Writer::declareAllOutputVariables(std::ofstream &cout, ParsingState &state, graph::GraphPtr graph)
+    std::string Writer::generateMasksForDataType(std::string defaultType)
     {
-        declareEdgesVariables(cout, state, graph->getEdges(), graph->getType());
-        declareNodesVariables(cout, state, graph->getNodes(), graph->getType());
+        std::string masks;
+        if (is(defaultType, "double")) {
+            masks = "long int mask = 9007199254740991;\n";
+            masks += "typedef union { double f; long int i;} my_type;\n";
+        } else if (is(defaultType, "float")) {
+            masks = "long int mask = 16777215;\n";
+            masks += "typedef union { float f; int i;} my_type;\n";
+        } else {
+            masks = "typedef union { int f; int i;} my_type;\n";
+            masks += "long int mask = 16777215;\n";
+        }
+        masks += "long int mask_int = 16777215;\n";
+        return masks;
+    }
+
+    void Writer::declareAllOutputVariables(std::ofstream &cout, ParsingState &state)
+    {
+        declareEdgesVariables(cout, state, state.graph->getEdges(), state.graph->getType());
+        declareNodesVariables(cout, state, state.graph->getNodes(), state.graph->getType());
     }
 
     void Writer::declareEdgesVariables(std::ofstream &cout, ParsingState &state, graph::Edges edges, std::string defaultType)
@@ -55,7 +65,7 @@ namespace writer {
                 cout << builDeclaration(variable, defaultType) << ";" << std::endl;
                 addDeclaration(state, variable);
             }
-            cout << variable << " = " << value << ";" <<std::endl;
+            cout << variable << " = " << value << ";" << std::endl;
         }
     }
 
@@ -105,7 +115,7 @@ namespace writer {
         state.declaredVariables.insert(name);
     }
 
-    void Writer::closeFile(std::ofstream &cout, graph::GraphPtr graph, std::string id)
+    void Writer::closeFile(std::ofstream &cout, ParsingState &state, std::string id)
     {
         addOuputPrints(cout, id);
 
