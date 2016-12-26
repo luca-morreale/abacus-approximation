@@ -79,23 +79,27 @@ double* normalizeProbabilities(int prob[], size_t size)
 int sampleIndex(std::vector<double> &probabilities)
 {
     double rnd = randDouble();
-    for(int i = 0; i < probabilities.size(); i++) {
+    unsigned int i;
+    for(i = 0; i < probabilities.size(); i++) {
         if(rnd < probabilities[i]) {
             return i;
         }
         rnd -= probabilities[i];
     }
+    return i;
 }
 
 int sampleIndex(double probabilities[], size_t size)
 {
     double rnd = randDouble();
-    for(int i = 0; i < size; i++) {
+    unsigned int i;
+    for(i = 0; i < size; i++) {
         if(rnd < probabilities[i]) {
             return i;
         }
         rnd -= probabilities[i];
     }
+    return i;
 }
 
 double randDouble()

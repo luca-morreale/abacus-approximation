@@ -76,4 +76,10 @@ long int andbit(long int a, long int b);
 long int orbit(long int a, long int b);
 
 
+template <typename T>
+T at(std::initializer_list<T> &vals, int index)
+{
+    return *(vals.begin()+index);
+}
+
 #endif /* UTILITY_H */
