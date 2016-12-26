@@ -90,9 +90,7 @@ namespace generator {
     {
         if (isNumber(name)){
             operand = name;
-        } else if (is(name, "randomFloat")) {
-            operand = "" + std::to_string(randDouble());
-        }else {
+        } else {
             operand = syntax::Syntax::getCompleteIdentifier(name, true);
         }
     }

@@ -8,6 +8,7 @@
 
 #include "graph.h"
 #include "syntax.h"
+#include "utility.h"
 
 namespace parser {
 

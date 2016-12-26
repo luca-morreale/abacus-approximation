@@ -6,6 +6,8 @@
 
 namespace generator {
 
+    extern std::map<std::string, std::string> functionMap;
+
     std::string generateStatement(graph::NodePtr node);
     std::string generateExpression(graph::NodePtr node);
 

@@ -39,6 +39,9 @@ namespace parser {
         if (std::regex_search(str, matches, regex)) {
             for (int i = 1; i < matches.size(); i += 2) {
                 std::string el = matches[i];
+                if (is(el, "randomFloat")) {
+                    el = std::to_string(randDouble());
+                }
                 list.push_back(el);
             }
         }

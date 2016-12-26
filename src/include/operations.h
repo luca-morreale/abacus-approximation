@@ -15,9 +15,7 @@ namespace operations {
     {
         if (isNumber(name)){
             op = std::stod(name, NULL);
-        } else if (is(name, "randomFloat")) {
-            op = (T) randDouble();
-        }else {
+        } else {
             graph->get(syntax::Syntax::getIdentifier(name, graph), op);
         }
     }
@@ -27,9 +25,7 @@ namespace operations {
     {
         if (isNumber(name)){
             op = std::stod(name, NULL);
-        } else if (is(name, "randomFloat")) {
-            op = std::to_string(randDouble());
-        }else {
+        } else {
             graph->get(syntax::Syntax::getIdentifier(name, graph), op);
         }
     }
