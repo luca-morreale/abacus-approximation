@@ -89,5 +89,27 @@ target_link_libraries(aapp_repetition Graph)
 target_link_libraries(aapp_repetition Utility)
 target_link_libraries(aapp_repetition Approximation)
 
+# compiled version
+
+set(SRC_ADVANCED_COMPILED
+   ${SRC_COMPILED}
+   ${PROJECT_SOURCE_DIR}/advanced_executer.cpp
+   ${PROJECT_SOURCE_DIR}/advanced_operation_generator.cpp
+   ${PROJECT_SOURCE_DIR}/fast_writer.cpp
+)
+
+set(HEAD_ADVANCED_COMPILED
+   ${HEAD_COMPILED}
+   ${PROJECT_SOURCE_DIR}/include/advanced_executer.h
+   ${PROJECT_SOURCE_DIR}/include/advanced_operation_generator.h
+   ${PROJECT_SOURCE_DIR}/include/fast_writer.h
+)
+
+add_executable(aapp_fast main_advanced_compilation.cpp ${SRC_ADVANCED_COMPILED} ${HEAD_ADVANCED_COMPILED})
+
+target_link_libraries(aapp_fast Graph)
+target_link_libraries(aapp_fast Utility)
+target_link_libraries(aapp_fast Approximation)
+
 enable_testing()
 add_subdirectory(test)
