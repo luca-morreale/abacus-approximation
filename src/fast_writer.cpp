@@ -532,8 +532,8 @@ namespace writer {
         return "double evaluateBitReset(int mask) {\n"
                 "    return ((double)mask) / 32.0;\n" 
                 "}\n" 
-                "double computeFitness(double app_acc, pair<int, string> app, int *masks) {\n" 
-                "    double precisionErr = (is(app.second, \"value\"))? evaluateBitReset(masks[app.first]) : 0;\n" 
+                "double computeFitness(double app_acc, pair<int, string> app, long unsigned int *masks) {\n" 
+                "    double precisionErr = (is(app.second, \"values\"))? evaluateBitReset(masks[app.first]) : 0;\n" 
                 "    return a1 * app_acc + a2 * precisionErr;\n" 
                 "}\n";
     }
