@@ -75,17 +75,15 @@ namespace writer {
         
         cout << accuracyEstimationInstructions() << std::endl;
         cout << getAdditionToListInstructions(defaultType, state.instructionIndex) << std::endl;
-
+        
         cout << "}" << std::endl;   // close j loop
         
         cout << substutionInstructions() << std::endl;
         
-        cout << "cout << \"End Iteration \" << i << std::endl;" << std::endl;
         cout << "}" << std::endl;   // close i loop
         
         cout << getReportPrintingInstructions();
 
-        cout << "cout << \"End Repetition \" << r << std::endl;" << std::endl;
         cout << "}" << std::endl;   // close r loop
         
         cout << "return 0;" << std::endl;
