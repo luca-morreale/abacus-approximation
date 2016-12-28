@@ -126,11 +126,24 @@ namespace writer {
 
     void FastWriter::updateInstructionMapping(std::string op, int instructionIndex)
     {
-        int index = inverseMapping["values"];
-        approximableOperations[index].push_back(instructionIndex);
+        addInstructionToValuesMapping(op, instructionIndex);
+        addInstructionToNormalOperationMapping(op, instructionIndex);
+    }
 
+    void FastWriter::addInstructionToValuesMapping(std::string op, int instructionIndex)
+    {
+        int index = inverseMapping["values"];
+        if (is(op, "*") || is(op, "/")) {
+            approximableOperations[index].push_back(instructionIndex+1);
+        } else {
+            approximableOperations[index].push_back(instructionIndex);
+        }
+    }
+
+    void FastWriter::addInstructionToNormalOperationMapping(std::string op, int instructionIndex)
+    {
         if (isIn(inverseMapping, op)) {
-            index = inverseMapping[op];
+            int index = inverseMapping[op];
             approximableOperations[index].push_back(instructionIndex);
         }
     }
@@ -139,7 +152,7 @@ namespace writer {
     {
         instructionIndex++;
         if(is(op, "*") || is(op, "/")) {
-            instructionIndex += 2;
+            instructionIndex ++;
         }
     }
 
