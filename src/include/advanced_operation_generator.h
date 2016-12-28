@@ -7,6 +7,7 @@ namespace generator {
     
     std::string generateApproximatedStatement(graph::NodePtr node, int nodeIndex);
     std::string generateStatement(graph::NodePtr node, int nodeIndex);
+    std::string expressionForNormalOperation(std::string op, std::string nameOp1, std::string nameOp2, int nodeIndex);
 
     std::string generateExpression(graph::NodePtr node, int nodeIndex);
 
