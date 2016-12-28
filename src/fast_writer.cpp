@@ -103,24 +103,22 @@ namespace writer {
     }
 
 
-    // missing count of operations!!!!
     void FastWriter::writeBasicOperation(ParsingState &state, std::ofstream &cout)
     {
         if (approximation::isLoopIterator(state.node->out)) {
             Writer::writeBasicOperation(state, cout);
+            return;
         }
 
         updateInstructionMapping(state.node->op, state.instructionIndex);
         
-
-        std::string statement = generator::generateStatement(state.node);
+        std::string statement = generator::generateStatement(state.node, state.instructionIndex);
         std::string approximatedStatement = generator::generateApproximatedStatement(state.node, state.instructionIndex);
 
-        // now should add a counter in the graph for the instruction so that later on when approximate I can count
         cout << "if (!approximations[" << state.instructionIndex << "]) {" << std::endl;
-        cout << statement << std::endl;
+        cout << "   " << statement << std::endl;
         cout << "} else {" << std::endl;
-        cout << approximatedStatement << std::endl;
+        cout << "   " << approximatedStatement << std::endl;
         cout << "}" << std::endl;
 
         updateInstructionIndex(state.node->op, state.instructionIndex);
