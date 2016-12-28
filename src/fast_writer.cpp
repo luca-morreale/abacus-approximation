@@ -204,9 +204,9 @@ namespace writer {
 
     std::string FastWriter::initializationApproximationVariables()
     {
-        return "for (int i = 0; i<70; i++) {\n"
+        return "for (int i = 0; i<approximationsLength; i++) {\n"
                 "   approximations[i] = 0;\n"
-                "   masks[i] = mask_int;\n"
+                "   masks[i] = no_mask;\n"
                 "}\n";
     }
 
@@ -219,7 +219,7 @@ namespace writer {
     {
         return defaultType + " test_output[(int)outputLength];\n"
                 "int new_approximations[" + std::to_string(instructionCount) + "];\n"
-                "int new_masks[" + std::to_string(instructionCount) + "];\n";
+                "long unsigned int new_masks[" + std::to_string(instructionCount) + "];\n";
     }
 
     std::string FastWriter::approximationInstruction(int instructionCount)
@@ -231,7 +231,7 @@ namespace writer {
 
     std::string FastWriter::accuracyEstimationInstructions()
     {
-        return "double app_acc = compareOutputs(output, test_output, outputLength);\n";
+        return "double app_acc = compareOutputs(output, test_output, (int)outputLength);\n";
     }
 
     std::string FastWriter::getAdditionToListInstructions(std::string defaultType, int instructionCount)
@@ -255,8 +255,8 @@ namespace writer {
 
     std::string FastWriter::getReportPrintingInstructions()
     {
-        return "printReport(cout, relAccuracy);\n"
-                "printInCSVFormat(out, relAccuracy);\n"
+        return "printReport(cout, relativeAccuracy);\n"
+                "printInCSVFormat(out, relativeAccuracy);\n"
                 "reset();\n";
     }
 
@@ -292,11 +292,11 @@ namespace writer {
         return "struct ApproximationElement{\n"
                 "   vector<"+ defaultType +"> output;\n"
                 "   vector<int> approximations;\n"
-                "   vector<int> masks;\n"
+                "   vector<long unsigned int> masks;\n"
                 "   double accuracy;\n"
                 "   double fitness;\n"
                 "   pair<int, string> app;\n"
-                "   ApproximationElement(vector<"+ defaultType +"> output, vector<int> approximations, vector<int> masks, double accuracy, double fitness, pair<int, string> app) {\n"
+                "   ApproximationElement(vector<"+ defaultType +"> output, vector<int> approximations, vector<long unsigned int> masks, double accuracy, double fitness, pair<int, string> app) {\n"
                 "       this->output = output;\n"
                 "       this->approximations = approximations;\n"
                 "       this->masks = masks;\n"
@@ -336,11 +336,11 @@ namespace writer {
                 "map<int, int> getShiftList();\n"
                 "int evolveShift(int old_shift);\n"
                 "int selectMask();\n"
-                "pair<int, string> approximate(int *approximations, int *masks);\n"
+                "pair<int, string> approximate(int *approximations, long unsigned int *masks);\n"
                 "double evaluateBitReset(int mask);\n"
-                "double computeFitness(double app_acc, pair<int, string> app, int *masks);\n"
+                "double computeFitness(double app_acc, pair<int, string> app, long unsigned int *masks);\n"
                 "void reset();\n"
-                "void saveApproximation(pair<int, string> app, int *masks);\n"
+                "void saveApproximation(pair<int, string> app, long unsigned int *masks);\n"
                 "void printReport(ostream &cout, double finalAccuracy);\n"
                 "void printInCSVFormat(ostream &cout, double finalAccuracy);\n";
     }
@@ -540,7 +540,7 @@ namespace writer {
 
     std::string FastWriter::substitutionOfOriginalFunctions(std::string defaultType)
     {
-        return "void replaceOriginal(double &relativeAccuracy, "+ defaultType +" *originalOut, int *approximations, int *masks, list<ApproximationElement> approximationList) {\n"
+        return "void replaceOriginal(double &relativeAccuracy, "+ defaultType +" *originalOut, int *approximations, long unsigned int *masks, list<ApproximationElement> &approximationList) {\n"
                 "    approximationList.sort(cmpPairs);\n"
                 "    ApproximationElement *element = &(approximationList.front());\n"
                 "    relativeAccuracy -= element->accuracy;\n"
@@ -548,6 +548,7 @@ namespace writer {
                 "    copy(element->approximations.begin(), element->approximations.end(), approximations);\n"
                 "    copy(element->masks.begin(), element->masks.end(), masks);\n"
                 "    saveApproximation(element->app, masks);\n"
+                "    approximationList.clear();\n"
                 "}\n";
     }
 
@@ -580,10 +581,10 @@ namespace writer {
                 "            cout << \"\t\" << it->first << \": \" << it->second << std::endl;\n"
                 "        }\n"
                 "    }\n"
-                "    cout << \"Final accuracy: \" << (1 - finalAccuracy) << std::endl;\n"
+                "    cout << \"Final accuracy: \" << (finalAccuracy) << std::endl;\n"
                 "}\n"
                 "void printInCSVFormat(ostream &cout, double finalAccuracy) {\n"
-                "    cout << (1 - finalAccuracy) << \";\";\n"
+                "    cout << (finalAccuracy) << \";\";\n"
                 "    for (int i =0; i<5; i++) {\n"
                 "        cout << dones[i].size() << \";\";\n"
                 "    }\n"
@@ -617,7 +618,7 @@ namespace writer {
 
     std::string FastWriter::openApproximatedFunction(std::string defaultType)
     {
-        return "void benchmark("+ defaultType +" *output, int *approximations, int *masks) {\n";
+        return "void benchmark("+ defaultType +" *output, int *approximations, long unsigned int *masks) {\n";
     }
 
     
