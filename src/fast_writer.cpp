@@ -516,12 +516,14 @@ namespace writer {
     
     std::string FastWriter::accuracyEvaluationFunctions(std::string defaultType)
     {
-        return "double compareOutputs("+ defaultType +" *originalOut, "+ defaultType +"*approximatedOut, int length) {\n"
-                "    double sum = 0;\n"
+        return "double compareOutputs("+ defaultType +" *originalOut, "+ defaultType +" *approximatedOut, int length) {\n"
+                "    double approximatedSum = 0.0;\n"
+                "    double originalSum = 0.0;\n"
                 "    for (int i=0; i<length; i++) {\n"
-                "        sum += originalOut[i] - approximatedOut[i];\n"
+                "        approximatedSum += (double)approximatedOut[i];\n"
+                "        originalSum += (double)originalOut[i];\n"
                 "    }\n"
-                "    return sum;\n"
+                "    return fabs((approximatedSum - originalSum) / originalSum);\n"
                 "}\n";
     }
 
