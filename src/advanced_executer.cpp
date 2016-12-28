@@ -15,7 +15,7 @@ namespace executer {
         std::string filename = this->writeExternalApproximationProgram(graph);
         this->compile(filename);
         this->execute(filename, N, M, accuracy, a1, a2, repetitions);
-        //this->deleteDependencies(filename);
+        this->deleteDependencies(filename);
     }
 
     std::string AdvancedExecuter::writeExternalApproximationProgram(graph::GraphPtr graph)
