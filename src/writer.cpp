@@ -44,9 +44,8 @@ namespace writer {
             masks += "typedef union { float f; int i;} my_type;\n";
         } else {
             masks = "typedef union { int f; int i;} my_type;\n";
-            masks += "long int mask = 16777215;\n";
+            masks += "long int mask = 8589934591;\n";
         }
-        masks += "long int mask_int = 16777215;\n";
         return masks;
     }
 
