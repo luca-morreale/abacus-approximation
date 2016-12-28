@@ -548,7 +548,7 @@ namespace writer {
     std::string FastWriter::reportFunctions()
     {
         return "void reset() {\n"
-                // missing to add all instructions index
+                + writeInstructionAssociation() +
                 "   for (int i=0; i<5; i++) {\n"
                 "       dones[i].clear();\n"
                 "   }\n"
@@ -590,6 +590,22 @@ namespace writer {
                 "    }\n"
                 "    cout << std::endl;\n"
                 "}\n";
+    }
+
+    std::string FastWriter::writeInstructionAssociation()
+    {
+        std::string association;
+        for (int i = 0; i < APPROXIMATIONS; i++) {
+            for (std::vector<int>::iterator it = approximableOperations[i].begin(); it != approximableOperations[i].end(); it++) {
+                association += "availabilites[" + std::to_string(i) + "].insert(" + std::to_string(*it) +");\n";
+            }
+        }
+
+        for (std::map<int, std::string>::iterator it = mapping.begin(); it != mapping.end(); it++) {
+            association += "correspondance[" + std::to_string(it->first) + "] = \"" + it->second + "\";\n";
+            association += "inverse_correspondance[\"" + it->second + "\"] = " + std::to_string(it->first) + ";\n";
+        }
+        return association;
     }
 
     std::string FastWriter::openApproximatedFunction(std::string defaultType)
