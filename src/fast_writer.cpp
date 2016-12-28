@@ -88,6 +88,9 @@ namespace writer {
         
         cout << "return 0;" << std::endl;
         cout << "}" << std::endl;
+
+        cout << reportFunctions() << std::endl;
+
         cout.close();
 
         resetOperationsList();
