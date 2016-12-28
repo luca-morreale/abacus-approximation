@@ -470,12 +470,13 @@ namespace writer {
 
     std::string FastWriter::approximationFunctions()
     {
-        return "pair<int, string> approximate(int *approximations, int *masks) {\n"
+        return "pair<int, string> approximate(int *approximations, long unsigned int *masks) {\n"
                 "    pair<int, string> app = selectRandomApproximation();\n"
-                "    if (is(app.second, \"values\")) {\n"
+                "    if (is(app.second, \"values\") || is(app.second, \"*\") || is(app.second, \"/\")) {\n"
                 "        masks[app.first] = selectMask();\n"
-                "    } else {\n"
-                "        approximations[app.first] = 1;\n"
+                "    }\n"
+                "    if (!is(app.second, \"values\")) { \n"
+                "       approximations[app.first] = 1;\n"
                 "    }\n"
                 "    return app;\n"
                 "}\n"
