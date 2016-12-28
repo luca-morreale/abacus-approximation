@@ -35,11 +35,10 @@ namespace executer {
 
     void AdvancedExecuter::execute(std::string filename , int N, int M, double accuracy, double a1, double a2, int repetitions)
     {
-        std::cout << "./" + filename << " -N " << N << " -M " << M << " -a " << accuracy << " -r " << repetitions << " -a1 " << a1 << " -a2 " << a2 << std::endl;
-
         this->executeSystemCommand("./" + filename + " -N " + std::to_string(N) + " -M " + std::to_string(M) + 
                                     " -a " + std::to_string(accuracy) + " -r " + std::to_string(repetitions) + 
                                     " -a1 " + std::to_string(a1) + " -a2 " + std::to_string(a2));
+
     }
 
     void AdvancedExecuter::executeSystemCommand(std::string command)
