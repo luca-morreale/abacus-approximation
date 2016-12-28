@@ -20,6 +20,9 @@ namespace writer {
         std::map<int, std::string> mapping;
         std::map<std::string, int> inverseMapping;
 
+        void addInstructionToNormalOperationMapping(std::string op, int instructionIndex);
+        void addInstructionToValuesMapping(std::string op, int instructionIndex);
+
     protected:
 
         virtual void resetOperationsList();
@@ -30,6 +33,8 @@ namespace writer {
         
         virtual void writeBasicOperation(ParsingState &state, std::ofstream &cout);
         virtual void updateInstructionIndex(std::string op, int &instructionIndex);
+
+        virtual std::string generateMasksForDataType(std::string defaultType);
 
         virtual std::string mainVariablesInitialization();
         virtual std::string getArgsVariablesExtraction();
@@ -47,6 +52,7 @@ namespace writer {
         virtual std::string substutionInstructions();
 
         virtual std::string getReportPrintingInstructions();
+        virtual std::string writeInstructionAssociation();
 
 
         virtual std::string includes();
