@@ -8,13 +8,13 @@ namespace writer {
         mapping[0] = "+";
         inverseMapping["+"] = 0;
         mapping[1] = "-";
-        inverseMapping["-"] = 0;
+        inverseMapping["-"] = 1;
         mapping[2] = "*";
-        inverseMapping["*"] = 0;
+        inverseMapping["*"] = 2;
         mapping[3] = "/";
-        inverseMapping["/"] = 0;
+        inverseMapping["/"] = 3;
         mapping[4] = "values";
-        inverseMapping["values"] = 0;
+        inverseMapping["values"] = 4;
     }
 
     void FastWriter::prepareFile(std::ofstream &cout, ParsingState &state)
@@ -31,7 +31,7 @@ namespace writer {
         cout << accuracyEvaluationFunctions(state.graph->getType()) << std::endl;
         cout << fitnessEvaluationFunctions() << std::endl;
         cout << substitutionOfOriginalFunctions(state.graph->getType()) << std::endl;
-        cout << reportFunctions() << std::endl;
+        
 
         cout << openApproximatedFunction(state.graph->getType()) << std::endl;
 
