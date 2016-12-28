@@ -157,6 +157,20 @@ namespace writer {
         }
     }
 
+    std::string FastWriter::generateMasksForDataType(std::string defaultType)
+    {
+        std::string masks = Writer::generateMasksForDataType(defaultType);
+        masks += "long unsigned int no_mask = ";
+        if (is(defaultType, "double")) {
+            masks += "18446744073709551615u;\n";
+        } else if (is(defaultType, "float")) {
+            masks += "8589934591;\n";
+        } else {
+            masks += "8589934591;\n";
+        }
+        return masks;
+    }
+
 
     std::string FastWriter::mainVariablesInitialization()
     {
