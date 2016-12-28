@@ -176,14 +176,15 @@ namespace writer {
     {
         return "srand(time(NULL));\n"        
                 + getArgsVariablesExtraction()
-                + "ofstream out(\"execution/report.txt\", fstream::app);\n";
+                + "ofstream out(\"execution/report.txt\", fstream::app);\n"
+                "reset();\n";
     }
 
     std::string FastWriter::getArgsVariablesExtraction()
     {
-        return "double acc;\n"
+        return "double accuracy;\n"
                 "int N, M, R;\n"
-                "extractFlags(argc, argv, acc, N, M, R, a1, a2);\n";
+                "extractFlags(argc, argv, accuracy, N, M, R, a1, a2);\n";
     }
 
     std::string FastWriter::declareApproximationVariables(std::string defaultType, std::initializer_list<double> vals)
@@ -192,14 +193,13 @@ namespace writer {
                 "outputLength = " + std::to_string(at(vals, 0)) + ";\n"
                 + builDeclaration("output_0", defaultType) + ";\n"     // added _0 to make it an array
                 + builDeclaration("relativeAccuracy", defaultType) + ";\n"
-                "relativeAccuracy = 1 - acc;\n"
+                "relativeAccuracy = 1;\n"
                 + builDeclaration("approximationsLength", defaultType) + ";\n"
                 "approximationsLength = " + std::to_string(at(vals, 1)) + ";\n"
                 + builDeclaration("approximations_0", "int") + ";\n"  // added _0 to make it an array
                 + builDeclaration("masksLength", defaultType) + ";\n"
                 "masksLength = " + std::to_string(at(vals, 1)) + ";\n"
-                + builDeclaration("masks_0", "int") + ";\n"  // added _0 to make it an array
-                "double relAccuracy = acc;\n";
+                + builDeclaration("masks_0", "long unsigned int") + ";\n";  // added _0 to make it an array
     }
 
     std::string FastWriter::initializationApproximationVariables()
@@ -236,12 +236,12 @@ namespace writer {
 
     std::string FastWriter::getAdditionToListInstructions(std::string defaultType, int instructionCount)
     {
-        return "if (app_acc < relAccuracy) {\n"
+        return "if (relativeAccuracy - app_acc >= accuracy) {\n"
                 "double fitness = computeFitness(app_acc, app, new_masks);\n"
                 "#pragma omp critical\n"
                 "approximationList.push_back(ApproximationElement(vector<" + defaultType + ">"
                         "(test_output, test_output+(int)outputLength), vector<int>(new_approximations, new_approximations+"
-                            + std::to_string(instructionCount) + "), vector<int>(new_masks, new_masks+"
+                            + std::to_string(instructionCount) + "), vector<long unsigned int>(new_masks, new_masks+"
                             + std::to_string(instructionCount) + "), app_acc, fitness, app));\n"
                 "}\n";
     }
@@ -318,7 +318,7 @@ namespace writer {
     {
         return "void assign(string &str, char source[]);\n"
                 "bool cmpPairs(ApproximationElement a, ApproximationElement b);\n"
-                "void replaceOriginal(double &relativeAccuracy, "+ defaultType +" *originalOut, int *approximations, int *masks, list<ApproximationElement> approximationList);\n"
+                "void replaceOriginal(double &relativeAccuracy, "+ defaultType +" *originalOut, int *approximations, long unsigned int *masks, list<ApproximationElement> &approximationList);\n"
                 "double compareOutputs("+ defaultType +" *originalOut, "+ defaultType +" *approximatedOut, int length);\n"
                 "void extractFlags(int argc, char *argv[], double &acc, int &N, int &M, int &r);\n"
                 "bool is(std::string a, std::string b);\n"
