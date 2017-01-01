@@ -30,7 +30,7 @@ namespace executer {
 
     void AdvancedExecuter::compile(std::string filename)
     {
-        this->executeSystemCommand("g++ -o " + filename + " " + filename + ".cpp -fopenmp");
+        this->executeSystemCommand("g++ -std=c++11 -o " + filename + " " + filename + ".cpp -fopenmp");
     }
 
     void AdvancedExecuter::execute(std::string filename , int N, int M, double accuracy, double a1, double a2, int repetitions)

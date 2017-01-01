@@ -189,15 +189,15 @@ namespace writer {
 
     std::string FastWriter::declareApproximationVariables(std::string defaultType, std::initializer_list<double> vals)
     {
-        return builDeclaration("outputLength", defaultType) + ";\n"
+        return builDeclaration("outputLength", "int") + ";\n"
                 "outputLength = " + std::to_string(at(vals, 0)) + ";\n"
                 + builDeclaration("output_0", defaultType) + ";\n"     // added _0 to make it an array
-                + builDeclaration("relativeAccuracy", defaultType) + ";\n"
+                + builDeclaration("relativeAccuracy", "double") + ";\n"
                 "relativeAccuracy = 1;\n"
-                + builDeclaration("approximationsLength", defaultType) + ";\n"
+                + builDeclaration("approximationsLength", "int") + ";\n"
                 "approximationsLength = " + std::to_string(at(vals, 1)) + ";\n"
                 + builDeclaration("approximations_0", "int") + ";\n"  // added _0 to make it an array
-                + builDeclaration("masksLength", defaultType) + ";\n"
+                + builDeclaration("masksLength", "int") + ";\n"
                 "masksLength = " + std::to_string(at(vals, 1)) + ";\n"
                 + builDeclaration("masks_0", "long unsigned int") + ";\n";  // added _0 to make it an array
     }
@@ -207,6 +207,9 @@ namespace writer {
         return "for (int i = 0; i<approximationsLength; i++) {\n"
                 "   approximations[i] = 0;\n"
                 "   masks[i] = no_mask;\n"
+                "}\n"
+                "for(int i = 0; i < (int)outputLength; i++){\n"
+                "   output[i] = 0.0;\n"
                 "}\n";
     }
 
@@ -226,6 +229,9 @@ namespace writer {
     {
         return "copy(approximations, approximations+" + std::to_string(instructionCount) + ", new_approximations);\n"
                 "copy(masks, masks+" + std::to_string(instructionCount) + ", new_masks);\n"
+                "for(int i = 0; i < (int)outputLength; i++){\n"
+                "   test_output[i] = 0.0;\n"
+                "}\n"
                 "pair<int, string> app = approximate(new_approximations, new_masks);\n";
     }
 
@@ -364,7 +370,7 @@ namespace writer {
                 "vector<int> getPowTwo() {\n"
                 "    vector<int> v;\n"
                 "    v.push_back(0);\n"
-                "    for(int i = 0; i < 15; i++) {\n"
+                "    for(int i = 0; i < 30; i++) {\n"
                 "        v.push_back(1 << i);\n"
                 "    }\n"
                 "    return v;\n"
@@ -380,7 +386,7 @@ namespace writer {
                 "}\n"
                 "map<int, int> getShiftList() {\n"
                 "    map<int, int> shifts = shiftsInfo;\n"
-                "    if(shifts.size() < 15) {\n"
+                "    if(shifts.size() < 10) {\n"
                 "        fillBaseShiftValue(shifts);\n"
                 "    }\n"
                 "    return shifts;\n"
@@ -520,8 +526,8 @@ namespace writer {
                 "    double approximatedSum = 0.0;\n"
                 "    double originalSum = 0.0;\n"
                 "    for (int i=0; i<length; i++) {\n"
-                "        approximatedSum += (double)approximatedOut[i];\n"
-                "        originalSum += (double)originalOut[i];\n"
+                "        approximatedSum += approximatedOut[i];\n"
+                "        originalSum += originalOut[i];\n"
                 "    }\n"
                 "    return fabs((approximatedSum - originalSum) / originalSum);\n"
                 "}\n";
