@@ -85,6 +85,8 @@ namespace writer {
         cout << getReportPrintingInstructions();
 
         cout << "}" << std::endl;   // close r loop
+
+        cout << "out << out_stream.str();" << std::endl;
         
         cout << "return 0;" << std::endl;
         cout << "}" << std::endl;
@@ -184,7 +186,8 @@ namespace writer {
     {
         return "double accuracy;\n"
                 "int N, M, R;\n"
-                "extractFlags(argc, argv, accuracy, N, M, R, a1, a2);\n";
+                "extractFlags(argc, argv, accuracy, N, M, R, a1, a2);\n"
+                "stringstream out_stream;\n";
     }
 
     std::string FastWriter::declareApproximationVariables(std::string defaultType, std::initializer_list<double> vals)
@@ -261,9 +264,13 @@ namespace writer {
 
     std::string FastWriter::getReportPrintingInstructions()
     {
-        return "printReport(cout, relativeAccuracy);\n"
-                "printInCSVFormat(out, relativeAccuracy);\n"
-                "reset();\n";
+        return "printInCSVFormat(out_stream, relativeAccuracy);\n"
+                "reset();\n"
+                "if (r % 1000 == 0) {\n"
+                "   out << out_stream.str();\n"
+                "   out_stream.str(\"\");\n"
+                "   out_stream.clear();\n"
+                "}\n";
     }
 
 
@@ -278,6 +285,7 @@ namespace writer {
                 "#include <map>\n"
                 "#include <set>\n"
                 "#include <vector>\n"
+                "#include <sstream>\n"
                 + generator::generateIncludes();
     }
 
